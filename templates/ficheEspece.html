@@ -581,13 +581,18 @@
 
             </div>
             {% endif %}
-
+            {% if configuration.STAT.DISPLAY_CLASSE_ALTITUDE or configuration.STAT.DISPLAY_OBS_MENSUELLE %}
             <div class="panel panel-default" id="graphBloc">
-                <h4 class="title-bar title-spaced center strong">Observations par classes d'altitudes</h4>
-                <div id="altiChart"></div>
-                <h4 class="title-bar title-spaced center strong">Observations mensuelles</h4>
-                <div id="phenologyChart"></div>
+                {% if configuration.STAT.DISPLAY_CLASSE_ALTITUDE %}
+                    <h4 class="title-bar title-spaced center strong">Observations par classes d'altitudes</h4>
+                    <div id="altiChart"></div>
+                {% endif %}
+                {% if configuration.STAT.DISPLAY_OBS_MENSUELLE %}
+                    <h4 class="title-bar title-spaced center strong">Observations mensuelles</h4>
+                    <div id="phenologyChart"></div>
+                {% endif %}
             </div>
+            {% endif %}
         </div>
     </div>
         {% if configuration.AFFICHAGE_FOOTER %}
@@ -608,6 +613,8 @@
             var taxonYearMin = {{taxon.taxonSearch.yearmin}};
             var cd_ref = {{taxon.taxonSearch.cd_ref}};
             var nb_obs = {{taxon.taxonSearch.nb_obs}};
+            if (configuration.STAT.DISPLAY_CLASSE_ALTITUDE) {var dataset = {{altitudes|tojson}};}
+            if (configuration.STAT.DISPLAY_OBS_MENSUELLE) {var months = {{months|tojson}};}  
     </script>
 
     <script src="{{url_for('static', filename='custom/maps-custom.js') }}"></script>

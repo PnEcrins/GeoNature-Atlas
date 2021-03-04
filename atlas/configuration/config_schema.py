@@ -48,6 +48,11 @@ class MapConfig(Schema):
     ENABLE_SLIDER = fields.Boolean(missing=True)
 
 
+class StatConfig(Schema):
+    DISPLAY_CLASSE_ALTITUDE = fields.Boolean(missing=True)
+    DISPLAY_OBS_MENSUELLE = fields.Boolean(missing=True)
+
+
 class AtlasConfig(Schema):
     modeDebug = fields.Boolean(missing=False)
     STRUCTURE = fields.String(missing="Nom de la structure")
@@ -129,6 +134,8 @@ class AtlasConfig(Schema):
     )
 
     MAP = fields.Nested(MapConfig, missing=dict())
+    STAT = fields.Nested(StatConfig, missing=dict())
+    
     # Specify how communes are ordered
     #   if true by length else by name
     ORDER_COMMUNES_BYLENGTH = fields.Boolean(missing=False)
