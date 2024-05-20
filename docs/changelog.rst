@@ -9,6 +9,19 @@ CHANGELOG
 
 - Correction et amélioration de l'affichage de la fenêtre listant les sous-taxons aggrégés (#558 par @jpm-cbna)
 
+🐛 **Optimisations**
+
+- Amélioration de la "recherche par espèces" (#532 par @jpm-cbna)
+
+⚠️ **Notes de version**
+
+Si vous mettez à jour GeoNature-atlas :
+
+- Exécutez le script SQL de mise à jour de la BDD : https://github.com/PnX-SI/GeoNature-atlas/blob/master/data/update/update_1.6.1to1.6.2.sql
+- Donner les droits à l'utilisateur en lecture seule de l'Atlas (habituellement geonatatlas) :
+  ::
+    GRANT SELECT ON TABLE atlas.vm_search_taxon TO geonatatlas;
+
 
 1.6.1 (2023-10-16)
 ------------------

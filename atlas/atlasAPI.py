@@ -20,7 +20,7 @@ def searchTaxonAPI():
     session = db.session
     search = request.args.get("search", "")
     limit = request.args.get("limit", 50)
-    results = vmSearchTaxonRepository.listeTaxonsSearch(session, search, limit)
+    results = vmSearchTaxonRepository.searchTaxons(session, search, limit)
     session.close()
     return jsonify(results)
 

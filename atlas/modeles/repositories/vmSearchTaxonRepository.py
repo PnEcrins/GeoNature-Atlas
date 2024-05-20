@@ -19,7 +19,7 @@ def listeTaxons(session):
     return taxonList
 
 
-def listeTaxonsSearch(session, search, limit=50):
+def searchTaxons(session, search, limit=50):
     """
     Recherche dans la VmSearchTaxon en ilike
     Utilisé pour l'autocomplétion de la recherche de taxon
@@ -34,20 +34,20 @@ def listeTaxonsSearch(session, search, limit=50):
         label = search_name
         value = cd_ref
     """
+    like_search = "%" + search.replace(" ", "%") + "%"
 
-    req = session.query(
-        VmSearchTaxon.search_name,
-        VmSearchTaxon.cd_ref,
-        func.similarity(VmSearchTaxon.search_name, search).label("idx_trgm"),
-    ).distinct()
-
-    search = search.replace(" ", "%")
-    req = (
-        req.filter(VmSearchTaxon.search_name.ilike("%" + search + "%"))
+    query = (
+        session.query(
+            VmSearchTaxon.display_name,
+            VmSearchTaxon.cd_ref,
+            func.similarity(VmSearchTaxon.search_name, search).label("idx_trgm"),
+        )
+        .distinct()
+        .filter(func.unaccent(VmSearchTaxon.search_name).ilike(func.unaccent(like_search)))
         .order_by(desc("idx_trgm"))
         .order_by(VmSearchTaxon.cd_ref == VmSearchTaxon.cd_nom)
         .limit(limit)
     )
-    data = req.all()
+    results = query.all()
 
-    return [{"label": d[0], "value": d[1]} for d in data]
+    return [{"label": r[0], "value": r[1]} for r in results]

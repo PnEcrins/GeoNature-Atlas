@@ -14,6 +14,7 @@ class VmSearchTaxon(Base):
         metadata,
         Column("cd_ref", Integer, primary_key=True, unique=True),
         Column("cd_nom", Integer),
+        Column("display_name", String),
         Column("search_name", String),
         schema="atlas",
         autoload=True,
