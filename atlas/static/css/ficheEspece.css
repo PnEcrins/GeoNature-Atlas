@@ -284,3 +284,78 @@ text {
 .carousel-indicators {
   bottom: 0px;
 }
+
+#statut-bdc {
+  margin-top: 15px;
+  padding-top : 10px;
+  padding-bottom : 10px;
+}
+
+div#statut-bdc span.NT {
+  color: white;
+	background-color: #cce226 ;
+} 
+
+div#statut-bdc span.LC {
+  color: white;
+	background-color: #60c659 ;
+}
+
+div#statut-bdc span.EN {
+  color: white;
+	background-color: #fc7f3f ;
+}
+
+div#statut-bdc span.VU {
+	background-color: #f9e814 ;
+}
+
+div#statut-bdc span.CR {
+  color: white;
+	background-color: #d81e05 ;
+}
+
+div#statut-bdc span.RE {
+	color: white;
+	background-color: #5b1064 ;
+}
+
+div#statut-bdc span.NA {
+	color: white;
+	background-color: #929392 ;
+}
+
+div#statut-bdc span.NE {
+	background-color: white ;
+}
+
+div#statut-bdc span.DD {
+	background-color: #d1d1c6 ;
+}
+
+div#statut-bdc span.DHFF {
+  color: white;
+	background-color: #afdde9 ;
+}
+
+div#statut-bdc span.PN {
+  color: white;
+	background-color: #ffccaa ;
+}
+
+div#statut-bdc span.bloc-statut-bdc {
+  /*border: 1px solid grey;
+  padding: 5px;*/
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 25%;
+
+}
+
+div#statut-bdc span {
+	border-radius: 10%;
+}
+
+div#statut-bdc span.bloc-sbdc-new {
+  margin-left: 15px;
+} 
