@@ -1,0 +1,114 @@
+CREATE FOREIGN TABLE taxonomie.bdc_statut (
+    id int4 OPTIONS(column_name 'id') NOT NULL,
+    cd_nom int4 OPTIONS(column_name 'cd_nom') NOT NULL,
+    cd_ref int4 OPTIONS(column_name 'cd_ref') NOT NULL,
+    cd_sup int4 OPTIONS(column_name 'cd_sup') NULL,
+    cd_type_statut varchar(50) OPTIONS(column_name 'cd_type_statut') NOT NULL,
+    lb_type_statut varchar(250) OPTIONS(column_name 'lb_type_statut') NULL,
+    regroupement_type varchar(250) OPTIONS(column_name 'regroupement_type') NULL,
+    code_statut varchar(250) OPTIONS(column_name 'code_statut') NULL,
+    label_statut varchar(1000) OPTIONS(column_name 'label_statut') NULL,
+    rq_statut text OPTIONS(column_name 'rq_statut') NULL,
+    cd_sig varchar(100) OPTIONS(column_name 'cd_sig') NULL,
+    cd_doc int4 OPTIONS(column_name 'cd_doc') NULL,
+    lb_nom varchar(1000) OPTIONS(column_name 'lb_nom') NULL,
+    lb_auteur varchar(1000) OPTIONS(column_name 'lb_auteur') NULL,
+    nom_complet_html varchar(1000) OPTIONS(column_name 'nom_complet_html') NULL,
+    nom_valide_html varchar(1000) OPTIONS(column_name 'nom_valide_html') NULL,
+    regne varchar(250) OPTIONS(column_name 'regne') NULL,
+    phylum varchar(250) OPTIONS(column_name 'phylum') NULL,
+    classe varchar(250) OPTIONS(column_name 'classe') NULL,
+    ordre varchar(250) OPTIONS(column_name 'ordre') NULL,
+    famille varchar(250) OPTIONS(column_name 'famille') NULL,
+    group1_inpn varchar(255) OPTIONS(column_name 'group1_inpn') NULL,
+    group2_inpn varchar(255) OPTIONS(column_name 'group2_inpn') NULL,
+    lb_adm_tr varchar(100) OPTIONS(column_name 'lb_adm_tr') NULL,
+    niveau_admin varchar(250) OPTIONS(column_name 'niveau_admin') NULL,
+    cd_iso3166_1 varchar(50) OPTIONS(column_name 'cd_iso3166_1') NULL,
+    cd_iso3166_2 varchar(50) OPTIONS(column_name 'cd_iso3166_2') NULL,
+    full_citation text OPTIONS(column_name 'full_citation') NULL,
+    doc_url text OPTIONS(column_name 'doc_url') NULL,
+    thematique varchar(100) OPTIONS(column_name 'thematique') NULL,
+    type_value varchar(100) OPTIONS(column_name 'type_value') NULL
+)
+SERVER geonaturedbserver
+OPTIONS (schema_name 'taxonomie', table_name 'bdc_statut');
+
+
+CREATE FOREIGN TABLE taxonomie.bdc_statut_cor_text_values (
+	id_value_text serial4 OPTIONS(column_name 'id_value_text') NOT NULL,
+	id_value int4 OPTIONS(column_name 'id_value') NOT NULL,
+	id_text int4 OPTIONS(column_name 'id_text') NOT NULL
+)
+SERVER geonaturedbserver
+OPTIONS (schema_name 'taxonomie', table_name 'bdc_statut_cor_text_values');
+
+
+CREATE FOREIGN TABLE taxonomie.bdc_statut_taxons (
+	id int4 OPTIONS(column_name 'id') NOT NULL,
+	id_value_text int4 OPTIONS(column_name 'id_value_text') NOT NULL,
+	cd_nom int4 OPTIONS(column_name 'cd_nom') NOT NULL,
+	cd_ref int4 OPTIONS(column_name 'cd_ref') NOT NULL,
+	rq_statut varchar(1000) OPTIONS(column_name 'rq_statut') NULL
+)
+SERVER geonaturedbserver
+OPTIONS (schema_name 'taxonomie', table_name 'bdc_statut_taxons');
+
+
+CREATE FOREIGN TABLE taxonomie.bdc_statut_text (
+	id_text serial4 OPTIONS(column_name 'id_text') NOT NULL,
+	cd_st_text varchar(50) OPTIONS(column_name 'cd_st_text') NULL,
+	cd_type_statut varchar(50) OPTIONS(column_name 'cd_type_statut') NOT NULL,
+	cd_sig varchar(50) OPTIONS(column_name 'cd_sig') NULL,
+	cd_doc int4 OPTIONS(column_name 'cd_doc') NULL,
+	niveau_admin varchar(250) OPTIONS(column_name 'niveau_admin') NULL,
+	cd_iso3166_1 varchar(50) OPTIONS(column_name 'cd_iso3166_1') NULL,
+	cd_iso3166_2 varchar(50) OPTIONS(column_name 'cd_iso3166_2') NULL,
+	lb_adm_tr varchar(250) OPTIONS(column_name 'lb_adm_tr') NULL,
+	full_citation text OPTIONS(column_name 'full_citation') NULL,
+	doc_url text OPTIONS(column_name 'doc_url') NULL,
+	"enable" bool OPTIONS(column_name 'enable') NULL DEFAULT true
+)
+SERVER geonaturedbserver
+OPTIONS (schema_name 'taxonomie', table_name 'bdc_statut_text');
+
+
+CREATE FOREIGN TABLE taxonomie.bdc_statut_type (
+	cd_type_statut varchar(50) OPTIONS(column_name 'cd_type_statut') NOT NULL,
+	lb_type_statut varchar(250) OPTIONS(column_name 'lb_type_statut') NULL,
+	regroupement_type varchar(250) OPTIONS(column_name 'regroupement_type') NULL,
+	thematique varchar(100) OPTIONS(column_name 'thematique') NULL,
+	type_value varchar(100) OPTIONS(column_name 'type_value') NULL
+)
+SERVER geonaturedbserver
+OPTIONS (schema_name 'taxonomie', table_name 'bdc_statut_type');
+
+
+CREATE FOREIGN TABLE taxonomie.bdc_statut_values (
+	id_value serial4 OPTIONS(column_name 'id_value') NOT NULL,
+	code_statut varchar(50) OPTIONS(column_name 'code_statut') NOT NULL,
+	label_statut varchar(250) OPTIONS(column_name 'label_statut') NULL
+)
+SERVER geonaturedbserver
+OPTIONS (schema_name 'taxonomie', table_name 'bdc_statut_values');
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS atlas.vm_statut_bdc
+TABLESPACE pg_default
+AS
+ SELECT bs.cd_ref,
+    bs.code_statut,
+    bs.label_statut,
+    bs.cd_type_statut,
+    bs.lb_type_statut,
+    bs.lb_adm_tr
+   FROM taxonomie.bdc_statut bs
+     JOIN taxonomie.bdc_statut_text bstext ON bstext.cd_type_statut::text = bs.cd_type_statut::text AND bstext.full_citation = bs.full_citation
+  WHERE (bs.cd_type_statut::text = ANY (ARRAY['LRE'::character varying::text, 'LRN'::character varying::text, 'LRNh'::character varying::text, 'LRNm'::character varying::text, 'LRNn'::character varying::text, 'LRNp'::character varying::text, 'LRR'::character varying::text, 'LRRm'::character varying::text, 'LRRn'::character varying::text])) AND (bs.lb_adm_tr::text = ANY (ARRAY['France'::character varying::text, 'France métropolitaine'::character varying::text, 'Bretagne'::character varying::text, 'Côtes-d''Armor'::character varying::text, 'Finistère'::character varying::text, 'Morbihan'::character varying::text, 'Ille-et-Vilaine'::character varying::text])) AND bstext.enable = true
+  GROUP BY bs.cd_ref, bs.code_statut, bs.label_statut, bs.cd_type_statut, bs.lb_type_statut, bs.lb_adm_tr
+WITH DATA;
+
+ALTER TABLE IF EXISTS atlas.vm_statut_bdc
+    OWNER TO geonatadmin;
+
+GRANT ALL ON TABLE atlas.vm_statut_bdc TO geonatadmin;
+GRANT SELECT ON TABLE atlas.vm_statut_bdc TO geonatatlas;
