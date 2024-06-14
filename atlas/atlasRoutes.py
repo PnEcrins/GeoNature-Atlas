@@ -31,6 +31,7 @@ from atlas.modeles.repositories import (
     vmMedias,
     vmCorTaxonAttribut,
     vmTaxonsMostView,
+    vmStatutBdcRepository,
 )
 
 
