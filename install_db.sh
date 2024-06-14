@@ -142,7 +142,7 @@ if ! database_exists $db_name
                 -lco GEOMETRY_NAME=the_geom \
                 PG:"host=$db_host port=$db_port dbname=$db_name user=$owner_atlas password=$owner_atlas_pass schemas=atlas" \
                 -nln t_layer_territoire $limit_shp
- 
+
             # FR: Import du shape des communes ($communes_shp) dans la BDD (si parametre import_commune_shp = TRUE) / atlas.l_communes
             # EN: Import of the shape of the communes ($communes_shp) in the DB (if parameter import_commune_shp = TRUE) / atlas.l_communes
             file_name=`echo $(basename $communes_shp) | cut -d "." -f1`
@@ -151,26 +151,26 @@ if ! database_exists $db_name
             -lco GEOMETRY_NAME=the_geom \
             -sql "SELECT $colonne_nom_commune AS commune_maj, $colonne_insee AS insee FROM $file_name" \
             PG:"host=$db_host port=$db_port dbname=$db_name user=$owner_atlas password=$owner_atlas_pass schemas=atlas" \
-            -nln l_communes $communes_shp 
+            -nln l_communes $communes_shp
 
             # FR: Mise en place des mailles
             # EN: Setting up the meshes
             echo "Cutting of meshes and creation of the mesh table"
-            
+
             # FR: Si je suis en métropole (metropole=true), alors j'utilise les mailles fournies par l'INPN
             # EN: If I am in metropolitan France (metropole=true), then I use the grids provided by the INPN, comments are only in french here
             if $metropole
                 then
                     # Je dézippe mailles fournies par l'INPN aux 3 échelles
-                    unzip data/ref/L93_${taillemaille}K.zip 
+                    unzip data/ref/L93_${taillemaille}K.zip
 
-                    if [ $taillemaille = 1 ] 
+                    if [ $taillemaille = 1 ]
                     then
                         file_name="data/ref/L93_1x1.shp"
                     else
                         file_name="data/ref/L93_${taillemaille}K.shp"
-                    fi 
-            else     
+                    fi
+            else
                 file_name=$chemin_custom_maille
             fi
 
@@ -180,7 +180,7 @@ if ! database_exists $db_name
                 -lco GEOMETRY_NAME=geom \
                 PG:"host=$db_host port=$db_port dbname=$db_name user=$owner_atlas password=$owner_atlas_pass schemas=atlas" \
                 -nln t_mailles_source  $file_name
-            
+
             # Run sql files
             export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port -f /tmp/atlas/without_ref_geo.sql &>> log/install_db.log
 
@@ -193,16 +193,16 @@ if ! database_exists $db_name
             PG:"host=$db_host user=$owner_atlas dbname=$db_name port=$db_port password=$owner_atlas_pass" "atlas.t_layer_territoire"
 
         ###########################
-        ######    TAXHUB 
+        ######    TAXHUB
         ###########################
         # FR: Creation des tables filles en FWD
         # EN: Creation of daughter tables in FWD
-        echo "Creating the connection to GeoNature for the taxonomy" 
+        echo "Creating the connection to GeoNature for the taxonomy"
         export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port -f data/gn2/atlas_ref_taxonomie.sql  &>> log/install_db.log
-         
+
 
         ###########################
-        ######    Occurence data 
+        ######    Occurence data
         ###########################
         echo "Creating DB structure"
         # FR: Si j'utilise GeoNature ($geonature_source = True), alors je créé les tables filles en FDW connectées à la BDD de GeoNature
@@ -245,11 +245,11 @@ if ! database_exists $db_name
 
         sudo sed -i "s/INSERT_ALTITUDE/${insert}/" /tmp/atlas/4.atlas.vm_altitudes.sql
         sudo sed -i "s/WHERE id_attribut IN (100, 101, 102, 103);$/WHERE id_attribut  IN ($attr_desc, $attr_commentaire, $attr_milieu, $attr_chorologie);/" /tmp/atlas/9.atlas.vm_cor_taxon_attribut.sql
-        
+
 
         # FR: Execution des scripts sql de création des vm de l'atlas
         # EN: Run sql scripts : build atlas vm
-        scripts_sql=( 
+        scripts_sql=(
             "1.atlas.vm_taxref.sql"
             "2.atlas.vm_observations.sql"
             "3.atlas.vm_taxons.sql"
@@ -261,16 +261,18 @@ if ! database_exists $db_name
             "9.atlas.vm_cor_taxon_attribut.sql"
             "10.atlas.vm_taxons_plus_observes.sql"
             "11.atlas.vm_cor_taxon_organism.sql"
+            "15.atlas.vm_statut_bdc.sql"
             "atlas.refresh_materialized_view_data.sql"
+
         )
         for script in "${scripts_sql[@]}"
-        do 
+        do
             echo "[$(date +'%H:%M:%S')] Creating ${script}..."
             time_temp=$SECONDS
             export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port -f /tmp/atlas/${script}  &>> log/install_db.log
             echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
         done
-  
+
         if $use_ref_geo_gn2
         then
             echo "[$(date +'%H:%M:%S')] Creating atlas.t_mailles_territoire..."
@@ -287,7 +289,7 @@ if ! database_exists $db_name
         time_temp=$SECONDS
         export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port -f /tmp/atlas/13.atlas.vm_observations_mailles.sql  &>> log/install_db.log
         echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
- 
+
         # FR: Affectation de droits en lecture sur les VM à l'utilisateur de l'application ($user_pg)
         # EN: Assign read rights on VMs to the application user ($user_pg)
         echo "Grant..."
@@ -299,7 +301,7 @@ if ! database_exists $db_name
         cd data/ref
         rm -f L*.shp L*.dbf L*.prj L*.sbn L*.sbx L*.shx output_clip.*
         cd ../..
-        sudo -n rm -r /tmp/atlas 
+        sudo -n rm -r /tmp/atlas
 
         echo "Install finished - Duration :$(($SECONDS/60))m$(($SECONDS%60))s"
 fi
