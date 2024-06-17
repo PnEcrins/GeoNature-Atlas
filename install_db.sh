@@ -261,9 +261,7 @@ if ! database_exists $db_name
             "9.atlas.vm_cor_taxon_attribut.sql"
             "10.atlas.vm_taxons_plus_observes.sql"
             "11.atlas.vm_cor_taxon_organism.sql"
-            "15.atlas.vm_statut_bdc.sql"
             "atlas.refresh_materialized_view_data.sql"
-
         )
         for script in "${scripts_sql[@]}"
         do
@@ -275,6 +273,12 @@ if ! database_exists $db_name
 
         if $use_ref_geo_gn2
         then
+            echo "[$(date +'%H:%M:%S')] Creating atlas.vm_statut_bdc..."
+            time_temp=$SECONDS
+            export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port  \
+            -f data/atlas/15.atlas.vm_statut_bdc.sql &>> log/install_db.log
+            echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
+
             echo "[$(date +'%H:%M:%S')] Creating atlas.t_mailles_territoire..."
             time_temp=$SECONDS
             export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port  \
