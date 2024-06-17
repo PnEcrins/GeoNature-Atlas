@@ -107,8 +107,4 @@ AS
   GROUP BY bs.cd_ref, bs.code_statut, bs.label_statut, bs.cd_type_statut, bs.lb_type_statut, bs.lb_adm_tr
 WITH DATA;
 
-ALTER TABLE IF EXISTS atlas.vm_statut_bdc
-    OWNER TO geonatadmin;
-
-GRANT ALL ON TABLE atlas.vm_statut_bdc TO geonatadmin;
-GRANT SELECT ON TABLE atlas.vm_statut_bdc TO geonatatlas;
+GRANT SELECT ON TABLE atlas.vm_statut_bdc TO my_reader_user;
