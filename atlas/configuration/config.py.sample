@@ -102,8 +102,8 @@ MAP = {
 ###########################
 ###########################
 
-LIST_STATUS = ['LRE', 'LRN', 'LRNh', 'LRNm', 'LRNn', 'LRNp', 'LRR', 'LRRm', 'LRRn']
-GEO_STATUS = ['France', 'France métropolitaine', 'Bretagne', 'Côtes-d''Armor', 'Finistère', 'Morbihan', 'Ille-et-Vilaine']
+LIST_STATUS = ['LRE', 'LRN', 'LRR']
+GEO_STATUS = ['France', 'France métropolitaine']
 
 ###########################
 ###########################
