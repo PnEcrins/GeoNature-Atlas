@@ -103,7 +103,7 @@ AS
     bs.lb_adm_tr
    FROM taxonomie.bdc_statut bs
      JOIN taxonomie.bdc_statut_text bstext ON bstext.cd_type_statut::text = bs.cd_type_statut::text AND bstext.full_citation = bs.full_citation
-  WHERE (bs.cd_type_statut::text = ANY (ARRAY['LRE'::character varying::text, 'LRN'::character varying::text, 'LRNh'::character varying::text, 'LRNm'::character varying::text, 'LRNn'::character varying::text, 'LRNp'::character varying::text, 'LRR'::character varying::text, 'LRRm'::character varying::text, 'LRRn'::character varying::text])) AND (bs.lb_adm_tr::text = ANY (ARRAY['France'::character varying::text, 'France métropolitaine'::character varying::text, 'Bretagne'::character varying::text, 'Côtes-d''Armor'::character varying::text, 'Finistère'::character varying::text, 'Morbihan'::character varying::text, 'Ille-et-Vilaine'::character varying::text])) AND bstext.enable = true
+  WHERE (bs.cd_type_statut = ANY (ARRAY['LRE', 'LRN', 'LRR'])) AND (bs.lb_adm_tr = ANY (ARRAY['France', 'France métropolitaine'])) AND bstext.enable = true
   GROUP BY bs.cd_ref, bs.code_statut, bs.label_statut, bs.cd_type_statut, bs.lb_type_statut, bs.lb_adm_tr
 WITH DATA;
 
