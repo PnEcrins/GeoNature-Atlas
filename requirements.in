@@ -11,6 +11,7 @@ geojson
 gunicorn
 itsdangerous
 Jinja2
+markdown
 MarkupSafe
 marshmallow
 psycopg2
