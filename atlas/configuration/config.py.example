@@ -216,11 +216,12 @@ REDIMENSIONNEMENT_IMAGE = False
 # si REDIMENSIONNEMENT_IMAGE = True, indiquer l'URL de TaxHub
 TAXHUB_URL = "http://mondomaine.fr/taxhub"
 
-#### ID DES ATTRIBUTS DESCRIPTIFS DES TAXONS DE LA TABLE vm_cor_taxon_attribut
-ATTR_DESC = 100
-ATTR_COMMENTAIRE = 101
-ATTR_MILIEU = 102
-ATTR_CHOROLOGIE = 103
+#### LISTE DES CODES DES ATTRIBUTS DESCRIPTIFS DES TAXONS DE LA TABLE vm_taxon_attribute
+# Un onglet sera affiché dans le bloc "Informations espèces" de la fiche espèce
+# pour chaque code d'attribut indiqué dans la liste ci-dessous.
+# L'onglet n'est affiché que s'il possède du contenu.
+# L'ordre des onglets correspond à l'ordre des codes dans la liste.
+DISPLAYED_ATTR=["atlas_description", "atlas_commentaire", "atlas_milieu", "atlas_chorologie"]
 
 #### ID DES TYPES DE MEDIAS DE LA TABLE vm_medias
 ATTR_MAIN_PHOTO = 1

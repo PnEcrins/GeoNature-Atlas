@@ -389,10 +389,10 @@ if ! database_exists $db_name
         export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port -f /tmp/atlas/8.atlas.vm_medias.sql  &>> log/install_db.log
         echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
 
-        echo "[$(date +'%H:%M:%S')] Creating atlas.vm_cor_taxon_attribut..."
+        echo "[$(date +'%H:%M:%S')] Creating atlas.vm_taxon_attribute..."
         time_temp=$SECONDS
-        sudo sed -i "s/WHERE id_attribut IN (100, 101, 102, 103);$/WHERE id_attribut  IN ($attr_desc, $attr_commentaire, $attr_milieu, $attr_chorologie);/" /tmp/atlas/9.atlas.vm_cor_taxon_attribut.sql
-        export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port -f /tmp/atlas/9.atlas.vm_cor_taxon_attribut.sql  &>> log/install_db.log
+        sudo sed -i "s/WHERE id_attribut IN ('atlas_description', 'atlas_commentaire', 'atlas_milieu', 'atlas_chorologie')$/WHERE id_attribut  IN ($displayed_attr);/" /tmp/atlas/9.atlas.vm_taxon_attribute.sql
+        export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -f /tmp/atlas/9.atlas.vm_taxon_attribute.sql  &>> log/install_db.log
         echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
 
         echo "[$(date +'%H:%M:%S')] Creating atlas.vm_taxons_plus_observes..."

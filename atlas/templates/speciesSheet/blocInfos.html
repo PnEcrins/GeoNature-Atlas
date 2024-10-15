@@ -1,67 +1,64 @@
 {% block blocInfos %}
-{% if configuration.GLOSSAIRE %}
-<!-- Jquery Glossarizer -->
-<script src="{{url_for('static', filename='node_modules/glossarizer/tooltip/tooltip.js') }}"></script>
-<script src="{{url_for('static', filename='node_modules/glossarizer/jquery.glossarize.js') }}"></script>
-<link rel="stylesheet" href="{{url_for('static', filename='node_modules/glossarizer/tooltip/tooltip.css') }}">
-{% endif %}
+    {% if configuration.GLOSSAIRE %}
+        <!-- Jquery Glossarizer -->
+        <script src="{{url_for('static', filename='node_modules/glossarizer/tooltip/tooltip.js') }}"></script>
+        <script src="{{url_for('static', filename='node_modules/glossarizer/jquery.glossarize.js') }}"></script>
+        <link rel="stylesheet" href="{{url_for('static', filename='node_modules/glossarizer/tooltip/tooltip.css') }}" />
+    {% endif %}
 
-<div class="card mt-4" id="blocInfos">
-    <h4 class="title-bar center">
-        <strong>{{ _('species.infos') }}</strong>
-    </h4>
-    <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description">{{ _('description') }}</a>
-        </li>
-        {% if taxonDescription.commentaire != None %}
-        <li><a class="nav-link" data-toggle="tab" href="#commentaire">{{ _('read.more') }}</a></li>
-        {% endif %}
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#milieu">{{ _('environment') }}</a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#chorologie">{{ _('repartition') }}</a></li>
-        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#synonymes">{{ _('synonyms') }}</a></li>
-    </ul>
-
-    <div class="tab-content">
-        <div id="description" class="tab-pane fade show active">
-            {% if taxonDescription.description == None %}
-            {{ _('not.resigned.for.the.moment') }}
-            {% else %}
-            {{ taxonDescription.description | safe }}
-            {% endif %}
-        </div>
-        {% if taxonDescription.commentaire != None %}
-        <div id="commentaire" class="tab-pane fade">
-            {{ taxonDescription.commentaire  | safe }}
-        </div>
-        {% endif %}
-        <div id="milieu" class="tab-pane fade">
-            {% if taxonDescription.milieu == None %}
-            {{ _('not.resigned.for.the.moment') }}
-            {% else %}
-            {{ taxonDescription.milieu }}
-            {% endif %}
-        </div>
-        <div id="chorologie" class="tab-pane fade">
-            {% if taxonDescription.chorologie == None %}
-            {{ _('not.resigned.for.the.moment') }}
-            {% else %}
-            {{ taxonDescription.chorologie }}
-            {% endif %}
-        </div>
-        <div id="synonymes" class="tab-pane fade">
-            {% if synonyme | length == 1 %}
-            {{ _('no.synonym.for.this.taxon') }}
-            {% else %}
-            {% for syn in synonyme %}
-            {% if not syn.lb_nom == taxon.taxonSearch.lb_nom %}
-            {{ syn.nom_complet_html | safe }}
-            {% endif %}
-            {% if ( (not loop.last) and (not syn.lb_nom == taxon.taxonSearch.lb_nom) ) %}
-            |
-            {% endif %}
+    <div class="card mt-4" id="blocInfos">
+        <h4 class="title-bar center">
+            <strong>{{ _('species.infos') }}</strong>
+        </h4>
+        <ul class="nav nav-tabs">
+            {% for desc in taxonDescription %}
+                <li class="nav-item">
+                    <a
+                        class="nav-link {% if loop.index == 1 %}active{% endif %}"
+                        data-toggle="tab"
+                        href="#{{desc.code}}"
+                    >
+                        {{ _(desc.title) }}
+                    </a>
+                </li>
             {% endfor %}
-            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link {% if taxonDescription|length == 0 %}active{% endif %}" data-toggle="tab" href="#synonymes">
+                    {{ _('synonyms') }}
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            {% for desc in taxonDescription %}
+                <div
+                    id="{{desc.code}}"
+                    class="tab-pane fade {% if loop.index == 1 %}show active{% endif %}"
+                >
+                {% if desc.value == None %}
+                    {{ _('not.resigned.for.the.moment') }}
+                {% else %}
+                    {{ desc.value | safe }}
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div
+                id="synonymes"
+                class="tab-pane fade {% if taxonDescription|length == 0 %}show active{% endif %}"
+            >
+                {% if synonyme | length == 1 %}
+                    {{ _('no.synonym.for.this.taxon') }}
+                {% else %}
+                    {% for syn in synonyme %}
+                        {% if not syn.lb_nom == taxon.taxonSearch.lb_nom %}
+                            {{ syn.nom_complet_html | safe }}
+                        {% endif %}
+                        {% if ( (not loop.last) and (not syn.lb_nom == taxon.taxonSearch.lb_nom) ) %}
+                            |
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

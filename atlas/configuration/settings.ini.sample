@@ -35,11 +35,11 @@ owner_atlas_pass=monpassachanger
 geonature_source=true
 
 # L'atlas est-il en lien avec le référentiel géographique de GeoNature (ref_geo) ?
-# ATTENTION : Doit être égal à true si geonature_source=true, 
+# ATTENTION : Doit être égal à true si geonature_source=true,
 # ATTENTION : Doit être égal à false si geonature_source=false
 use_ref_geo_gn2=true
 
-# Souhaitez-vous installer le schéma taxonomie de TaxHub dans la BDD de GeoNature-atlas ? 
+# Souhaitez-vous installer le schéma taxonomie de TaxHub dans la BDD de GeoNature-atlas ?
 # false si vous souhaitez utiliser celui de GeoNature en FDW
 # ATTENTION : Doit être true si geonature_source=false
 install_taxonomie=false
@@ -122,12 +122,11 @@ altitudes=(0 500 1000 1500 2000 2500 3000 3500 4000)
 # Numéro de version conseillée et testée : 1.8.1
 taxhub_release=1.8.1
 
-#### ID DES TYPES DES ATTRIBUTS DECRIVANT LES TAXONS DANS atlas.vm_cor_taxon_attribut --
+#### LISTE DES CODES DES TYPES DES ATTRIBUTS DÉCRIVANT LES TAXONS DANS atlas.vm_taxon_attribute
 ## !! si changement: modifier également dans main/configuration/config.py
-attr_desc=100
-attr_commentaire=101
-attr_milieu=102
-attr_chorologie=103
+# Les codes correspondent aux valeurs du champs `taxonomie.bib_attributs.nom_attribut`.
+# Les codes doivent être séparé par des virgules et placé entre guillemets simples.
+displayed_attr="'atlas_description', 'atlas_commentaire', 'atlas_milieu', 'atlas_chorologie'"
 
 # Paramètre pour la vue atlas.vm_taxons_plus_observes
 # Especes les plus observées sur la periode 'moins X jour, plus X jours par rapport à la date du jour, toutes années confondues'
