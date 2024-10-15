@@ -91,6 +91,43 @@
                     {% endfor %}
                 </div>
 
+                {% if configuration.STATUS_BDC_ENABLE %}
+                    <div id ="statut-bdc">
+                        {% for sbdc in statutBdc %}
+                            {% if loop.first %}
+                                {{sbdc.cd_type_statut}} :
+                                <span 
+                                    data-toggle='tooltip' 
+                                    data-placement='right' 
+                                    data-original-title="{{sbdc.lb_type_statut}} {% if sbdc.cd_type_statut != 'LRE' %}({{sbdc.lb_adm_tr}}) {% endif %}: {{sbdc.label_statut}}"
+                                    > 
+                                    <span class="{{sbdc.code_statut}} bloc-statut-bdc">{{sbdc.code_statut}}</span>
+                                </span>
+                            {% else %}
+                                {% set prev_key = loop.index0 - 1 %}
+                                {% if sbdc.cd_type_statut == statutBdc[prev_key].cd_type_statut %}
+                                    <span 
+                                        data-toggle='tooltip' 
+                                        data-placement='right' 
+                                        data-original-title="{{sbdc.lb_type_statut}} {% if sbdc.cd_type_statut != 'LRE' %}({{sbdc.lb_adm_tr}}) {% endif %} : {{sbdc.label_statut}}"
+                                        >
+                                        <span class="{{sbdc.code_statut}} bloc-statut-bdc">{{sbdc.code_statut}}</span>
+                                    </span>
+                                {% else %}
+                                    <span class="bloc-sbdc-new">{{sbdc.cd_type_statut}} :</span> 
+                                    <span
+                                        data-toggle='tooltip' 
+                                        data-placement='right' 
+                                        data-original-title="{{sbdc.lb_type_statut}} {% if sbdc.cd_type_statut != 'LRE' %}({{sbdc.lb_adm_tr}}) {% endif %} : {{sbdc.label_statut}}"
+                                        >
+                                        <span class="{{sbdc.code_statut}} bloc-statut-bdc">{{sbdc.code_statut}}</span>
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
                 <div id="inpnLink">
                     <a href='https://inpn.mnhn.fr/espece/cd_nom/{{ taxon.taxonSearch.cd_ref }}' target="_blank">
                         <img width="90px" src="{{ url_for('static', filename='images/logo_inpn.png') }}"

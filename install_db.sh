@@ -405,6 +405,15 @@ if ! database_exists $db_name
         export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port -f /tmp/atlas/11.atlas.vm_cor_taxon_organism.sql  &>> log/install_db.log
         echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
 
+        if $use_ref_geo_gn2
+        then
+            echo "[$(date +'%H:%M:%S')] Creating atlas.atlas.vm_statut_bdc..."
+            time_temp=$SECONDS
+            sudo sed -i "s/WHERE (bs.cd_type_statut = ANY (ARRAY['LRE', 'LRN', 'LRR'])) AND (bs.lb_adm_tr = ANY (ARRAY['France', 'France métropolitaine'])) AND bstext.enable = true$/WHERE (bs.cd_type_statut = ANY (ARRAY$list_status)) AND (bs.lb_adm_tr = ANY (ARRAY$geo_status)) AND bstext.enable = true/"
+            export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port -f /tmp/atlas/15.atlas.vm_statut_bdc.sql  &>> log/install_db.log
+            echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
+        fi
+        
         echo "[$(date +'%H:%M:%S')] Creating function refresh vm..."
         time_temp=$SECONDS
         export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port -f /tmp/atlas/atlas.refresh_materialized_view_data.sql  &>> log/install_db.log
