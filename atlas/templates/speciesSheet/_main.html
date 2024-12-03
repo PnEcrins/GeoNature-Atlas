@@ -1,95 +1,100 @@
 {% extends "templates/core/layout.html" %}
 
 {% block title %}
-    {% if taxon.taxonSearch.nom_vern %} 
-    {{ taxon.taxonSearch.nom_vern }} - 
-    {% endif %} 
+    {% if taxon.taxonSearch.nom_vern %}
+        {{ taxon.taxonSearch.nom_vern }} -
+    {% endif %}
     {{ taxon.taxonSearch.lb_nom }}
 {% endblock %}
 
 {% block additionalHeaderAssets %}
-<!-- Bootstrap slider -->
-<link rel="stylesheet"
-    href="{{ url_for('static', filename='node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css') }}" />
-<script
-    src="{{ url_for('static', filename='node_modules/bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>
-<!-- Bootstrap switch -->
-<script type="text/javascript"
-    src="{{ url_for('static', filename='node_modules/bootstrap-switch/dist/js/bootstrap-switch.js') }}"></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css') }}" />
-<!-- Leaflet marker cluster -->
-<script src="{{ url_for('static', filename='node_modules/leaflet.markercluster/dist/leaflet.markercluster.js') }}"></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='node_modules/leaflet.markercluster/dist/MarkerCluster.css') }}" />
-<link rel="stylesheet" href="{{ url_for('static', filename='node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css') }}" />
-<!-- Leaflet snogylop -->
-<script src="{{url_for('static', filename='node_modules/leaflet.snogylop/src/leaflet.snogylop.js') }}"></script>
-<!-- ChartJS -->
-<script src="{{ url_for('static', filename='node_modules/chart.js/dist/chart.min.js') }}"></script>
+    <!-- Bootstrap slider -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css') }}" />
+    <script
+            src="{{ url_for('static', filename='node_modules/bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>
+    <!-- Bootstrap switch -->
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='node_modules/bootstrap-switch/dist/js/bootstrap-switch.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css') }}" />
+    <!-- Leaflet marker cluster -->
+    <script src="{{ url_for('static', filename='node_modules/leaflet.markercluster/dist/leaflet.markercluster.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/leaflet.markercluster/dist/MarkerCluster.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css') }}" />
+    <!-- Leaflet snogylop -->
+    <script src="{{url_for('static', filename='node_modules/leaflet.snogylop/src/leaflet.snogylop.js') }}"></script>
+    <!-- ChartJS -->
+    <script src="{{ url_for('static', filename='node_modules/chart.js/dist/chart.umd.js') }}"></script>
 
-<!-- Lightbox -->
-<link href="{{ url_for('static', filename='node_modules/lightbox2/dist/css/lightbox.min.css') }}" rel="stylesheet" />
-<link rel="stylesheet" href="{{ url_for('static', filename='css/ficheEspece.css') }}" />
+    <!-- Lightbox -->
+    <link href="{{ url_for('static', filename='node_modules/lightbox2/dist/css/lightbox.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ficheEspece.css') }}" />
 {% endblock %}
 
 {% block additionalFooterAssets %}
-<script src="{{ url_for('static', filename='node_modules/lightbox2/dist/js/lightbox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='node_modules/lightbox2/dist/js/lightbox.min.js') }}"></script>
 
-<script>
-    var dataset = {{ altitudes| tojson}};
-    var months_value = {{ months | tojson}};
-    {% if configuration.MULTILINGUAL %}
-    var months_name = {{ configuration.AVAILABLE_LANGUAGES[g.lang_code]['months'] | tojson }};
+    <script>
+        var dataset = {{ altitudes| tojson}};
+        var months_value = {{ months | tojson}};
+        {% if configuration.MULTILINGUAL %}
+            var months_name = {{ configuration.AVAILABLE_LANGUAGES[g.lang_code]['months'] | tojson }};
+        {% else %}
+            var months_name = {{ configuration.AVAILABLE_LANGUAGES[configuration.DEFAULT_LANGUAGE]['months'] | tojson }};
+        {% endif %}
+        {% if configuration.ORGANISM_MODULE %}
+            var organism_stats = {{ organism_stats | tojson}};
+        {% endif %}
+        var observationsPoint = [];
+        var observationsMaille = [];
+        var configuration = {{ configuration| tojson}};
+        var url_limit_territory = "{{url_for('static', filename='custom/territoire.json') }}";
+        var taxonYearMin = {{ taxon.taxonSearch.yearmin }};
+        var cd_ref = {{ taxon.taxonSearch.cd_ref }};
+        var nb_obs = {{ taxon.taxonSearch.nb_obs }};
+        // Create translation to use in chart.js file
+        const translations = {
+            "nb_observations": `{{ _('obs.number.s') }}`
+        };
+    </script>
+
+    <script src="{{ url_for('static', filename='custom/maps-custom.js') }}"></script>
+    <script src="{{ url_for('static', filename='ficheEspece.js') }}"></script>
+    <script src="{{ url_for('static', filename='chart.js') }}"></script>
+    <script src="{{ url_for('static', filename='mapGenerator.js') }}"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+    {% if configuration.AFFICHAGE_MAILLE %}
+        <script src="{{ url_for('static', filename='mapMailles.js') }}"></script>
     {% else %}
-    var months_name = {{ configuration.AVAILABLE_LANGUAGES[configuration.DEFAULT_LANGUAGE]['months'] | tojson }};
-
+        <script src="{{ url_for('static', filename='mapPoint.js') }}"></script>
     {% endif %}
-    var observationsPoint = [];
-    var observationsMaille = [];
-    var configuration = {{ configuration| tojson}};
-    var url_limit_territory = "{{url_for('static', filename='custom/territoire.json') }}";
-    var taxonYearMin = {{ taxon.taxonSearch.yearmin }};
-    var cd_ref = {{ taxon.taxonSearch.cd_ref }};
-    var nb_obs = {{ taxon.taxonSearch.nb_obs }};
-</script>
-
-<script src="{{ url_for('static', filename='custom/maps-custom.js') }}"></script>
-<script src="{{ url_for('static', filename='ficheEspece.js') }}"></script>
-<script src="{{ url_for('static', filename='chart.js') }}"></script>
-
-<script src="{{ url_for('static', filename='mapGenerator.js') }}"></script>
-<script src="{{ url_for('static', filename='main.js') }}"></script>
-{% if configuration.AFFICHAGE_MAILLE %}
-<script src="{{ url_for('static', filename='mapMailles.js') }}"></script>
-{% else %}
-<script src="{{ url_for('static', filename='mapPoint.js') }}"></script>
-{% endif %}
 {% endblock %}
 
 {% block content %}
     <div class="container-fluid">
-        <div class="row">
-            <!--Left row-->
-            <div class="col-lg-7 col-md-8 col-sm-12 col-xs-12">
-                {% include 'templates/speciesSheet/identityCard.html' %}
-                {% include 'templates/speciesSheet/map.html' %}
-                {% include 'templates/speciesSheet/otherInformations.html' %}
-            </div>
-
-            <!--Right row-->
-            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                {% if photoCarousel | length >= 1 %}
-                    {% include 'templates/speciesSheet/photoCarousel.html' %}
-                {% endif %}
-
-
-                {% include 'templates/speciesSheet/blocInfos.html' %}
-
-                {% if (videoAudio.video | length > 0 ) or (videoAudio.audio | length > 0) %}
-                    {% include 'templates/speciesSheet/audioVideo.html' %}
-                {% endif %}
-
-                {% include 'templates/speciesSheet/charts.html' %}
-            </div>
+    <div class="row">
+        <!--Left row-->
+        <div class="col-lg-7 col-md-8 col-sm-12 col-xs-12">
+            {% include 'templates/speciesSheet/identityCard.html' %}
+            {% include 'templates/speciesSheet/map.html' %}
+            {% include 'templates/speciesSheet/otherInformations.html' %}
         </div>
+
+        <!--Right row-->
+        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+            {% if photoCarousel | length >= 1 %}
+                {% include 'templates/speciesSheet/photoCarousel.html' %}
+            {% endif %}
+
+
+            {% include 'templates/speciesSheet/blocInfos.html' %}
+
+            {% if (videoAudio.video | length > 0 ) or (videoAudio.audio | length > 0) %}
+                {% include 'templates/speciesSheet/audioVideo.html' %}
+            {% endif %}
+
+            {% include 'templates/speciesSheet/charts.html' %}
+        </div>
+    </div>
     <div>
 {% endblock %}
