@@ -80,18 +80,13 @@ type_territoire="'PEC'"
 
 ########### Si ref_geo = False #############
 
-#### COMMUNES ####
+#### AREA ####
 
-# Creer la table des communes à partir d'un shapefile ?
-# Si false, modifiez la creation de 'atlas.vm_communes' dans data/atlas/atlas.vm_communes.sql
-# PARAMETRE OBSOLETE OBLIGATOIRE SI PAS DE REF_GEO
-# import_commune_shp=true
-
-# Chemin et nom des colonnes du SHP des communes du territoire. Laisser tel quel (en modifiant uniquement MYUSERLINUX)
-# pour utiliser les communes du PnEcrins par défaut
-communes_shp=/home/`whoami`/atlas/data/ref/communes.shp
+# Chemin et nom des colonnes du SHP des zones du territoire. Laisser tel quel (en modifiant uniquement MYUSERLINUX)
+# pour utiliser les zones du PnEcrins par défaut
+zones_shp=/home/`whoami`/atlas/data/ref/zones.shp
 colonne_insee=insee
-colonne_nom_commune=nom_com
+colonne_nom_zone=nom_com
 
 #### TERRITOIRE ####
 

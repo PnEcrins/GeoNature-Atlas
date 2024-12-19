@@ -11,6 +11,29 @@ CHANGELOG
 - Ajout de la librairie Orijeme pour recueillir le consentement de l'utilisateur sur l'utilisation des cookies
 - Suppression du support des installations sans TaxHub
 - Ajout du floutage dans l'application (#571 @juggler31)
+- Changement de la notion de "commune" en notion de "territoire" (#545 @juggler31)
+Les changements effectués afin de pouvoir changer la notion de `commune` en `territoire` necessitent un changement dans les fichiers:
+
+`navbar.html`
+Le `form` devient :
+    ::
+        <form class="form-inline my-2 my-lg-0" method="POST"
+              onsubmit="completeAction('#searchFormAreas', hiddenInputAreas)" id='searchFormAreas'
+              action=""
+              role="search">
+            <div class="form-group has-feedback">
+                <input id="searchAreas" type="text" style="width: 175px;"
+                       class="form-control mr-sm-2 ajax-search small-placeholder"
+                       placeholder="{{ translations.search_area }}&nbsp;&nbsp;&nbsp;">
+            </div>
+            <input id="hiddenInputAreas" type="hidden" name="id_area">
+        </form>
+
+`maps-custom`
+La fonction `pointDisplayOptionsFicheCommuneHome` devient `pointDisplayOptionsFicheAreaHome`
+
+`presentation.html`
+Les paramètres de l'url de la fiche territoire était `url_for('main.ficheCommune', insee=05090)` et devient `url_for('main.ficheArea', id_area=XXXXXX)` 
 
 🐛 **Corrections**
 

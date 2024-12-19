@@ -1,20 +1,17 @@
 --Toutes les observations
-
-
-        
 CREATE MATERIALIZED VIEW atlas.vm_observations AS
     WITH centroid_synthese AS (
         -- donnee non sensibile ou id_nomenclature_sensi = NULL
-        SELECT 
+        SELECT
             s.id_synthese,
             s.the_geom_point as geom_point,
             nom.cd_nomenclature as cd_sensitivity
-        FROM synthese.synthese s 
+        FROM synthese.synthese s
         LEFT JOIN synthese.t_nomenclatures nom ON nom.id_nomenclature = s.id_nomenclature_sensitivity
-        WHERE nom.cd_nomenclature = '0' OR s.id_nomenclature_sensitivity IS NULL 
-        UNION 
+        WHERE nom.cd_nomenclature = '0' OR s.id_nomenclature_sensitivity IS NULL
+        UNION
         -- données sensible
-        SELECT 
+        SELECT
             DISTINCT ON (s.id_synthese, cor.type_code) -- si l'observation est une ligne ou un polygone elle peut intersecté plusieur fois le même type de zonage
             s.id_synthese,
             st_centroid(st_transform(areas.the_geom, 4326)) as geom_point,
@@ -23,7 +20,7 @@ CREATE MATERIALIZED VIEW atlas.vm_observations AS
             JOIN atlas.vm_cor_area_synthese cor ON cor.id_synthese = s.id_synthese
             JOIN ref_geo.bib_areas_types bat ON bat.type_code = cor.type_code
             JOIN synthese.t_nomenclatures tn ON tn.cd_nomenclature = cor.cd_nomenclature
-            JOIN synthese.cor_sensitivity_area_type AS csat 
+            JOIN synthese.cor_sensitivity_area_type AS csat
                 ON csat.id_nomenclature_sensitivity = tn.id_nomenclature
                 AND csat.id_area_type = bat.id_type
             JOIN atlas.vm_l_areas areas ON cor.id_area = areas.id_area

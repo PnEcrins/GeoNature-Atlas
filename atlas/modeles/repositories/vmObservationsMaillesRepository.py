@@ -1,9 +1,9 @@
 import json
 
 from geojson import Feature, FeatureCollection
-from sqlalchemy.sql import text, func, any_
+from sqlalchemy.sql import text, func, any_, extract
 
-from atlas.modeles.entities.vmObservations import VmObservationsMailles
+from atlas.modeles.entities.vmObservations import VmObservations, VmObservationsMailles
 from atlas.modeles.entities.vmAreas import VmAreas
 from atlas.modeles.utils import deleteAccent, findPath
 
@@ -30,23 +30,30 @@ def getObservationsMaillesChilds(session, cd_ref, year_min=None, year_max=None):
         session.query(
             VmObservationsMailles.id_maille,
             VmAreas.area_geojson,
-            func.max(VmObservationsMailles.annee).label("last_obs_year"),
-            func.sum(VmObservationsMailles.nbr).label("obs_nbr"),
+            func.max(extract("year", VmObservations.dateobs)).label("last_obs_year"),
+            func.count(VmObservations.id_observation).label("obs_nbr"),
             VmObservationsMailles.type_code,
+        )
+        .join(
+            VmObservations,
+            VmObservations.id_observation == any_(VmObservationsMailles.id_observations),
         )
         .join(
             VmAreas,
             VmAreas.id_area == VmObservationsMailles.id_maille,
         )
-        .filter(VmObservationsMailles.cd_ref == any_(taxons_ids))
+        .filter(VmObservations.cd_ref == any_(taxons_ids))
         .group_by(
             VmObservationsMailles.id_maille,
             VmAreas.area_geojson,
+            VmObservationsMailles.nbr,
             VmObservationsMailles.type_code,
         )
     )
     if year_min and year_max:
-        query = query.filter(VmObservationsMailles.annee.between(year_min, year_max))
+        query = query.filter(
+            VmObservations.dateobs.between(str(year_min) + "-01-01", str(year_max) + "-12-31")
+        )
 
     return FeatureCollection(
         [
@@ -70,19 +77,17 @@ def lastObservationsMailles(connection, mylimit, idPhoto):
     sql = """
         SELECT obs.*,
         tax.lb_nom, tax.nom_vern, tax.group2_inpn,
-        o.dateobs, o.altitude_retenue, o.id_observation,
+        o.dateobs, o.altitude_retenue, o.id_observation, o.cd_ref,
         medias.url, medias.chemin, medias.id_media,
         vla.area_geojson
         FROM atlas.vm_observations_mailles obs
-        JOIN atlas.vm_taxons tax ON tax.cd_ref = obs.cd_ref
         JOIN atlas.vm_observations o ON o.id_observation=ANY(obs.id_observations)
-        JOIN atlas.vm_cor_area_synthese m ON m.id_synthese=o.id_observation
-        JOIN atlas.vm_l_areas vla ON vla.id_area=m.id_area
+        JOIN atlas.vm_taxons tax ON tax.cd_ref = o.cd_ref
+        JOIN atlas.vm_l_areas vla ON vla.id_area=obs.id_maille
         LEFT JOIN atlas.vm_medias medias
-            ON medias.cd_ref = obs.cd_ref AND medias.id_type = :thisID
+            ON medias.cd_ref = o.cd_ref AND medias.id_type = :thisID
         WHERE  o.dateobs >= (CURRENT_TIMESTAMP - INTERVAL :thislimit)
         ORDER BY o.dateobs DESC
-        LIMIT 1000
     """
 
     observations = connection.execute(text(sql), thislimit=mylimit, thisID=idPhoto)
@@ -111,34 +116,41 @@ def lastObservationsMailles(connection, mylimit, idPhoto):
     return obsList
 
 
-def lastObservationsCommuneMaille(connection, obs_limit, insee_code):
+def lastObservationsAreaMaille(connection, obs_limit, id_area):
     sql = """
-        SELECT
-            obs.id_observations, obs.cd_ref, obs.type_code, obs.nbr, c.insee,
-            COALESCE(t.nom_vern || ' | ', '') || t.lb_nom  AS display_name,
-            vla.the_geom AS l_geom,
-            t.nom_vern,
-            vla.area_geojson, obs.id_maille
-        FROM atlas.vm_observations_mailles obs
-            JOIN atlas.vm_l_areas AS vla ON vla.id_area = obs.id_maille
-            JOIN atlas.vm_communes AS c
-                  ON ST_Intersects(vla.the_geom, c.the_geom) AND NOT ST_Touches(vla.the_geom, c.the_geom)
-            JOIN atlas.vm_taxons AS t
-                ON obs.cd_ref = t.cd_ref
-        WHERE c.insee = :inseeCode
-        LIMIT :obsLimit
+WITH obs_in_area AS (
+    SELECT
+        obs.id_observation,
+        obs.cd_ref,
+        date_part('year', obs.dateobs) AS annee
+    FROM atlas.vm_observations obs
+             JOIN atlas.vm_cor_area_synthese AS cas  ON cas.id_synthese = obs.id_observation
+    WHERE cas.id_area = :idAreaCode
+)
+SELECT
+    obs_in_area.id_observation,
+    obs_in_area.cd_ref,
+    COALESCE(t.nom_vern || ' | ', '') || t.lb_nom  AS display_name,
+    obs_in_area.annee,
+    obs.type_code,
+    obs.id_maille,
+    vla.area_geojson AS geojson_4326
+FROM obs_in_area
+         JOIN atlas.vm_observations_mailles obs ON obs_in_area.id_observation = ANY(obs.id_observations)
+         JOIN atlas.vm_l_areas vla ON vla.id_area=obs.id_maille
+         JOIN atlas.vm_taxons AS t ON t.cd_ref = obs_in_area.cd_ref
+ORDER BY annee DESC
+LIMIT :obsLimit;
     """
-    results = connection.execute(text(sql), inseeCode=insee_code, obsLimit=obs_limit)
+    results = connection.execute(text(sql), idAreaCode=id_area, obsLimit=obs_limit)
     observations = list()
     for r in results:
         infos = {
             "cd_ref": r.cd_ref,
-            "insee": r.insee,
             "taxon": r.display_name,
-            "geojson_maille": json.loads(r.area_geojson),
+            "geojson_maille": json.loads(r.geojson_4326),
             "id_maille": r.id_maille,
-            "id_observation": r.id_observations,
-            "nb_observations": r.nbr,
+            "id_observation": r.id_observation,
             "type_code": r.type_code,
         }
         observations.append(infos)
@@ -146,26 +158,32 @@ def lastObservationsCommuneMaille(connection, obs_limit, insee_code):
 
 
 # Use for API
-def getObservationsTaxonCommuneMaille(connection, insee, cd_ref):
+def getObservationsTaxonAreaMaille(connection, id_area, cd_ref):
     sql = """
-        SELECT
-            o.cd_ref,
-            o.id_maille,
-            o.type_code,
-            o.annee,
-            vla.area_geojson,
-            vla.the_geom,
-            t.cd_ref,
-            t.nom_vern,
-            t.lb_nom
-        FROM atlas.vm_observations_mailles AS o
-            JOIN atlas.vm_taxons AS t ON t.cd_ref = o.cd_ref
-            JOIN atlas.vm_l_areas AS vla ON vla.id_area = o.id_maille
-            JOIN atlas.vm_communes AS c ON c.insee = :thisInsee AND st_intersects(c.the_geom, vla.the_geom) AND NOT st_touches(c.the_geom, vla.the_geom)
-        WHERE o.cd_ref = :thiscdref
-        ORDER BY id_maille
+WITH obs_in_area AS (
+    SELECT
+        obs.id_observation,
+        obs.cd_ref,
+        date_part('year', obs.dateobs) AS annee
+    FROM atlas.vm_observations obs
+             JOIN atlas.vm_cor_area_synthese AS cas  ON cas.id_synthese = obs.id_observation
+    WHERE cas.id_area = :thisIdArea AND obs.cd_ref = :thiscdref
+)
+SELECT
+    obs_in_area.cd_ref,
+    obs_in_area.annee,
+    obs.type_code,
+    obs.id_maille,
+    vla.area_geojson,
+    t.nom_vern,
+    t.lb_nom
+FROM obs_in_area
+         JOIN atlas.vm_observations_mailles obs ON obs_in_area.id_observation = ANY(obs.id_observations)
+         JOIN atlas.vm_l_areas vla ON vla.id_area=obs.id_maille
+         JOIN atlas.vm_taxons AS t ON t.cd_ref = obs_in_area.cd_ref
+ORDER BY annee DESC;
     """
-    observations = connection.execute(text(sql), thisInsee=insee, thiscdref=cd_ref)
+    observations = connection.execute(text(sql), thisIdArea=id_area, thiscdref=cd_ref)
     tabObs = list()
     for o in observations:
         temp = {

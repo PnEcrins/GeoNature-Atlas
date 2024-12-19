@@ -21,7 +21,7 @@ const areaBorderColor = String(
 
 // Feature group de chaque élément de floutage (M1, M5 etc...)
 let overlays = {}
-const current_type_code = new Set()
+const current_type_code = []
 
 function clearOverlays(){
     map.removeControl(control)
@@ -46,13 +46,13 @@ function formatDate(date) {
 }
 
 function generateObservationPopup(feature, linkSpecies = false) {
-    /*
-      Génération popup des observations
-      linkSpecies :  indique s'il faut ou non rajouter un lien vers la fiche espèce
-        (cas des fiches communes ; home page)
-    */
-    date = new Date(feature.properties.dateobs);
-    popupContent = `
+  /*
+    Génération popup des observations
+    linkSpecies :  indique s'il faut ou non rajouter un lien vers la fiche espèce
+      (cas des fiches territoire ; home page)
+  */
+  date = new Date(feature.properties.dateobs);
+  popupContent = `
     <b>Date: </b> ${formatDate(date)}
     </br><b>Altitude: </b> ${feature.properties.altitude_retenue}
     ${observersTxt(feature)}`
@@ -159,6 +159,7 @@ function generateMap(zoomHomeButton) {
     });
 
     // 'Google-like' baseLayer controler
+
     var LayerControl = L.Control.extend({
         options: {
             position: "bottomleft",
@@ -263,7 +264,7 @@ function onEachFeatureMaille(feature, layer) {
     zoomMaille(layer);
 
     var selected = false;
-    layer.setStyle(styleMailleAtlas(feature.properties.nb_observations))
+    layer.setStyle(styleMailleAtlas(feature.properties.nb_observations, feature.properties.type_code))
     layer.on("click", function (layer) {
         resetStyleMailles();
         this.setStyle(styleMailleClickedOrHover(layer.target));
@@ -276,7 +277,7 @@ function onEachFeatureMaille(feature, layer) {
 
     layer.on("mouseout", function () {
         if (!selected) {
-            this.setStyle(styleMailleAtlas(feature.properties.nb_observations));
+            this.setStyle(styleMailleAtlas(feature.properties.nb_observations, feature.properties.type_code));
         }
     });
 
@@ -400,7 +401,7 @@ function displayMailleLayerFicheEspece(observationsMaille) {
     myGeoJson = observationsMaille;
     // Get all different type code
     Object.values(myGeoJson.features).forEach(elem => {
-            current_type_code.add(elem.properties.type_code)
+            current_type_code.push(elem.properties.type_code)
     })
     createMailleSelector(true)
     currentLayer = L.geoJson(myGeoJson, {
@@ -533,7 +534,7 @@ function displayMarkerLayerFicheEspece(
     }
 }
 
-// ***************Fonction lastObservations: mapHome et mapCommune*****************
+// ***************Fonction lastObservations: mapHome et mapArea*****************
 
 /* *** Point ****/
 
@@ -543,7 +544,7 @@ function onEachFeaturePointLastObs(feature, layer) {
     addInFeatureGroup(feature, layer);
 }
 
-function onEachFeaturePointCommune(feature, layer) {
+function onEachFeaturePointArea(feature, layer) {
     popupContent = generateObservationPopup(feature, true);
     layer.bindPopup(popupContent);
     addInFeatureGroup(feature, layer);
@@ -568,61 +569,61 @@ function generateGeojsonPointLastObs(observationsPoint) {
 }
 
 function displayMarkerLayerPointLastObs(observationsPoint) {
-    myGeoJson = generateGeojsonPointLastObs(observationsPoint);
-    if (typeof pointDisplayOptionsFicheCommuneHome == "undefined") {
-        pointDisplayOptionsFicheCommuneHome = function (feature) {
-            return {};
-        };
-    }
+  myGeoJson = generateGeojsonPointLastObs(observationsPoint);
+  if (typeof pointDisplayOptionsFicheAreaHome == "undefined") {
+    pointDisplayOptionsFicheAreaHome = function (feature) {
+      return {};
+    };
+  }
 
-    currentLayer = L.geoJson(myGeoJson, {
-        onEachFeature: onEachFeaturePointLastObs,
-        pointToLayer: function (feature, latlng) {
-            return L.circleMarker(
-                latlng,
-                pointDisplayOptionsFicheCommuneHome(feature)
-            );
-        },
-    });
+  currentLayer = L.geoJson(myGeoJson, {
+    onEachFeature: onEachFeaturePointLastObs,
+    pointToLayer: function (feature, latlng) {
+      return L.circleMarker(
+        latlng,
+        pointDisplayOptionsFicheAreaHome(feature)
+      );
+    },
+  });
 
-    map.addLayer(currentLayer);
-    if (typeof divLegendeFicheCommuneHome !== "undefined") {
-        legend.onAdd = function (map) {
-            var div = L.DomUtil.create("div", "info legend");
-            div.innerHTML = divLegendeFicheCommuneHome;
-            return div;
-        };
-        legend.addTo(map);
-    }
+  map.addLayer(currentLayer);
+  if (typeof divLegendeFicheAreaHome !== "undefined") {
+    legend.onAdd = function (map) {
+      var div = L.DomUtil.create("div", "info legend");
+      div.innerHTML = divLegendeFicheAreaHome;
+      return div;
+    };
+    legend.addTo(map);
+  }
 }
 
-function displayMarkerLayerPointCommune(observationsPoint) {
-    myGeoJson = generateGeojsonPointLastObs(observationsPoint);
-    if (typeof pointDisplayOptionsFicheCommuneHome == "undefined") {
-        pointDisplayOptionsFicheCommuneHome = function (feature) {
-            return {};
-        };
-    }
+function displayMarkerLayerPointArea(observationsPoint) {
+  myGeoJson = generateGeojsonPointLastObs(observationsPoint);
+  if (typeof pointDisplayOptionsFicheAreaHome == "undefined") {
+    pointDisplayOptionsFicheAreaHome = function (feature) {
+      return {};
+    };
+  }
 
-    currentLayer = L.geoJson(myGeoJson, {
-        onEachFeature: onEachFeaturePointCommune,
-        pointToLayer: function (feature, latlng) {
-            return L.circleMarker(
-                latlng,
-                pointDisplayOptionsFicheCommuneHome(feature)
-            );
-        },
-    });
+  currentLayer = L.geoJson(myGeoJson, {
+    onEachFeature: onEachFeaturePointArea,
+    pointToLayer: function (feature, latlng) {
+      return L.circleMarker(
+        latlng,
+        pointDisplayOptionsFicheAreaHome(feature)
+      );
+    },
+  });
 
-    map.addLayer(currentLayer);
-    if (typeof divLegendeFicheCommuneHome !== "undefined") {
-        legend.onAdd = function (map) {
-            var div = L.DomUtil.create("div", "info legend");
-            div.innerHTML = divLegendeFicheCommuneHome;
-            return div;
-        };
-        legend.addTo(map);
-    }
+  map.addLayer(currentLayer);
+  if (typeof divLegendeFicheAreaHome !== "undefined") {
+    legend.onAdd = function (map) {
+      var div = L.DomUtil.create("div", "info legend");
+      div.innerHTML = divLegendeFicheAreaHome;
+      return div;
+    };
+    legend.addTo(map);
+  }
 }
 
 //  ** MAILLE ***
@@ -654,7 +655,7 @@ function onEachFeatureMailleLastObs(feature, layer) {
     zoomMaille(layer);
 
     var selected = false;
-    layer.setStyle(styleMailleAtlas(feature.properties.nb_observations))
+    layer.setStyle(styleMailleAtlas(feature.properties.nb_observations, feature.properties.type_code))
     layer.on("click", function (layer) {
         resetStyleMailles();
         this.setStyle(styleMailleClickedOrHover(layer.target));
@@ -667,36 +668,65 @@ function onEachFeatureMailleLastObs(feature, layer) {
 
     layer.on("mouseout", function () {
         if (!selected) {
-            this.setStyle(styleMailleAtlas(feature.properties.nb_observations));
+            this.setStyle(styleMailleAtlas(feature.properties.nb_observations, feature.properties.type_code));
         }
     });
 }
 
-function styleMailleAtlas(nb) {
+function styleMailleAtlas(nb, type_code) {
+    const chartMainColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
+
+    let fillOpacity = 0.5;
+    if (configuration.AFFICHAGE_COUCHES_MAP[type_code] && configuration.AFFICHAGE_COUCHES_MAP[type_code].fillOpacity) {
+        fillOpacity = configuration.AFFICHAGE_COUCHES_MAP[type_code].fillOpacity;
+    }
+    let strokeOpacity = 0;
+    if (configuration.AFFICHAGE_COUCHES_MAP[type_code] && configuration.AFFICHAGE_COUCHES_MAP[type_code].strokeOpacity) {
+        strokeOpacity = configuration.AFFICHAGE_COUCHES_MAP[type_code].strokeOpacity;
+    }
+    let weight = 1;
+    if (configuration.AFFICHAGE_COUCHES_MAP[type_code] && configuration.AFFICHAGE_COUCHES_MAP[type_code].weight) {
+        weight = configuration.AFFICHAGE_COUCHES_MAP[type_code].weight;
+    }
+
+    let strokeColor = chartMainColor;
+    if (configuration.AFFICHAGE_COUCHES_MAP[type_code] && configuration.AFFICHAGE_COUCHES_MAP[type_code].strokeColor) {
+        strokeColor = configuration.AFFICHAGE_COUCHES_MAP[type_code].strokeColor;
+    }
+
     return {
-        opacity: 0,
-        weight: 2,
-        color: getColor(nb),
-        fillOpacity: 0.5,
+        opacity: strokeOpacity,
+        weight: weight,
+        fillColor: getColor(nb),
+        color: strokeColor,
+        fillOpacity: fillOpacity
     };
 }
 
 function styleMailleClickedOrHover(layer) {
     var mailleCode = layer.feature.properties.type_code;
+    const chartMainColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color');
 
-
-    let fillOpacity = 0.85;
-    if (configuration.AFFICHAGE_COUCHES_MAP[mailleCode] && configuration.AFFICHAGE_COUCHES_MAP[mailleCode].fillOpacity) {
-        fillOpacity = configuration.AFFICHAGE_COUCHES_MAP[mailleCode].fillOpacity
+    let fillOpacityHover = 0.85;
+    if (configuration.AFFICHAGE_COUCHES_MAP[mailleCode] && configuration.AFFICHAGE_COUCHES_MAP[mailleCode].fillOpacityHover) {
+        fillOpacityHover = configuration.AFFICHAGE_COUCHES_MAP[mailleCode].fillOpacityHover
+    }
+    let weightHover = 2
+    if (configuration.AFFICHAGE_COUCHES_MAP[mailleCode] && configuration.AFFICHAGE_COUCHES_MAP[mailleCode].weightHover) {
+        weightHover = configuration.AFFICHAGE_COUCHES_MAP[mailleCode].weightHover
+    }
+    let strokeColorHover = chartMainColor;
+    if (configuration.AFFICHAGE_COUCHES_MAP[mailleCode] && configuration.AFFICHAGE_COUCHES_MAP[mailleCode].strokeColorHover) {
+        strokeColorHover = configuration.AFFICHAGE_COUCHES_MAP[mailleCode].strokeColorHover;
     }
 
     var options = layer.options;
-    
     return {
         ...options,
         opacity: 1,
-        weight: 5,
-        // fillOpacity: fillOpacity
+        weight: weightHover,
+        fillOpacity: fillOpacityHover,
+        color: strokeColorHover,
     };
 }
 
@@ -704,7 +734,7 @@ function resetStyleMailles() {
     // set style for all cells
     map.eachLayer(function (layer) {
         if (layer.feature && layer.feature.properties.id_type) {
-            layer.setStyle(styleMailleAtlas(layer.feature.properties.taxons.length));
+            layer.setStyle(styleMailleAtlas(layer.feature.properties.taxons.length, feature.properties.type_code));
         }
     });
 }
@@ -730,7 +760,7 @@ function generateGeoJsonMailleLastObs(observations, isRefresh=false) {
         observations = observations.features;
     }
     observations.forEach((obs) => {
-        current_type_code.add(obs.type_code)
+        current_type_code.push(obs.type_code)
         findedFeature = features.find(
             (feat) => feat.properties.meshId === obs.id_maille
         );
@@ -740,11 +770,10 @@ function generateGeoJsonMailleLastObs(observations, isRefresh=false) {
                 geometry: obs.geojson_maille,
                 properties: {
                     type_code: obs.type_code,
-                    insee: obs.insee,
                     last_observation: obs.annee,
                     meshId: obs.id_maille,
                     list_id_observation: [obs.id_observation],
-                    nb_observations: obs.nb_observations,
+                    nb_observations: 1,
                     taxons: [
                         {
                             cdRef: obs.cd_ref,
@@ -765,10 +794,10 @@ function generateGeoJsonMailleLastObs(observations, isRefresh=false) {
             if (findedFeature.properties.last_observation < obs.annee) {
                 findedFeature.properties.last_observation = obs.annee
             }
-            findedFeature.properties.nb_observations += obs.nb_observations
+            findedFeature.properties.nb_observations += 1
         }
         else {
-            findedFeature.properties.nb_observations += obs.nb_observations
+            findedFeature.properties.nb_observations += 1
         }
     });
     return {

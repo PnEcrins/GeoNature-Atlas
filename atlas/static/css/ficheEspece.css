@@ -1,300 +1,308 @@
 #page li a {
-  color: var(--main-color);
+    color: var(--main-color);
 }
 
 #identityCard {}
 
 #taxonIdentity {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
 }
 
 #taxonIdentity h3 {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 #rowIdentity {
-  margin-left: 0px;
-  margin-right: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 #imgCol {
-  padding-right: 0px;
-  padding-left: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
 }
 
 #mainImg {
-  width: 100%;
+    width: 100%;
 }
 
 .caractEspece {
-  width: 30px;
-  height: 30px;
-  margin-bottom: 10px;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
 }
 
 #btn-taxons-fils {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 /*Display legend on images */
 
 p.imgDescription {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  background: black;
-  color: #fff;
-  visibility: hidden;
-  opacity: 0.5;
-  margin-bottom: 0px;
-  padding: 5px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background: black;
+    color: #fff;
+    visibility: hidden;
+    opacity: 0.5;
+    margin-bottom: 0px;
+    padding: 5px;
 }
 
 p.imgDescription.main {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  background: black;
-  color: #fff;
-  visibility: hidden;
-  opacity: 0.5;
-  margin-bottom: 0px;
-  padding: 5px;
-  text-decoration: none;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background: black;
+    color: #fff;
+    visibility: hidden;
+    opacity: 0.5;
+    margin-bottom: 0px;
+    padding: 5px;
+    text-decoration: none;
 }
 
 .imgWrapper:hover p.imgDescription {
-  visibility: visible;
+    visibility: visible;
 }
 
 #zoomPhotos {
-  position: absolute;
-  top: 92%;
-  left: 95%;
-  color: white;
+    position: absolute;
+    top: 92%;
+    left: 95%;
+    color: white;
 }
 
 /*  */
 
 #groupLogoCol {
-  padding-left: 0px;
-  position: absolute;
-  right: 2%;
-  top: 4%;
+    padding-left: 0px;
+    position: absolute;
+    right: 2%;
+    top: 4%;
 }
 
 #taxonName {
-  max-width: 85%;
+    max-width: 85%;
 }
 
 #taxonomy {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 #inpnLink {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 .nav>li>a {
-  padding: 10px 7px;
+    padding: 10px 7px;
 }
 
 #mapContainer {
-  padding-right: 0px;
+    padding-right: 0px;
 }
 
 #mapStat {
-  text-align: center;
-  padding-left: 0px;
+    text-align: center;
+    padding-left: 0px;
 }
 
 #map {
-  height: 650px;
+    height: 650px;
 }
 
 #loadingGif {
-  position: relative;
-  left: 50%;
-  top: 200px;
-  z-index: 1000;
+    position: relative;
+    left: 50%;
+    top: 200px;
+    z-index: 1000;
 }
 
 #mapStat li {
-  margin-top: 12px;
-  margin-bottom: 12px;
-  display: inline-block;
-  width: 100px;
-  text-align: center;
-  list-style-type: none;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    list-style-type: none;
 }
 
 #mapStat img {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 #mapStat ul {
-  padding: 0px;
+    padding: 0px;
 }
 
 /*Medias*/
 
 i.btn-more {
-  position: relative;
-  float: right;
+    position: relative;
+    float: right;
 }
 
 i.btn-more:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 hr.small-hr {
-  margin: 5px;
+    margin: 5px;
 }
 
 /* Bloc d'infos sur l'espèce */
 
 #blocInfos {
-  padding: 10px;
+    padding: 10px;
 }
 
 .glossarizer_replaced {
-  border-bottom: 1px #333 dotted;
-  cursor: help;
-  display: inline;
+    border-bottom: 1px #333 dotted;
+    cursor: help;
+    display: inline;
 }
 
 /*Other Informations block*/
 
 #otherInformationsPanel {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 #otherInformations {
-  padding-right: 20px;
-  padding-left: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 
 div#otherInformations {
-  padding-top: 10px;
+    padding-top: 10px;
 }
 
 .hiddenRow {
-  padding: 0 !important;
+    padding: 0 !important;
 }
 
 tr.accordion-toggle {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 /*END*/
 
 #picto img {
-  padding-right: 10px;
+    padding-right: 10px;
 }
 
 #mapCard {
-  margin-bottom: 2px;
+    margin-bottom: 2px;
 }
 
 #mapOptionPanel {
-  padding-top: 10px;
+    padding-top: 10px;
 }
 
 .nav {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 #slider .slider-track-high,
 #slider12c .slider-track-high {
-  background: green;
+    background: green;
 }
 
 #slider12b .slider-track-low,
 #slider12c .slider-track-low {
-  background: red;
+    background: red;
 }
 
 .slider-selection {
-  background: #909596;
+    background: #909596;
 }
 
 /* Slider années sur la carte des observations */
 .slider-handle {
-  background-color: #333333 !important;
-  background-image: linear-gradient(to bottom, #333333 0, #5d5d5d 100%);
+    background-color: #333333 !important;
+    background-image: linear-gradient(to bottom, #333333 0, #5d5d5d 100%);
 }
 
 h5#buttonChild:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 /* Graphiques */
 
 #altiChart,
 #phenologyChart {
-  background-color: white;
-  height: 200px;
+    background-color: white;
+    height: 200px;
 }
 
 #graphBloc svg {
-  padding: 5px;
+    padding: 5px;
 }
 
 rect {
-  fill: var(--main-color);
+    fill: var(--main-color);
 }
 
 rect.highlight {
-  fill: #333333;
-  padding: 5px;
+    fill: #333333;
+    padding: 5px;
 }
 
 text {
-  color: blue;
+    color: blue;
 }
 
 .leaflet-bar.leaflet-control.leaflet-control-custom img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 3px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3px;
 }
 
 /*Carousel*/
 
 .carousel {
-  width: 100%;
-  margin: 0 auto;
-  /* center your carousel if other than 100% */
+    width: 100%;
+    margin: 0 auto;
+    /* center your carousel if other than 100% */
 }
 
 #fixed .slider-size {
-  height: 300px;
-  width: 100%;
+    height: 300px;
+    width: 100%;
 }
 
 .carousel-caption {
-  right: 0%;
-  left: 0%;
-  padding: 10px;
+    right: 0%;
+    left: 0%;
+    padding: 10px;
 }
 
 .carousel-indicators {
-  bottom: 0px;
+    bottom: 0px;
+}
+
+.type_name {
+    font-weight: bold;
+}
+
+.territories_name {
+    padding: 1rem;
 }
 
 #organisms>ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  padding:0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    padding:0;
 }
 
 #organisms>ul .media-body {
-  gap: 0.5rem;
+    gap: 0.5rem;
 }
 
 #organisms>ul h3 {
-  font-size: 1.5rem;
+    font-size: 1.5rem;
 }

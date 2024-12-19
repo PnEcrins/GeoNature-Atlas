@@ -132,7 +132,13 @@ AFFICHAGE_COUCHES_MAP = {
     "M1": {
         "label": "Mailles 1 km",
         "selected": True,
-        "fillOpacity": 0.4
+        "fillOpacity": 0.4,
+        "fillOpacityHover": 0.4,
+        "weight": 1,
+        "weightHover": 2,
+        "strokeOpacity": 0.75,
+        "strokeColor": "black",
+        "strokeColorHover": "green"
     },
     "COM": {
         "label": "Mailles communes",
@@ -158,7 +164,7 @@ NB_DAY_LAST_OBS = '7'
 # Texte à afficher pour décrire la cartographie des 'dernières observations'
 TEXT_LAST_OBS = 'Les observations des agents ces 7 derniers jours |'
 
-# Carte de la fiche commune : nombre des 'x' dernières observations affichées
+# Carte de la fiche "area" : nombre des 'x' dernières observations affichées
 NB_LAST_OBS=100
 
 ###########################
@@ -253,7 +259,7 @@ ATTR_VIMEO = 9
 SPLIT_NOM_VERN = True
 
 ############################################
-#### FICHE COMMUNE ET RANG TAXONOMIQUE #####
+#### FICHE "AREA" ET RANG TAXONOMIQUE  #####
 ############################################
 
 # Permet d'afficher ou non les colonnes Protection et/ou Patrimonialité/Enjeux dans les listes de taxons
