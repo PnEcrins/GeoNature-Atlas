@@ -1,7 +1,5 @@
 CREATE MATERIALIZED VIEW atlas.vm_observations_mailles AS
 SELECT
-    o.cd_ref,
-    date_part('year', o.dateobs) AS annee,
     cor.id_area as id_maille,
     COUNT(o.id_observation) AS nbr,
     ARRAY_AGG(o.id_observation) AS id_observations,
@@ -13,8 +11,7 @@ FROM atlas.vm_observations AS o
          JOIN synthese.cor_sensitivity_area_type AS csat
               ON csat.id_nomenclature_sensitivity = tn.id_nomenclature
                   AND csat.id_area_type = bat.id_type
-GROUP BY o.cd_ref, cor.id_area, cor.type_code, annee
-ORDER BY o.cd_ref
+GROUP BY cor.id_area, cor.type_code
     WITH DATA;
 
 CREATE UNIQUE INDEX ON atlas.vm_observations_mailles

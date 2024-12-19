@@ -45,13 +45,13 @@ function formatDate(date) {
 }
 
 function generateObservationPopup(feature, linkSpecies = false) {
-    /*
-      Génération popup des observations
-      linkSpecies :  indique s'il faut ou non rajouter un lien vers la fiche espèce
-        (cas des fiches communes ; home page)
-    */
-    date = new Date(feature.properties.dateobs);
-    popupContent = `
+  /*
+    Génération popup des observations
+    linkSpecies :  indique s'il faut ou non rajouter un lien vers la fiche espèce
+      (cas des fiches territoire ; home page)
+  */
+  date = new Date(feature.properties.dateobs);
+  popupContent = `
     <b>Date: </b> ${formatDate(date)}
     </br><b>Altitude: </b> ${feature.properties.altitude_retenue}
     ${observersTxt(feature)}`
@@ -531,7 +531,7 @@ function displayMarkerLayerFicheEspece(
     }
 }
 
-// ***************Fonction lastObservations: mapHome et mapCommune*****************
+// ***************Fonction lastObservations: mapHome et mapArea*****************
 
 /* *** Point ****/
 
@@ -541,10 +541,11 @@ function onEachFeaturePointLastObs(feature, layer) {
     filterObservations(feature, layer);
 }
 
-function onEachFeaturePointCommune(feature, layer) {
-    popupContent = generateObservationPopup(feature, true);
-    layer.bindPopup(popupContent);
-    filterObservations(feature, layer);
+function onEachFeaturePointArea(feature, layer) {
+  popupContent = generateObservationPopup(feature, true);
+  layer.bindPopup(popupContent);
+  filterObservations(feature, layer);
+
 }
 
 function generateGeojsonPointLastObs(observationsPoint) {
@@ -566,61 +567,61 @@ function generateGeojsonPointLastObs(observationsPoint) {
 }
 
 function displayMarkerLayerPointLastObs(observationsPoint) {
-    myGeoJson = generateGeojsonPointLastObs(observationsPoint);
-    if (typeof pointDisplayOptionsFicheCommuneHome == "undefined") {
-        pointDisplayOptionsFicheCommuneHome = function (feature) {
-            return {};
-        };
-    }
+  myGeoJson = generateGeojsonPointLastObs(observationsPoint);
+  if (typeof pointDisplayOptionsFicheAreaHome == "undefined") {
+    pointDisplayOptionsFicheAreaHome = function (feature) {
+      return {};
+    };
+  }
 
-    currentLayer = L.geoJson(myGeoJson, {
-        onEachFeature: onEachFeaturePointLastObs,
-        pointToLayer: function (feature, latlng) {
-            return L.circleMarker(
-                latlng,
-                pointDisplayOptionsFicheCommuneHome(feature)
-            );
-        },
-    });
+  currentLayer = L.geoJson(myGeoJson, {
+    onEachFeature: onEachFeaturePointLastObs,
+    pointToLayer: function (feature, latlng) {
+      return L.circleMarker(
+        latlng,
+        pointDisplayOptionsFicheAreaHome(feature)
+      );
+    },
+  });
 
-    map.addLayer(currentLayer);
-    if (typeof divLegendeFicheCommuneHome !== "undefined") {
-        legend.onAdd = function (map) {
-            var div = L.DomUtil.create("div", "info legend");
-            div.innerHTML = divLegendeFicheCommuneHome;
-            return div;
-        };
-        legend.addTo(map);
-    }
+  map.addLayer(currentLayer);
+  if (typeof divLegendeFicheAreaHome !== "undefined") {
+    legend.onAdd = function (map) {
+      var div = L.DomUtil.create("div", "info legend");
+      div.innerHTML = divLegendeFicheAreaHome;
+      return div;
+    };
+    legend.addTo(map);
+  }
 }
 
-function displayMarkerLayerPointCommune(observationsPoint) {
-    myGeoJson = generateGeojsonPointLastObs(observationsPoint);
-    if (typeof pointDisplayOptionsFicheCommuneHome == "undefined") {
-        pointDisplayOptionsFicheCommuneHome = function (feature) {
-            return {};
-        };
-    }
+function displayMarkerLayerPointArea(observationsPoint) {
+  myGeoJson = generateGeojsonPointLastObs(observationsPoint);
+  if (typeof pointDisplayOptionsFicheAreaHome == "undefined") {
+    pointDisplayOptionsFicheAreaHome = function (feature) {
+      return {};
+    };
+  }
 
-    currentLayer = L.geoJson(myGeoJson, {
-        onEachFeature: onEachFeaturePointCommune,
-        pointToLayer: function (feature, latlng) {
-            return L.circleMarker(
-                latlng,
-                pointDisplayOptionsFicheCommuneHome(feature)
-            );
-        },
-    });
+  currentLayer = L.geoJson(myGeoJson, {
+    onEachFeature: onEachFeaturePointArea,
+    pointToLayer: function (feature, latlng) {
+      return L.circleMarker(
+        latlng,
+        pointDisplayOptionsFicheAreaHome(feature)
+      );
+    },
+  });
 
-    map.addLayer(currentLayer);
-    if (typeof divLegendeFicheCommuneHome !== "undefined") {
-        legend.onAdd = function (map) {
-            var div = L.DomUtil.create("div", "info legend");
-            div.innerHTML = divLegendeFicheCommuneHome;
-            return div;
-        };
-        legend.addTo(map);
-    }
+  map.addLayer(currentLayer);
+  if (typeof divLegendeFicheAreaHome !== "undefined") {
+    legend.onAdd = function (map) {
+      var div = L.DomUtil.create("div", "info legend");
+      div.innerHTML = divLegendeFicheAreaHome;
+      return div;
+    };
+    legend.addTo(map);
+  }
 }
 
 //  ** MAILLE ***
@@ -747,11 +748,10 @@ function generateGeoJsonMailleLastObs(observations, isRefresh=false) {
                 geometry: obs.geojson_maille,
                 properties: {
                     type_code: obs.type_code,
-                    insee: obs.insee,
                     last_observation: obs.annee,
                     meshId: obs.id_maille,
                     list_id_observation: [obs.id_observation],
-                    nb_observations: obs.nb_observations,
+                    nb_observations: 1,
                     taxons: [
                         {
                             cdRef: obs.cd_ref,
@@ -772,10 +772,10 @@ function generateGeoJsonMailleLastObs(observations, isRefresh=false) {
             if (findedFeature.properties.last_observation < obs.annee) {
                 findedFeature.properties.last_observation = obs.annee
             }
-            findedFeature.properties.nb_observations += obs.nb_observations
+            findedFeature.properties.nb_observations += 1
         }
         else {
-            findedFeature.properties.nb_observations += obs.nb_observations
+            findedFeature.properties.nb_observations += 1
         }
     });
     return {

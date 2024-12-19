@@ -66,11 +66,7 @@ htmlLegend = configuration.AFFICHAGE_MAILLE
 generateLegende(htmlLegend);
 
 function displayObsPreciseBaseUrl() {
-    if (sheetType === 'commune') {
-        return configuration.URL_APPLICATION + "/api/observations/" + areaInfos.areaCode
-    } else {
-        return configuration.URL_APPLICATION + "/api/observations/area/" + areaInfos.id_area
-    }
+    return configuration.URL_APPLICATION + "/api/observations/" + areaInfos.areaCode
 };
 
 // display observation on click
@@ -98,26 +94,22 @@ function displayObsPreciseBaseUrl(areaCode, cd_ref) {
         if (configuration.AFFICHAGE_MAILLE) {
             displayMailleLayerLastObs(observations);
         } else {
-            displayMarkerLayerPointCommune(observations);
+            displayMarkerLayerPointArea(observations);
         }
     });
 }
 
 function displayObsGridBaseUrl() {
-    if (sheetType === 'commune') {
-        return configuration.URL_APPLICATION + "/api/observationsMaille/"
-    } else {
-        return configuration.URL_APPLICATION + "/api/observationsMaille/area/"
-    }
+    return configuration.URL_APPLICATION + "/api/observationsMaille/"
 }
 
 // display observation on click
-function displayObsTaxon(insee, cd_ref) {
+function displayObsTaxon(id_area, cd_ref) {
   $.ajax({
     url:
       configuration.URL_APPLICATION +
       "/api/observations/" +
-      insee +
+      id_area +
       "/" +
       cd_ref,
     dataType: "json",
@@ -135,7 +127,7 @@ function displayObsTaxon(insee, cd_ref) {
     if (configuration.AFFICHAGE_MAILLE) {
       displayMailleLayerLastObs(observations);
     } else {
-      displayMarkerLayerPointCommune(observations);
+      displayMarkerLayerPointArea(observations);
     }
   });
 }
@@ -169,9 +161,9 @@ function refreshObsArea() {
             .removeClass("current");
         $(this).addClass("current");
         if (configuration.AFFICHAGE_MAILLE) {
-            displayObsTaxonMaille($(this).attr("area-code"), $(this).attr("cdRef"));
+            displayObsTaxonMaille(this.getAttribute("area-code"), this.getAttribute("cdref"));
         } else {
-            displayObsTaxon($(this).attr("area-code"), $(this).attr("cdRef"));
+            displayObsTaxon(this.getAttribute("area-code"), this.getAttribute("cdref"));
         }
         var name = $(this)
             .find("#name")
