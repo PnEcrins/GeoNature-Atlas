@@ -274,6 +274,10 @@ if ! database_exists $db_name
             export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port  \
             -f data/atlas/12.atlas.t_mailles_territoire.sql  &>> log/install_db.log
             echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
+
+            echo "[$(date +'%H:%M:%S')] Creating materialized view in atlas_with_extended_areas"
+            export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port  \
+            -f data/atlas_with_extended_areas.sql -v type_code=$type_code &>> log/install_db.log
         fi
 
         # FR: Création de la vue matérialisée vm_mailles_observations (nombre d'observations par maille et par taxon)
