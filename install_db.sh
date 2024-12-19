@@ -149,7 +149,7 @@ if ! database_exists $db_name
             ogr2ogr -f "PostgreSQL" \
             -t_srs EPSG:4326 \
             -lco GEOMETRY_NAME=the_geom \
-            -sql "SELECT $colonne_nom_commune AS commune_maj, $colonne_insee AS insee FROM $file_name" \
+            -sql "SELECT $colonne_nom_commune AS area_name, $colonne_insee AS insee FROM $file_name" \
             PG:"host=$db_host port=$db_port dbname=$db_name user=$owner_atlas password=$owner_atlas_pass schemas=atlas" \
             -nln l_communes $communes_shp 
 
@@ -256,7 +256,6 @@ if ! database_exists $db_name
             "4.atlas.vm_altitudes.sql"
             "5.atlas.vm_search_taxon.sql"
             "6.atlas.vm_mois.sql"
-            "7.atlas.vm_communes.sql"
             "8.atlas.vm_medias.sql"
             "9.atlas.vm_cor_taxon_attribut.sql"
             "10.atlas.vm_taxons_plus_observes.sql"
@@ -279,6 +278,10 @@ if ! database_exists $db_name
             -f data/atlas/12.atlas.t_mailles_territoire.sql \
             -v type_maille=$type_maille &>> log/install_db.log
             echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
+
+            echo "[$(date +'%H:%M:%S')] Creating materialized view in atlas_with_extended_areas"
+            export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port  \
+            -f data/atlas_with_extended_areas.sql -v type_code=$type_code &>> log/install_db.log
         fi
 
         # FR: Création de la vue matérialisée vm_mailles_observations (nombre d'observations par maille et par taxon)

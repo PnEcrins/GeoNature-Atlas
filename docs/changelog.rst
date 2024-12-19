@@ -9,6 +9,7 @@ CHANGELOG
 
 - Ajout du lien "Données personelles" dans le pied de page (#527 @juggler31)
 - Suppression du support des installations sans TaxHub
+- Changement de la notion de "commune" en notion de "zoning" (#545 @juggler31)
 
 🐛 **Corrections**
 

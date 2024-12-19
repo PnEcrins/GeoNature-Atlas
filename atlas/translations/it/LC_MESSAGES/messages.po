@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-27 10:32+0200\n"
+"POT-Creation-Date: 2025-01-17 00:30+0100\n"
 "PO-Revision-Date: 2021-07-19 09:53+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: it\n"
@@ -28,78 +28,57 @@ msgstr "Partner"
 msgid "home"
 msgstr "Home"
 
-#: static/custom/templates/footer.html:5 static/custom/templates/footer.html:29
+#: static/custom/templates/footer.html:5 static/custom/templates/footer.html:30
 #: static/custom/templates/footer.html.sample:5
 #: static/custom/templates/footer.html.sample:29
 msgid "credits"
 msgstr "Concezione e crediti"
 
-#: static/custom/templates/footer.html:7 static/custom/templates/footer.html:46
+#: static/custom/templates/footer.html:7 static/custom/templates/footer.html:47
 #: static/custom/templates/footer.html.sample:7
 #: static/custom/templates/footer.html.sample:46
 msgid "legal"
 msgstr "Nota legale"
 
 #: static/custom/templates/footer.html:11
-#: static/custom/templates/footer.html:64
+#: static/custom/templates/footer.html:65
 #: static/custom/templates/footer.html.sample:11
 #: static/custom/templates/footer.html.sample:64
 msgid "personal_data"
 msgstr "Dati personali"
 
-#: static/custom/templates/footer.html:17
+#: static/custom/templates/footer.html:18
 #: static/custom/templates/footer.html.sample:17
 msgid "atlas.fauna.flora"
 msgstr "Atlante della flora e della fauna"
 
-#: static/custom/templates/footer.html:17
+#: static/custom/templates/footer.html:18
 #: static/custom/templates/footer.html.sample:17
-#: static/custom/templates/introduction.html:7
 #: static/custom/templates/introduction.html.sample:7
 msgid "from1"
 msgstr "di"
 
-#: static/custom/templates/footer.html:19
+#: static/custom/templates/footer.html:20
 #: static/custom/templates/footer.html.sample:19
 msgid "powered.by"
 msgstr "Realizzato da"
 
-#: static/custom/templates/footer.html:19
+#: static/custom/templates/footer.html:20
 #: static/custom/templates/footer.html.sample:19
 msgid "developed.by"
 msgstr "sviluppato da il"
 
-#: static/custom/templates/footer.html:20
+#: static/custom/templates/footer.html:21
 #: static/custom/templates/footer.html.sample:20
 msgid "ecrins.national.park"
 msgstr "Parco Nazionale degli Ecrins"
 
-#: static/custom/templates/introduction.html:6
-#: static/custom/templates/introduction.html.sample:6
-msgid "welcome.message"
-msgstr "Benvenuti nell'atlante della fauna e della flora"
-
-#: static/custom/templates/introduction.html:7
+#: static/custom/templates/introduction.html:10
 #: static/custom/templates/introduction.html.sample:7
 msgid "from2"
 msgstr "di"
 
-#: static/custom/templates/introduction.html:7
-#: static/custom/templates/introduction.html.sample:7
-msgid "from3"
-msgstr "del"
-
-#: static/custom/templates/introduction.html:7
-#: static/custom/templates/introduction.html.sample:7
-msgid "from4"
-msgstr "del"
-
-#: static/custom/templates/introduction.html:7
-#: static/custom/templates/introduction.html.sample:7
-msgid "from5"
-msgstr "del"
-
-#: static/custom/templates/introduction.html:11
+#: static/custom/templates/introduction.html:14
 #: static/custom/templates/introduction.html.sample:11
 msgid "home.introduction.message"
 msgstr ""
@@ -117,31 +96,26 @@ msgstr ""
 msgid "search.species"
 msgstr "Cerca per species"
 
-#: static/custom/templates/navbar.html:47
+#: static/custom/templates/navbar.html:47 templates/home/globalStats.html:55
+msgid "search.area"
+msgstr "Ricerca per zona"
+
 #: static/custom/templates/navbar.html.sample:47
-#: templates/home/globalStats.html:55
-msgid "search.city"
-msgstr "Ricerca per comune"
+#, fuzzy
+msgid "search.zone"
+msgstr "Ricerca per zona"
 
 #: static/custom/templates/presentation.html:4
 #: static/custom/templates/presentation.html.sample:4
 msgid "atlas.presentation"
 msgstr "Presentazione dell'atlante"
 
-#: templates/areaSheet/_main.html:6 templates/areaSheet/_main.html:59
-msgid "municipality.of"
-msgstr "Comune di"
-
-#: templates/areaSheet/_main.html:70
-msgid "last.obs.municipality"
-msgstr "ultime osservazioni del comune di"
-
-#: templates/areaSheet/_main.html:73
-msgid "last.obs.zone"
+#: templates/areaSheet/_main.html:55
+msgid "last.obs.area"
 msgstr "Ultime osservazioni: "
 
 #: templates/areaSheet/surrounding_areas.html:10
-msgid "associate.zone"
+msgid "associate.area"
 msgstr "Aree associate"
 
 #: templates/areaSheet/surrounding_areas.html:23
@@ -204,7 +178,7 @@ msgid "check.species.sheet"
 msgstr "Vedere la scheda delle specie"
 
 #: templates/core/extended_areas_search.html:13
-msgid "search.other.zones.type"
+msgid "search.other.areas.type"
 msgstr "Cerca per altro tipo di zone"
 
 #: templates/core/listTaxons.html:14
@@ -222,14 +196,14 @@ msgstr "Guarda le osservazioni sul territorio"
 msgid "this.taxon.has.a.protected.status"
 msgstr "Questo taxon ha uno status di protezione"
 
-#: templates/core/listTaxons.html:80 templates/core/statHierarchy.html:7
+#: templates/core/listTaxons.html:80 templates/core/statHierarchy.html:8
 #: templates/organismSheet/topSpecies.html:61
 #: templates/speciesSheet/map.html:15
 #: templates/speciesSheet/otherInformations.html:144
 msgid "observation"
 msgstr "Osservazione"
 
-#: templates/core/listTaxons.html:81 templates/core/statHierarchy.html:7
+#: templates/core/listTaxons.html:81 templates/core/statHierarchy.html:8
 #: templates/core/tabTaxons.html:19 templates/home/globalStats.html:16
 #: templates/organismSheet/statsInfos.html:11
 #: templates/organismSheet/topSpecies.html:61
@@ -256,17 +230,17 @@ msgstr "Tornare a Home"
 msgid "gallery.title"
 msgstr "Galleria di foto"
 
-#: templates/core/statHierarchy.html:12 templates/home/globalStats.html:28
+#: templates/core/statHierarchy.html:13 templates/home/globalStats.html:28
 #: templates/home/taxoRank.html:32 templates/organismSheet/statsInfos.html:21
 msgid "species"
 msgstr "Contanti"
 
-#: templates/core/statHierarchy.html:17 templates/speciesSheet/map.html:25
+#: templates/core/statHierarchy.html:18 templates/speciesSheet/map.html:25
 #: templates/speciesSheet/otherInformations.html:28
 msgid "observers"
 msgstr "Osservatori"
 
-#: templates/core/statHierarchy.html:17 templates/speciesSheet/map.html:25
+#: templates/core/statHierarchy.html:18 templates/speciesSheet/map.html:25
 #: templates/speciesSheet/otherInformations.html:28
 msgid "observer"
 msgstr "Osservatori"
@@ -312,7 +286,7 @@ msgstr "Guarda le ultime osservazioni"
 #: templates/speciesSheet/otherInformations.html:10
 #: templates/speciesSheet/otherInformations.html:14
 msgid "municipalities"
-msgstr "Comuni"
+msgstr "Zonas"
 
 #: templates/home/globalStats.html:67
 msgid "photos"

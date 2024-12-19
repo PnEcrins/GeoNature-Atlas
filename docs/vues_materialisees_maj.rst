@@ -50,7 +50,7 @@ Les champs de cette table sont ``cd_nom``, ``id_statut``, ``id_habitat``, ``id_r
 
 - ``atlas.vm_phenologies`` qui renvoie le nombre d'observations pour chaque mois et chaque taxon.
 
-- ``atlas.vm_communes`` qui renvoie les communes du territoire. A adapter si on n'a pas importé les communes dans ``atlas.l_communes``
+- ``atlas.zoning`` qui renvoie les zones du territoire. A adapter si on n'a pas importé les communes dans ``atlas.l_communes``
 
 - ``atlas.vm_medias`` qui renvoie tous les médias des taxons, sur la base du schéma ``taxonomie`` de TaxHub
 
