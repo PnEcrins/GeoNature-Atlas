@@ -1,0 +1,34 @@
+<div id ="statut-bdc">
+    {% for sbdc in statutBdc %}
+        {% if loop.first %}
+            {{sbdc.cd_type_statut}} :
+            <span
+                data-toggle='tooltip'
+                data-placement='right'
+                data-original-title="{{sbdc.lb_type_statut}} {% if sbdc.cd_type_statut != 'LRE' %}({{sbdc.lb_adm_tr}}) {% endif %}: {{sbdc.label_statut}}"
+                >
+                <span class="{{sbdc.code_statut}} bloc-statut-bdc">{{sbdc.code_statut}}</span>
+            </span>
+        {% else %}
+            {% set prev_key = loop.index0 - 1 %}
+            {% if sbdc.cd_type_statut == statutBdc[prev_key].cd_type_statut %}
+                <span
+                    data-toggle='tooltip'
+                    data-placement='right'
+                    data-original-title="{{sbdc.lb_type_statut}} {% if sbdc.cd_type_statut != 'LRE' %}({{sbdc.lb_adm_tr}}) {% endif %} : {{sbdc.label_statut}}"
+                    >
+                    <span class="{{sbdc.code_statut}} bloc-statut-bdc">{{sbdc.code_statut}}</span>
+                </span>
+            {% else %}
+                <span class="bloc-sbdc-new">{{sbdc.cd_type_statut}} :</span>
+                <span
+                    data-toggle='tooltip'
+                    data-placement='right'
+                    data-original-title="{{sbdc.lb_type_statut}} {% if sbdc.cd_type_statut != 'LRE' %}({{sbdc.lb_adm_tr}}) {% endif %} : {{sbdc.label_statut}}"
+                    >
+                    <span class="{{sbdc.code_statut}} bloc-statut-bdc">{{sbdc.code_statut}}</span>
+                </span>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>

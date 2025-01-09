@@ -43,6 +43,7 @@ atlas/static/custom/templates/credits.html
 atlas/static/custom/templates/mentions-legales.html
 atlas/static/custom/templates/personal-data.html
 atlas/static/custom/templates/navbar.html
+atlas/static/custom/templates/statuts.html
 
 data/ref/emprise_territoire.*
 data/ref/communes.dbf
