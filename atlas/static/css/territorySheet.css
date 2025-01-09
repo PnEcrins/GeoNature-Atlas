@@ -1,0 +1,20 @@
+img.patrimonial_img {
+    width: 1rem;
+}
+
+.info_zone_card {
+    width: 100%;
+    justify-items: center;
+    padding: 1rem;
+}
+
+.specie_list_map_block {
+    display: flex;
+    height: 100%;
+}
+
+.stats_block {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}

@@ -27,10 +27,12 @@ from atlas.modeles.repositories import (
     vmMoisRepository,
     vmTaxrefRepository,
     tAreasRepository,
+    vmAreasRepository,
     vmObservationsMaillesRepository,
     vmMedias,
     vmCorTaxonAttribut,
     vmTaxonsMostView,
+    vmStatsStatutTaxonCommRepository,
 )
 
 
@@ -292,6 +294,11 @@ def ficheArea(id_area):
     connection = db.engine.connect()
 
     listTaxons = vmTaxonsRepository.getTaxonsAreas(connection, id_area)
+    taxon_pro_patri = vmStatsStatutTaxonCommRepository.get_nb_taxon_pro_pat_area(
+        connection, id_area
+    )
+    nb_organism = vmOrganismsRepository.get_nb_organism_on_area(connection, id_area)
+    infosCommune = vmAreasRepository.get_infos_area(connection, id_area)
 
     area = tAreasRepository.getAreaFromIdArea(connection, id_area)
     if current_app.config["AFFICHAGE_MAILLE"]:
@@ -319,6 +326,9 @@ def ficheArea(id_area):
         observers=observers,
         DISPLAY_EYE_ON_LIST=True,
         id_area=id_area,
+        taxonProPatri=taxon_pro_patri,
+        nb_organism=nb_organism,
+        infosCommune=infosCommune,
     )
 
 
