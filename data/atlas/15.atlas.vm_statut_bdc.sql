@@ -101,7 +101,6 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS atlas.vm_bdc_statut AS
     bs.lb_adm_tr
    FROM taxonomie.bdc_statut bs
      JOIN taxonomie.bdc_statut_text bstext ON bstext.cd_type_statut::text = bs.cd_type_statut::text AND bstext.full_citation = bs.full_citation
-  WHERE (bs.cd_type_statut = ANY (ARRAY :bdc_statuts_types)) AND (bs.lb_adm_tr = ANY (ARRAY :bdc_statuts_sigs)) AND bstext.enable = true
-  GROUP BY bs.cd_ref, bs.code_statut, bs.label_statut, bs.cd_type_statut, bs.lb_type_statut, bs.lb_adm_tr;
+  WHERE (bs.cd_type_statut = ANY (ARRAY :bdc_statuts_types)) AND (bs.lb_adm_tr = ANY (ARRAY :bdc_statuts_sigs)) AND bstext.enable = true;
 
 GRANT SELECT ON TABLE atlas.vm_bdc_statut TO my_reader_user;
