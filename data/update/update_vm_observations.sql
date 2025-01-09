@@ -7,7 +7,7 @@
 -- A exécuter avec l'utilisateur propriétaire de la BDD (owner_atlas dans main/configuration/settings.ini).
 -- Ce script vous permet de recréer la vue atlas.vm_observations en l'adaptant à vos besoins.
 -- Pour cela toutes les vues qui en dépendent doivent être supprimées puis recréées.
--- Si votre utilisateur PostgreSQL en lecture seule sur ces vues n'est pas "geonatatlas" (celui utilisé par l'application web de l'atlas, user_pg dans main/configuration/settings.ini),
+-- Si votre utilisateur PostgreSQL en lecture seule sur ces vues n'est pas "gnatlas" (celui utilisé par l'application web de l'atlas, user_pg dans main/configuration/settings.ini),
 -- vous devez modifier les GRANT à la fin de ce script avec le nom de votre utilisateur avant de l'exécuter.
 
 --------------------------------------------------------------
@@ -312,11 +312,11 @@ SELECT atlas.create_vm_altitudes();
 
 
 -- Rétablir les droits SELECT à l'utilisateur de l'application GeoNature-atlas (user_pg dans main/configuration/settings.ini).
--- Remplacer geonatatlas par votre utilisateur de BDD si vous l'avez modifié.
-GRANT SELECT ON TABLE atlas.vm_observations TO geonatatlas;
-GRANT SELECT ON TABLE atlas.vm_taxons_plus_observes TO geonatatlas;
-GRANT SELECT ON TABLE atlas.vm_search_taxon TO geonatatlas;
-GRANT SELECT ON TABLE atlas.vm_taxons TO geonatatlas;
-GRANT SELECT ON TABLE atlas.vm_mois TO geonatatlas;
-GRANT SELECT ON TABLE atlas.vm_altitudes TO geonatatlas;
-GRANT SELECT ON TABLE atlas.vm_observations_mailles TO geonatatlas;
+-- Remplacer gnatlas par votre utilisateur de BDD si vous l'avez modifié.
+GRANT SELECT ON TABLE atlas.vm_observations TO gnatlas;
+GRANT SELECT ON TABLE atlas.vm_taxons_plus_observes TO gnatlas;
+GRANT SELECT ON TABLE atlas.vm_search_taxon TO gnatlas;
+GRANT SELECT ON TABLE atlas.vm_taxons TO gnatlas;
+GRANT SELECT ON TABLE atlas.vm_mois TO gnatlas;
+GRANT SELECT ON TABLE atlas.vm_altitudes TO gnatlas;
+GRANT SELECT ON TABLE atlas.vm_observations_mailles TO gnatlas;

@@ -89,3 +89,41 @@ ORDER BY vla.area_name ASC;
         municipality = {"id_area": r.id_area, "area_name": r.area_name}
         municipalities.append(municipality)
     return municipalities
+
+def get_infos_area(connection, id_area):
+    """
+    Get area info:
+    yearmin: fisrt observation year
+    yearmax: last observation year
+    id_parent: id parent area
+    area_name: name parent area
+    area_type_name: type parent area
+    """
+    sql = """
+SELECT
+    MIN(extract(YEAR FROM o.dateobs)) AS yearmin,
+    MAX(extract(YEAR FROM o.dateobs)) AS yearmax
+    -- z.id_parent,
+    -- (SELECT area_name FROM atlas.vm_l_areas WHERE id_area = z.id_parent) AS area_parent_name,
+    -- (SELECT type.type_name
+    --  FROM atlas.vm_l_areas AS area
+    --     JOIN ref_geo.bib_areas_types type
+    --         ON type.id_type = area.id_zoning_type
+    --  WHERE area.id_area = z.id_parent) AS area_parent_type_name
+FROM atlas.vm_observations o JOIN atlas.vm_l_areas z ON z.id_area = o.id_area
+WHERE o.id_area = :id_area
+--GROUP BY z.id_parent
+    """
+
+    result = connection.execute(text(sql), id_area=id_area)
+    info_area = dict()
+    for r in result:
+        info_area = {
+            "yearmin": r.yearmin,
+            "yearmax": r.yearmax,
+            # "id_parent": r.id_parent,
+            # "parent_name": r.area_parent_name,
+            # "parent_type_name": r.area_parent_type_name,
+        }
+
+    return info_area

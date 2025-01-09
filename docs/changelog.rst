@@ -12,6 +12,7 @@ CHANGELOG
 - Suppression du support des installations sans TaxHub
 - Ajout du floutage dans l'application (#571 @juggler31)
 - Changement de la notion de "commune" en notion de "area" (#545 @juggler31)
+- Ajout de statistique sur la fiche de "zoning" (#540 @juggler31)
 
 🐛 **Corrections**
 
