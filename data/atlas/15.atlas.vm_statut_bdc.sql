@@ -92,9 +92,7 @@ CREATE FOREIGN TABLE taxonomie.bdc_statut_values (
 SERVER geonaturedbserver
 OPTIONS (schema_name 'taxonomie', table_name 'bdc_statut_values');
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS atlas.vm_bdc_statut
-TABLESPACE pg_default
-AS
+CREATE MATERIALIZED VIEW IF NOT EXISTS atlas.vm_bdc_statut AS
  SELECT bs.cd_ref,
     bs.code_statut,
     bs.label_statut,
@@ -104,7 +102,6 @@ AS
    FROM taxonomie.bdc_statut bs
      JOIN taxonomie.bdc_statut_text bstext ON bstext.cd_type_statut::text = bs.cd_type_statut::text AND bstext.full_citation = bs.full_citation
   WHERE (bs.cd_type_statut = ANY (ARRAY['LRE', 'LRN', 'LRR'])) AND (bs.lb_adm_tr = ANY (ARRAY['France', 'France métropolitaine'])) AND bstext.enable = true
-  GROUP BY bs.cd_ref, bs.code_statut, bs.label_statut, bs.cd_type_statut, bs.lb_type_statut, bs.lb_adm_tr
-WITH DATA;
+  GROUP BY bs.cd_ref, bs.code_statut, bs.label_statut, bs.cd_type_statut, bs.lb_type_statut, bs.lb_adm_tr;
 
 GRANT SELECT ON TABLE atlas.vm_bdc_statut TO my_reader_user;
