@@ -16,6 +16,7 @@ from flask import (
     session,
 )
 
+from atlas.configuration import config
 from atlas.env import db
 from atlas import utils
 from atlas.modeles.entities import vmTaxons, vmCommunes
@@ -265,6 +266,7 @@ def ficheEspece(cd_nom):
     organisms = vmOrganismsRepository.getListOrganism(connection, cd_ref)
 
     statuts = vmStatutBdcRepository.get_taxons_statut_bdc(connection, cd_ref)
+    groupes_statuts = _make_groupes_statuts(statuts)
 
     connection.close()
     db_session.close()
@@ -287,8 +289,46 @@ def ficheEspece(cd_nom):
         taxonDescription=taxonDescription,
         observers=observers,
         organisms=organisms,
-        statutBdc=statuts,
+        groupesStatuts=groupes_statuts,
     )
+
+
+def _make_groupes_statuts(statuts):
+    """Groupe les statuts de la BDC suivant la configuration GROUPES_STATUTS.
+
+    Retourne une liste de groupes. Un groupe est de la forme :
+
+        {
+            "label": "Monde",
+            "statuts": [
+                {
+                    "cd_type_statut": "LRM",
+                    "lb_type_statut": "Liste Rouge Mondiale",
+                    "cd_sig": "WORLD",
+                    "code_statut": "LC",
+                    "label_statut": "Préoccupation mineure",
+                    "rq_statut": ""
+                }
+            ]
+        }
+    """
+
+    def is_statut_in_groupe(statut, groupe):
+        group_types = {origin["cd_type_statut"] for origin in groupe["origins"]}
+        group_sigs = {origin["cd_sig"] for origin in groupe["origins"]}
+        return statut["cd_type_statut"] in group_types and statut["cd_sig"] in group_sigs
+
+    groupes_statuts = []
+    for config_groupe in config.GROUPES_STATUTS:
+        groupe = {
+            "label": config_groupe.get("label", ""),
+            "statuts": []
+        }
+        groupes_statuts.append(groupe)
+        for statut in statuts:
+            if is_statut_in_groupe(statut, config_groupe):
+                groupe["statuts"].append(statut)
+    return groupes_statuts
 
 
 @main.route("/commune/<insee>", methods=["GET", "POST"])

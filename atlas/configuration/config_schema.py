@@ -139,6 +139,30 @@ class AtlasConfig(Schema):
     AFFICHAGE_RECHERCHE_AVANCEE = fields.Boolean(load_default=False)
     AFFICHAGE_GRAPH_ALTITUDES = fields.Boolean(load_default=True)
     AFFICHAGE_GRAPH_PHENOLOGIE = fields.Boolean(load_default=True)
+    AFFICHAGE_STATUTS = fields.Boolean(load_default=True)
+    GROUPES_STATUTS = fields.List(
+        fields.Dict,
+        load_default=[
+            {
+                "label": "Monde",
+                "origins": [
+                    {"cd_type_statut": "LRM", "cd_sig": "WORLD"}
+                ]
+            },
+            {
+                "label": "Europe",
+                "origins": [
+                    {"cd_type_statut": "LRE", "cd_sig": "EUROPE"}
+                ]
+            },
+            {
+                "label": "France métropolitaine",
+                "origins": [
+                    {"cd_type_statut": "LRN", "cd_sig": "TERFXFR"}
+                ]
+            }
+        ]
+    )
 
     RANG_STAT = fields.List(
         fields.Dict,
