@@ -264,6 +264,8 @@ def ficheEspece(cd_nom):
 
     organisms = vmOrganismsRepository.getListOrganism(connection, cd_ref)
 
+    statuts = vmStatutBdcRepository.getTaxonsStatutBdc(connection, cd_ref)
+
     connection.close()
     db_session.close()
 
@@ -285,6 +287,7 @@ def ficheEspece(cd_nom):
         taxonDescription=taxonDescription,
         observers=observers,
         organisms=organisms,
+        statutBdc=statuts,
     )
 
 
