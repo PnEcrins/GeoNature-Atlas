@@ -79,15 +79,9 @@ p.imgDescription.main {
 
 /*  */
 
-#groupLogoCol {
-  padding-left: 0px;
-  position: absolute;
-  right: 2%;
-  top: 4%;
-}
-
 #taxonName {
-  max-width: 85%;
+    display: flex;
+    justify-content: space-between;
 }
 
 #taxonomy {

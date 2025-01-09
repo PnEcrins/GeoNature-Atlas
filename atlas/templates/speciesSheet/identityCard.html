@@ -38,22 +38,24 @@
                 <!-- Si pas de photo, alors le premier bloc occupe toute la largeur -->
                 <div class="col-sm-12" id="taxonIdentity">
             {% endif %}
-            <div id="groupLogoCol">
-                <a href="{{ url_for('main.ficheGroupe', groupe=taxon.taxonSearch.groupAccent ) }}">
-                    <img
-                        class="INPNgroup"
-                        src="{{ url_for('static', filename='images/picto_'+ taxon.taxonSearch.group2_inpn| replace(" ", "_")|urlencode+'.png') }}"
-                        alt="{{ taxon.taxonSearch.group2_inpn }}" data-toggle="tooltip"
-                        data-original-title="{{ taxon.taxonSearch.group2_inpn }}" data-placement="right">
-                </a>
-            </div>
-            <div id="taxonName">
-                {% if taxon.taxonSearch.nom_vern != None %}
-                    <h4 class="strong"> {{ taxon.taxonSearch.nom_vern }} </h4>
-                    <h4><i>{{ taxon.taxonSearch.nom_complet_html|safe }} </i></h4>
-                {% else %}
-                    <h4 class="strong"><i>{{ taxon.taxonSearch.nom_complet_html|safe }} </i></h4>
-                {% endif %}
+            <div>
+                <div id="taxonName">
+                    <div>
+                    {% if taxon.taxonSearch.nom_vern != None %}
+                        <h4 class="strong"> {{ taxon.taxonSearch.nom_vern }} </h4>
+                        <h4><i>{{ taxon.taxonSearch.nom_complet_html|safe }} </i></h4>
+                    {% else %}
+                        <h4 class="strong"><i>{{ taxon.taxonSearch.nom_complet_html|safe }} </i></h4>
+                    {% endif %}
+                    </div>
+                    <a href="{{ url_for('main.ficheGroupe', groupe=taxon.taxonSearch.groupAccent ) }}">
+                        <img
+                            class="INPNgroup"
+                            src="{{ url_for('static', filename='images/picto_'+ taxon.taxonSearch.group2_inpn| replace(" ", "_")|urlencode+'.png') }}"
+                            alt="{{ taxon.taxonSearch.group2_inpn }}" data-toggle="tooltip"
+                            data-original-title="{{ taxon.taxonSearch.group2_inpn }}" data-placement="right">
+                    </a>
+                </div>
                 {% if taxon.taxonSearch.protection == 'oui' %}
                     <br/>
                     <a href="https://inpn.mnhn.fr/espece/cd_nom/{{ taxon.taxonSearch.cd_ref }}/tab/statut"
