@@ -279,10 +279,19 @@ text {
   bottom: 0px;
 }
 
-#statut-bdc {
+div#statut-bdc {
   margin-top: 15px;
   padding-top : 10px;
   padding-bottom : 10px;
+}
+
+div#statut-bdc h5 a {
+    text-decoration: none;
+    color: black;
+}
+
+div#statut-bdc h5 a:hover {
+    color: var(--second-color);
 }
 
 div#statut-bdc span.NT {

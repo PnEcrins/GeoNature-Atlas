@@ -1,7 +1,19 @@
 <hr>
 <div id="statut-bdc">
     <div class="main-display">
-        <h5>Statuts de conservation</h5>
+        <h5>
+            Statuts de conservation
+            <a data-toggle="modal" href="#" data-target="#modalInfoStatuts">
+                <!-- from https://icons.getbootstrap.com/icons/info-circle/ -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-info-circle"
+                     viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                </svg>
+            </a>
+        </h5>
+
         <div class="groupes-statuts-container">
             {% for groupe in groupesStatuts %}
                 <div class="groupe-label">{{ groupe.label }}</div>
@@ -51,6 +63,61 @@
                     {% endfor %}
                 </ul>
             {% endfor %}
+        </div>
+    </div>
+
+    <div class="modal fade text-justify" id="modalInfoStatuts">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Statuts d'évaluation, de protection et de menace</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="text-white">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modale-statuts-container">
+                    {% for groupe in groupesStatuts %}
+                        <div class="statut-origine">{{ groupe.label }}</div>
+                        <ul>
+                            {% for statut in groupe.statuts %}
+                                {% if statut.cd_type_statut == 'ZDET' and statut.code_statut == 'true' %}
+                                <li>
+                                    <div>
+                                        <div class="statut-code znieff">
+                                            <img
+                                                    alt="{{ statut.label_statut }}"
+                                                    src="{{ url_for('static', filename='images/znieff_logo_small.png') }}">
+                                        </div>
+                                        <p class="statut-description znieff">
+                                            Espèce déterminante pour les
+                                            Zones Naturelles d’Intérêt Ecologique
+                                            Faunistique et Floristique (ZNIEFF)
+                                        </p>
+                                    </div>
+                                </li>
+                                {% elif statut.cd_type_statut[:2] == 'LR' %}
+                                <li>
+                                    <span class="{{ statut.code_statut }} bloc-statut-bdc statut-code">{{ statut.code_statut }}</span>
+                                    {{ statut.lb_type_statut }}
+                                    {% if statut.cd_type_statut == 'LRN' and 'Nicheur' in statut.rq_statut %}
+                                        (Nicheur)
+                                    {% elif statut.cd_type_statut == 'LRN' and 'Visiteur' in statut.rq_statut %}
+                                        (Visiteur)
+                                    {% elif statut.cd_type_statut == 'LRN' and 'Hivernant' in statut.rq_statut %}
+                                        (Hivernant)
+                                    {% endif %}
+                                    {{ statut.label_statut }}
+                                </li>
+                                {% else %}
+                                    <span class="bloc-statut-bdc">{{ statut.lb_type_statut }} ({{ statut.lb_adm_tr }}) : {{ statut.label_statut }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
