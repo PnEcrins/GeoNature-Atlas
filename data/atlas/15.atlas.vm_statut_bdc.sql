@@ -19,3 +19,6 @@ WHERE t.ENABLE = true
   and t.cd_sig = ANY (ARRAY :geo_status);
 
 GRANT SELECT ON TABLE atlas.vm_bdc_statut TO my_reader_user;
+
+CREATE INDEX ON atlas.vm_bdc_statut
+    USING btree (cd_ref);
