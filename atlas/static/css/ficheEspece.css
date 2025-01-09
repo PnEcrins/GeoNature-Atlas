@@ -375,13 +375,14 @@ div#statut-bdc li {
 
 div#statut-bdc .modale-statuts-container {
     display: grid;
-    grid-template-columns: minmax(30%, max-content) 1fr;
+    grid-template-columns: 1fr;
     align-items: center;
     gap: 0.8rem 1rem;
 }
 
 div#statut-bdc .modale-statuts-container .statut-origine {
-    text-align: right;
+    margin-top: 0.3rem;
+    grid-column: span 2;
 }
 
 div#statut-bdc .modale-statuts-container ul {
@@ -392,11 +393,23 @@ div#statut-bdc .modale-statuts-container ul {
 
 div#statut-bdc .modale-statuts-container li {
     display: flex;
-    align-content: center;
-    flex-wrap: wrap;
+    align-items: flex-start;
     gap: 0.5rem;
+    margin: 0.2rem 0;
 }
 
 div#statut-bdc .modale-statuts-container p {
-  margin: 0;
+    margin: 0;
+}
+
+@media (min-width: 600px) {
+    div#statut-bdc .modale-statuts-container {
+        grid-template-columns: minmax(30%, max-content) 1fr;
+    }
+
+    div#statut-bdc .modale-statuts-container .statut-origine {
+        text-align: right;
+        margin-top: 0;
+        grid-column: span 1;
+    }
 }

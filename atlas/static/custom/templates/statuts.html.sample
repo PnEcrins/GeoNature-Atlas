@@ -80,39 +80,45 @@
                     {% for groupe in groupesStatuts %}
                         <div class="statut-origine">{{ groupe.label }}</div>
                         <ul>
-                            {% for statut in groupe.statuts %}
-                                {% if statut.cd_type_statut == 'ZDET' and statut.code_statut == 'true' %}
+                        {% for statut in groupe.statuts %}
+                            {% if statut.cd_type_statut == 'ZDET' and statut.code_statut == 'true' %}
                                 <li>
-                                    <div>
-                                        <div class="statut-code znieff">
-                                            <img
-                                                    alt="{{ statut.label_statut }}"
-                                                    src="{{ url_for('static', filename='images/znieff_logo_small.png') }}">
-                                        </div>
-                                        <p class="statut-description znieff">
-                                            Espèce déterminante pour les
-                                            Zones Naturelles d’Intérêt Ecologique
-                                            Faunistique et Floristique (ZNIEFF)
-                                        </p>
-                                    </div>
+                                    <img
+                                            alt="{{ statut.label_statut }}"
+                                            src="{{ url_for('static', filename='images/znieff_logo_small.png') }}">
+                                    <p class="statut-description znieff">
+                                        Espèce déterminante pour les
+                                        Zones Naturelles d’Intérêt Ecologique
+                                        Faunistique et Floristique (ZNIEFF)
+                                    </p>
                                 </li>
-                                {% elif statut.cd_type_statut[:2] == 'LR' %}
-                                <li>
-                                    <span class="{{ statut.code_statut }} bloc-statut-bdc statut-code">{{ statut.code_statut }}</span>
-                                    {{ statut.lb_type_statut }}
-                                    {% if statut.cd_type_statut == 'LRN' and 'Nicheur' in statut.rq_statut %}
-                                        (Nicheur)
-                                    {% elif statut.cd_type_statut == 'LRN' and 'Visiteur' in statut.rq_statut %}
-                                        (Visiteur)
-                                    {% elif statut.cd_type_statut == 'LRN' and 'Hivernant' in statut.rq_statut %}
-                                        (Hivernant)
-                                    {% endif %}
-                                    {{ statut.label_statut }}
-                                </li>
-                                {% else %}
-                                    <span class="bloc-statut-bdc">{{ statut.lb_type_statut }} ({{ statut.lb_adm_tr }}) : {{ statut.label_statut }}</span>
+                            {% elif statut.cd_type_statut[:2] == 'LR' %}
+                                {% if statut.cd_type_statut == 'LRN' and 'Nicheur' in statut.rq_statut %}
+                                    {% set population = 'Nicheur' %}
+                                {% elif statut.cd_type_statut == 'LRN' and 'Visiteur' in statut.rq_statut %}
+                                    {% set population = 'Visiteur' %}
+                                {% elif statut.cd_type_statut == 'LRN' and 'Hivernant' in statut.rq_statut %}
+                                    {% set population = 'Hivernant' %}
                                 {% endif %}
-                            {% endfor %}
+                                <li>
+                                    <span class="{{ statut.code_statut }} bloc-statut-bdc statut-code">
+                                        {{ statut.code_statut }}
+                                    </span>
+                                    <p>
+                                        {{ statut.lb_type_statut }}{% if population %}{{ ' (' + population + ')' }}{% endif %} : {{ statut.label_statut }}
+                                    </p>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <span class="{{ statut.code_statut }} bloc-statut-bdc statut-code">
+                                        {{ statut.code_statut }}
+                                    </span>
+                                    <p>
+                                        {{ statut.lb_type_statut }} ({{ statut.lb_adm_tr }}) : {{ statut.label_statut }}
+                                    </p>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
                         </ul>
                     {% endfor %}
                     </div>
