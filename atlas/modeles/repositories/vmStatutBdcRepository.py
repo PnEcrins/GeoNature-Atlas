@@ -1,10 +1,6 @@
 from sqlalchemy.sql import text
 
 
-def fctSortDict(value):
-    return value['cd_type_statut']
-
-
 def get_taxons_statut_bdc(connection, cd_ref):
     sql = "SELECT * FROM atlas.vm_bdc_statut WHERE cd_ref = :thiscdref"
     result = connection.execute(text(sql), thiscdref=cd_ref)
@@ -20,4 +16,4 @@ def get_taxons_statut_bdc(connection, cd_ref):
             'cd_sig': row.cd_sig,
         }
         statuts.append(statut)
-    return sorted(statuts, key=fctSortDict)
+    return statuts
