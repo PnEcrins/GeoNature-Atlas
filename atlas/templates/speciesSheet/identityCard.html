@@ -76,6 +76,10 @@
                             data-placement="right">
                 {% endif %}
 
+                {% if configuration.AFFICHAGE_STATUTS %}
+                    {% include url_for('static', filename='custom/templates/statuts.html') %}
+                {% endif %}
+
                 <div id="taxonomy">
                     {% for taxon in taxonomyHierarchy %}
                         {{ taxon.nom_rang }} :
@@ -92,10 +96,6 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-
-                {% if configuration.AFFICHAGE_STATUTS %}
-                    {% include url_for('static', filename='custom/templates/statuts.html') %}
-                {% endif %}
 
                 <div id="inpnLink">
                     <a href='https://inpn.mnhn.fr/espece/cd_nom/{{ taxon.taxonSearch.cd_ref }}' target="_blank">
