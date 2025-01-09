@@ -273,11 +273,11 @@ if ! database_exists $db_name
 
         if $use_ref_geo_gn2
         then
-            echo "[$(date +'%H:%M:%S')] Creating atlas.vm_statut_bdc..."
+            echo "[$(date +'%H:%M:%S')] Creating atlas.vm_bdc_statut..."
             time_temp=$SECONDS
             sudo sed -i "s/WHERE (bs.cd_type_statut = ANY (ARRAY['LRE', 'LRN', 'LRR'])) AND (bs.lb_adm_tr = ANY (ARRAY['France', 'France métropolitaine'])) AND bstext.enable = true$/WHERE (bs.cd_type_statut = ANY (ARRAY$list_status)) AND (bs.lb_adm_tr = ANY (ARRAY$geo_status)) AND bstext.enable = true/"
             export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port  \
-            -f data/atlas/15.atlas.vm_statut_bdc.sql &>> log/install_db.log
+            -f data/atlas/15.atlas.vm_bdc_statut.sql &>> log/install_db.log
             echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
 
             echo "[$(date +'%H:%M:%S')] Creating atlas.t_mailles_territoire..."

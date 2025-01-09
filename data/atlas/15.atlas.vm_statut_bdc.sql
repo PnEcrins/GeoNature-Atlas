@@ -92,7 +92,7 @@ CREATE FOREIGN TABLE taxonomie.bdc_statut_values (
 SERVER geonaturedbserver
 OPTIONS (schema_name 'taxonomie', table_name 'bdc_statut_values');
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS atlas.vm_statut_bdc
+CREATE MATERIALIZED VIEW IF NOT EXISTS atlas.vm_bdc_statut
 TABLESPACE pg_default
 AS
  SELECT bs.cd_ref,
@@ -107,4 +107,4 @@ AS
   GROUP BY bs.cd_ref, bs.code_statut, bs.label_statut, bs.cd_type_statut, bs.lb_type_statut, bs.lb_adm_tr
 WITH DATA;
 
-GRANT SELECT ON TABLE atlas.vm_statut_bdc TO my_reader_user;
+GRANT SELECT ON TABLE atlas.vm_bdc_statut TO my_reader_user;

@@ -7,7 +7,7 @@ def fctSortDict(value):
     return value['cd_type_statut']
 
 def getTaxonsStatutBdc(connection, cd_ref):
-    sql="SELECT * FROM atlas.vm_statut_bdc WHERE cd_ref = :thiscdref"
+    sql="SELECT * FROM atlas.vm_bdc_statut WHERE cd_ref = :thiscdref"
     req = connection.execute(text(sql), thiscdref=cd_ref)
     tsb = list()
     for r in req:
