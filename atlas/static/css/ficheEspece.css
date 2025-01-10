@@ -372,3 +372,31 @@ div#statut-bdc ul {
 div#statut-bdc li {
     display: inline-block;
 }
+
+div#statut-bdc .modale-statuts-container {
+    display: grid;
+    grid-template-columns: minmax(30%, max-content) 1fr;
+    align-items: center;
+    gap: 0.8rem 1rem;
+}
+
+div#statut-bdc .modale-statuts-container .statut-origine {
+    text-align: right;
+}
+
+div#statut-bdc .modale-statuts-container ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem 0.5rem;
+}
+
+div#statut-bdc .modale-statuts-container li {
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+div#statut-bdc .modale-statuts-container p {
+  margin: 0;
+}
