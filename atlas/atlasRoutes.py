@@ -16,7 +16,6 @@ from flask import (
     session,
 )
 
-from atlas.configuration import config
 from atlas.env import db
 from atlas import utils
 from atlas.modeles.entities import vmTaxons, vmCommunes
@@ -319,7 +318,7 @@ def _make_groupes_statuts(statuts):
         return statut["cd_type_statut"] in group_types and statut["cd_sig"] in group_sigs
 
     groupes_statuts = []
-    for config_groupe in config.GROUPES_STATUTS:
+    for config_groupe in current_app.config["GROUPES_STATUTS"]:
         groupe = {"label": config_groupe.get("label", ""), "statuts": []}
         groupes_statuts.append(groupe)
         for statut in statuts:
