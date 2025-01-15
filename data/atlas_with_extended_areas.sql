@@ -15,6 +15,16 @@ CREATE INDEX ON atlas.vm_bib_areas_types(id_type);
 CREATE INDEX ON atlas.vm_bib_areas_types(type_code);
 CREATE INDEX ON atlas.vm_bib_areas_types(type_name);
 
+-- Suppression de la VM atlas.vm_cor_areas si existe
+DROP MATERIALIZED VIEW IF EXISTS atlas.vm_cor_areas CASCADE;
+
+CREATE MATERIALIZED VIEW atlas.vm_cor_areas AS
+SELECT ca.id_area_group, ca.id_area
+FROM ref_geo.cor_areas ca;
+
+CREATE INDEX ON atlas.vm_cor_areas(id_area_group);
+CREATE INDEX ON atlas.vm_cor_areas(id_area);
+
 -- Suppression si temporaire des areas la table existe
 DROP MATERIALIZED VIEW IF EXISTS atlas.vm_l_areas;
 

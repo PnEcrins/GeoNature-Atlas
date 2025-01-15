@@ -298,7 +298,7 @@ def ficheArea(id_area):
         connection, id_area
     )
     nb_organism = vmOrganismsRepository.get_nb_organism_on_area(connection, id_area)
-    infosCommune = vmAreasRepository.get_infos_area(connection, id_area)
+    infos_area = vmAreasRepository.get_infos_area(connection, id_area)
 
     area = tAreasRepository.getAreaFromIdArea(connection, id_area)
     if current_app.config["AFFICHAGE_MAILLE"]:
@@ -314,6 +314,19 @@ def ficheArea(id_area):
 
     observers = vmObservationsRepository.getObserversArea(connection, id_area)
 
+    biodiversity_values_chart = vmAreasRepository.get_nb_species_by_taxonimy_group(
+        connection, id_area
+    )
+    observations_values_chart = vmAreasRepository.get_nb_observations_by_taxonimy_group(
+        connection, id_area
+    )
+    biodiversity_organism_values_chart = vmOrganismsRepository.get_nb_species_by_organism_on_area(
+        connection, id_area
+    )
+    observations_organism_values_chart = (
+        vmOrganismsRepository.get_nb_observations_by_organism_on_area(connection, id_area)
+    )
+
     session.close()
     connection.close()
 
@@ -328,7 +341,11 @@ def ficheArea(id_area):
         id_area=id_area,
         taxonProPatri=taxon_pro_patri,
         nb_organism=nb_organism,
-        infosCommune=infosCommune,
+        infos_area=infos_area,
+        biodiversity_values_chart=biodiversity_values_chart,
+        observations_values_chart=observations_values_chart,
+        biodiversity_organism_values_chart=biodiversity_organism_values_chart,
+        observations_organism_values_chart=observations_organism_values_chart,
     )
 
 

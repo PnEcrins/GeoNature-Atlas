@@ -10,6 +10,8 @@
 {% endblock %}
 
 {% block additionalHeaderAssets %}
+    <!-- ChartJS -->
+    <script src="{{ url_for('static', filename='node_modules/chart.js/dist/chart.min.js') }}"></script>
     {# Ajoutez ici les assets complémentaires qui seront dans le bloc <head></head> #}
     <script src="{{ url_for('static', filename='node_modules/leaflet.markercluster/dist/leaflet.markercluster.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/leaflet.markercluster/dist/MarkerCluster.css') }}"/>
@@ -30,11 +32,17 @@
         var observations = {{observations|tojson}};
         var areaInfos = {{ areaInfos | tojson }};
         var url_limit_territory = "{{url_for('static', filename='custom/territoire.json') }}";
+        var biodiversity_values_chart = {{ biodiversity_values_chart | tojson}};
+        var observations_values_chart = {{ observations_values_chart | tojson}};
+        var biodiversity_organism_values_chart = {{ biodiversity_organism_values_chart | tojson}};
+        var observations_organism_values_chart = {{ observations_organism_values_chart | tojson}};
     </script>
     <script src="{{ url_for('static', filename='custom/maps-custom.js') }}"></script>
     <script src="{{ url_for('static', filename='listeEspeces.js') }}"></script>
     <script src="{{ url_for('static', filename='mapGenerator.js') }}"></script>
     <script src="{{ url_for('static', filename='mapAreas.js') }}"></script>
+    <script src="{{ url_for('static', filename='chart.js') }}"></script>
+
 {% endblock %}
 
 
@@ -44,11 +52,15 @@
 
         <div class="row p-0 m-0 border-bottom">
             <div class="info_zone_card">
-                <h4><b>{{ areaInfos.typeName }} - {{ areaInfos.areaName }}</b></h4>
                 {% include 'templates/core/statHierarchy.html' %}
             </div>
+            {% if configuration.AFFICHAGE_GRAPH_AREA_GENERAL_PRESENTATION or configuration.AFFICHAGE_GRAPH_AREA_OBS_ESPECES or configuration.AFFICHAGE_GRAPH_AREA_PROVENANCE_DONNEE %}
+                <div class="info_zone_card">
+                    {% include 'templates/areaSheet/moreZoneInfo.html' %}
+                </div>
+            {% endif %}
         </div>
-        <div class="specie_list_map_block">
+        <div class="specie_list_map_block flex-wrap">
 
             <div class="col-12 col-xl-4 col-lg-5 col-md-6 d-flex flex-column m-0 p-0">
                 <div class="bg-light text-center border-bottom border-right p-2">
