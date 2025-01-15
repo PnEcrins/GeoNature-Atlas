@@ -373,6 +373,10 @@ div#statut-bdc li {
     display: inline-block;
 }
 
+div#statut-bdc .img-statut-bdc {
+    max-width: 5rem;
+}
+
 div#statut-bdc .modale-statuts-container {
     display: grid;
     grid-template-columns: 1fr;

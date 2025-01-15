@@ -27,6 +27,7 @@
                                         data-original-title="{{ statut.lb_type_statut }} ({{ statut.lb_adm_tr }}) : {{ statut.label_statut }}"
                                 >
                                     <img
+                                            class="img-statut-bdc"
                                             alt="{{ statut.label_statut }}"
                                             src="{{ url_for('static', filename='images/znieff_logo_small.png') }}">
                                 </span>
@@ -84,9 +85,10 @@
                             {% if statut.cd_type_statut == 'ZDET' and statut.code_statut == 'true' %}
                                 <li>
                                     <img
+                                            class="img-statut-bdc"
                                             alt="{{ statut.label_statut }}"
                                             src="{{ url_for('static', filename='images/znieff_logo_small.png') }}">
-                                    <p class="statut-description znieff">
+                                    <p class="statut-description">
                                         Espèce déterminante pour les
                                         Zones Naturelles d’Intérêt Ecologique
                                         Faunistique et Floristique (ZNIEFF)
