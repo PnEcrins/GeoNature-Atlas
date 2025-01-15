@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-20 11:45+0100\n"
+"POT-Creation-Date: 2025-02-27 16:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -137,9 +137,106 @@ msgstr "Recherche par territoire"
 msgid "atlas.presentation"
 msgstr "Présentation de l'atlas"
 
-#: atlas/templates/areaSheet/_main.html:55
+#: atlas/templates/areaSheet/_main.html:36
+#: atlas/templates/core/tabTaxons.html:16
+msgid "obs.number.s"
+msgstr "Nombre d'observation(s)"
+
+#: atlas/templates/areaSheet/_main.html:74
 msgid "last.obs.area"
 msgstr "dernières observations"
+
+#: atlas/templates/areaSheet/moreZoneInfo.html:5
+msgid "general_presentation"
+msgstr "Présentation générale"
+
+#: atlas/templates/areaSheet/moreZoneInfo.html:8
+msgid "observations_and_species"
+msgstr "Observations et espèces"
+
+#: atlas/templates/areaSheet/moreZoneInfo.html:11
+msgid "data_sources"
+msgstr "Provenance des données"
+
+#: atlas/templates/areaSheet/moreZoneInfo.html:21
+#: atlas/templates/speciesSheet/blocInfos.html:27
+#: atlas/templates/speciesSheet/blocInfos.html:39
+#: atlas/templates/speciesSheet/blocInfos.html:46
+msgid "not.resigned.for.the.moment"
+msgstr "Non renseigné pour le moment"
+
+#: atlas/templates/areaSheet/moreZoneInfo.html:28
+#: atlas/templates/areaSheet/moreZoneInfo.html:46
+msgid "Biodiversity"
+msgstr "Biodiversité"
+
+#: atlas/templates/areaSheet/statArea.html:8
+#: atlas/templates/core/listTaxons.html:80
+#: atlas/templates/core/statHierarchy.html:7
+#: atlas/templates/core/tabTaxons.html:19
+#: atlas/templates/home/globalStats.html:16
+#: atlas/templates/organismSheet/statsInfos.html:11
+#: atlas/templates/organismSheet/topSpecies.html:61
+#: atlas/templates/speciesSheet/identityCard.html:135
+#: atlas/templates/speciesSheet/map.html:15
+#: atlas/templates/speciesSheet/otherInformations.html:141
+msgid "observations"
+msgstr "Observations"
+
+#: atlas/templates/areaSheet/statArea.html:8
+#: atlas/templates/core/listTaxons.html:79
+#: atlas/templates/core/statHierarchy.html:7
+#: atlas/templates/organismSheet/topSpecies.html:61
+#: atlas/templates/speciesSheet/map.html:15
+#: atlas/templates/speciesSheet/otherInformations.html:143
+msgid "observation"
+msgstr "Observation"
+
+#: atlas/templates/areaSheet/statArea.html:13
+#: atlas/templates/core/statHierarchy.html:12
+#: atlas/templates/home/globalStats.html:28
+#: atlas/templates/home/taxoRank.html:32
+#: atlas/templates/organismSheet/statsInfos.html:21
+msgid "species"
+msgstr "Espèces"
+
+#: atlas/templates/areaSheet/statArea.html:18
+#: atlas/templates/core/statHierarchy.html:17
+#: atlas/templates/speciesSheet/map.html:25
+#: atlas/templates/speciesSheet/otherInformations.html:28
+msgid "observers"
+msgstr "Observateurs"
+
+#: atlas/templates/areaSheet/statArea.html:18
+#: atlas/templates/core/statHierarchy.html:17
+#: atlas/templates/speciesSheet/map.html:25
+#: atlas/templates/speciesSheet/otherInformations.html:28
+msgid "observer"
+msgstr "Observateur"
+
+#: atlas/templates/areaSheet/statArea.html:24
+msgid "sources"
+msgstr "sources"
+
+#: atlas/templates/areaSheet/statArea.html:24
+msgid "source"
+msgstr "source"
+
+#: atlas/templates/areaSheet/statArea.html:29
+msgid "first_observation"
+msgstr "première observation"
+
+#: atlas/templates/areaSheet/statArea.html:34
+msgid "last_observation"
+msgstr "dernière observation"
+
+#: atlas/templates/areaSheet/statArea.html:40
+msgid "protected_species"
+msgstr ""
+
+#: atlas/templates/areaSheet/statArea.html:47
+msgid "patrimonial_species"
+msgstr "espèces patrimoniales"
 
 #: atlas/templates/areaSheet/surrounding_areas.html:10
 msgid "associate.area"
@@ -229,26 +326,6 @@ msgstr "Voir les observations sur le territoire"
 msgid "this.taxon.has.a.protected.status"
 msgstr "Ce taxon a un statut de protection"
 
-#: atlas/templates/core/listTaxons.html:79
-#: atlas/templates/core/statHierarchy.html:7
-#: atlas/templates/organismSheet/topSpecies.html:61
-#: atlas/templates/speciesSheet/map.html:15
-#: atlas/templates/speciesSheet/otherInformations.html:143
-msgid "observation"
-msgstr "Observation"
-
-#: atlas/templates/core/listTaxons.html:80
-#: atlas/templates/core/statHierarchy.html:7
-#: atlas/templates/core/tabTaxons.html:19
-#: atlas/templates/home/globalStats.html:16
-#: atlas/templates/organismSheet/statsInfos.html:11
-#: atlas/templates/organismSheet/topSpecies.html:61
-#: atlas/templates/speciesSheet/identityCard.html:135
-#: atlas/templates/speciesSheet/map.html:15
-#: atlas/templates/speciesSheet/otherInformations.html:141
-msgid "observations"
-msgstr "Observations"
-
 #: atlas/templates/core/listTaxons.html:81
 msgid "last.obs.in"
 msgstr "Dernière observation en "
@@ -268,25 +345,6 @@ msgstr "Retour à l'accueil"
 msgid "gallery.title"
 msgstr "Galerie photos"
 
-#: atlas/templates/core/statHierarchy.html:12
-#: atlas/templates/home/globalStats.html:28
-#: atlas/templates/home/taxoRank.html:32
-#: atlas/templates/organismSheet/statsInfos.html:21
-msgid "species"
-msgstr "Espèces"
-
-#: atlas/templates/core/statHierarchy.html:17
-#: atlas/templates/speciesSheet/map.html:25
-#: atlas/templates/speciesSheet/otherInformations.html:28
-msgid "observers"
-msgstr "Observateurs"
-
-#: atlas/templates/core/statHierarchy.html:17
-#: atlas/templates/speciesSheet/map.html:25
-#: atlas/templates/speciesSheet/otherInformations.html:28
-msgid "observer"
-msgstr "Observateur"
-
 #: atlas/templates/core/tabTaxons.html:7
 msgid "group"
 msgstr "Groupe"
@@ -300,10 +358,6 @@ msgstr "Nom binomial"
 #: atlas/templates/speciesSheet/identityCard.html:127
 msgid "common.name"
 msgstr "Nom vernaculaire"
-
-#: atlas/templates/core/tabTaxons.html:16
-msgid "obs.number.s"
-msgstr "Nombre d'observation(s)"
 
 #: atlas/templates/core/tabTaxons.html:17
 #: atlas/templates/speciesSheet/map.html:38
@@ -439,12 +493,6 @@ msgstr "Répartition"
 #: atlas/templates/speciesSheet/blocInfos.html:21
 msgid "synonyms"
 msgstr "Synonymes"
-
-#: atlas/templates/speciesSheet/blocInfos.html:27
-#: atlas/templates/speciesSheet/blocInfos.html:39
-#: atlas/templates/speciesSheet/blocInfos.html:46
-msgid "not.resigned.for.the.moment"
-msgstr "Non renseigné pour le moment"
 
 #: atlas/templates/speciesSheet/blocInfos.html:53
 msgid "no.synonym.for.this.taxon"

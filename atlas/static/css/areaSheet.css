@@ -12,11 +12,14 @@
         padding: 1rem;
         width: 100%;
 
-        #observations_and_species.active {
+        .infos_biodiversity, .infos_observations {
             text-align: center;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
+            padding: 2rem;
+
+            .chart-container {
+                height: 500px;
+                width: 100%;
+            }
         }
 
         #data_sources.active {
@@ -27,9 +30,20 @@
         }
     }
 }
+@media (min-width: 900px) {
+    #observations_and_species.active {
+        display: flex;
+    }
+
+    .infos_biodiversity, .infos_observations {
+        flex-grow: 1;
+        flex-shrink: 1;
+        max-width: 50%;
+    }
+}
 
 
-img.patrimonial_img {
+img.statut_icon {
     width: 1rem;
 }
 
@@ -40,7 +54,7 @@ img.patrimonial_img {
 
 }
 .specie_list_map_block {
-    min-height: 50%;
+    min-height: 50vh;
 }
 
 .specie_list_map_block {

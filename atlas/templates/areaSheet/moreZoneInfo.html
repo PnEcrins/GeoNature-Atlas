@@ -1,0 +1,67 @@
+{% block moreZoneInfos %}
+    <div class="card container info_card">
+        <ul class="nav nav-tabs">
+            {% if configuration.AFFICHAGE_TAB_AREA_GENERAL_PRESENTATION%}
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#general_presentation">{{ _('general_presentation') }}</a></li>
+            {% endif %}
+            {% if configuration.AFFICHAGE_TAB_AREA_OBS_ESPECES%}
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#observations_and_species">{{ _('observations_and_species') }}</a></li>
+            {% endif %}
+            {% if configuration.AFFICHAGE_TAB_AREA_PROVENANCE_DONNEE%}
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#data_sources">{{ _('data_sources') }}</a></li>
+            {% endif %}
+        </ul>
+
+        <div class="tab-content">
+            {% if configuration.AFFICHAGE_TAB_AREA_GENERAL_PRESENTATION%}
+                <div id="general_presentation" class="tab-pane fade show active">
+                    {% if stats_area.description %}
+                        {{ stats_area.description | safe }}
+                    {% else %}
+                        {{ _('not.resigned.for.the.moment') }}
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if configuration.AFFICHAGE_TAB_AREA_OBS_ESPECES%}
+                <div id="observations_and_species" class="tab-pane fade">
+                    <div class="infos_biodiversity">
+                        <h4>{{ _('Biodiversity') }}</h4>
+                        <div><strong>Nombre d'espèces</strong> par groupe taxonomique</div>
+                        <div class="chart-container" style="position: relative;">
+                            <canvas id="biodiversityChart" style="padding: 0.5rem;"></canvas>
+                        </div>
+                    </div>
+                    <div class="infos_observations">
+                        <h4>{{ _('Observations') }}</h4>
+                        <div><strong>Nombre d'observations</strong> par groupe taxonomique</div>
+                        <div class="chart-container" style="position: relative;">
+                            <canvas id="observationsChart" style="padding: 0.5rem;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if configuration.AFFICHAGE_TAB_AREA_PROVENANCE_DONNEE%}
+                <div id="data_sources" class="tab-pane fade">
+                    <div class="infos_biodiversity">
+                        <h4>{{ _('Biodiversity') }}</h4>
+                        <div><strong>Nombre d'espèces</strong> sur le territoire par source de données</div>
+                        <div class="chart-container" style="position: relative;">
+                            <canvas id="biodiversity_by_territoryChart" style="padding: 0.5rem;"></canvas>
+                        </div>
+                    </div>
+                    <div class="infos_observations">
+                        <h4>{{ _('Observations') }}</h4>
+                        <div><strong>Nombre d'observations</strong> sur le territoire par source de données</div>
+                        <div class="chart-container" style="position: relative;">
+                            <canvas id="observations_by_territoryChart" style="padding: 0.5rem;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+<script>
+    // Click on first tab to activate it
+    document.querySelectorAll('.info_card .nav-link')[0].click()
+</script>

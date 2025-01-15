@@ -16,7 +16,7 @@
     "bootstrap": "^4.4.1",
     "bootstrap-slider": "^7.1.0",
     "bootstrap-switch": "^3.3.2",
-    "chart.js": "^3.5.0",
+    "chart.js": "^4.4.7",
     "datatables": "1.10.12",
     "datatables.net-bs4": "^3.2.2",
     "datatables.net-responsive-bs4": "^2.2.9",

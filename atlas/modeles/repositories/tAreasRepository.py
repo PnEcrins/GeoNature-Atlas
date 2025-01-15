@@ -5,6 +5,7 @@ import ast
 from sqlalchemy import distinct
 from sqlalchemy.sql import text
 from sqlalchemy.sql.expression import func
+from flask import current_app
 
 from atlas.modeles.entities.vmAreas import VmAreas
 
@@ -73,10 +74,14 @@ def getAreasObservationsChilds(connection, cd_ref):
         FROM atlas.vm_observations AS obs
             JOIN atlas.vm_l_areas AS area
                 ON st_intersects(obs.the_geom_point, area.the_geom)
-        WHERE obs.cd_ref = ANY(:taxonsList)
+        WHERE obs.cd_ref = ANY(:taxonsList) AND area.id_type IN 
+            (SELECT id_type FROM atlas.vm_bib_areas_types 
+            WHERE type_code = ANY(:list_id_type))
         ORDER BY area.area_name ASC
     """
-    results = connection.execute(text(sql), taxonsList=taxons)
+    results = connection.execute(
+        text(sql), taxonsList=taxons, list_id_type=current_app.config["TYPE_TERRITOIRE"]
+    )
     municipalities = list()
     for r in results:
         municipality = {"id_area": r.id_area, "area_name": r.area_name}

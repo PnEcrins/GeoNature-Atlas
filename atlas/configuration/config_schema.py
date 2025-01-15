@@ -154,7 +154,14 @@ class AtlasConfig(Schema):
     AFFICHAGE_NOUVELLES_ESPECES = fields.Boolean(load_default=True)
     AFFICHAGE_RECHERCHE_AVANCEE = fields.Boolean(load_default=False)
     AFFICHAGE_GRAPH_ALTITUDES = fields.Boolean(load_default=True)
-    AFFICHAGE_GRAPH_PHENOLOGIE = fields.Boolean(load_default=True)
+    AFFICHAGE_GRAPH_PHENOLOGIE = fields.Boolean(load_default=False)
+    AFFICHAGE_GRAPH_PROVENANCE_DONNEE = fields.Boolean(load_default=False)
+    AFFICHAGE_GRAPH_AREA_GENERAL_PRESENTATION = fields.Boolean(load_default=False)
+    AFFICHAGE_GRAPH_AREA_OBS_ESPECES = fields.Boolean(load_default=False)
+    AFFICHAGE_GRAPH_AREA_PROVENANCE_DONNEE = fields.Boolean(load_default=False)
+    COLOR_STACKED_BAR_CHARTS = fields.List(
+        fields.String(), load_default=["#E1CE7A", "#FBFFB9", "#FDD692"]
+    )
 
     RANG_STAT = fields.List(
         fields.Dict,
@@ -188,6 +195,9 @@ class AtlasConfig(Schema):
     ATTR_VIMEO = fields.Integer(load_default=9)
     PROTECTION = fields.Boolean(load_default=False)
     DISPLAY_PATRIMONIALITE = fields.Boolean(load_default=False)
+    AFFICHAGE_TAB_AREA_GENERAL_PRESENTATION = fields.Boolean(load_default=False)
+    AFFICHAGE_TAB_AREA_OBS_ESPECES = fields.Boolean(load_default=False)
+    AFFICHAGE_TAB_AREA_PROVENANCE_DONNEE = fields.Boolean(load_default=False)
     PATRIMONIALITE = fields.Dict(
         load_default={
             "label": "Patrimonial",

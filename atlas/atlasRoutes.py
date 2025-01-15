@@ -31,7 +31,7 @@ from atlas.modeles.repositories import (
     vmMedias,
     vmCorTaxonAttribut,
     vmTaxonsMostView,
-    vmStatsStatutTaxonCommRepository,
+    vmStatsRepository
 )
 
 
@@ -298,14 +298,6 @@ def ficheArea(id_area):
     session = db.session
     connection = db.engine.connect()
 
-    listTaxons = vmTaxonsRepository.getTaxonsAreas(connection, id_area)
-    taxon_pro_patri = vmStatsStatutTaxonCommRepository.get_nb_taxon_pro_pat_area(
-        connection, id_area
-    )
-    nb_organism = vmOrganismsRepository.get_nb_organism_on_area(connection, id_area)
-    infosCommune = vmAreasRepository.get_infos_area(connection, id_area)
-
-    area = vmAreasRepository.getAreaFromIdArea(connection, id_area)
     if current_app.config["AFFICHAGE_MAILLE"]:
         observations = vmObservationsMaillesRepository.lastObservationsAreaMaille(
             connection, current_app.config["NB_LAST_OBS"], str(id_area)
@@ -315,9 +307,11 @@ def ficheArea(id_area):
             connection, current_app.config["NB_LAST_OBS"], id_area
         )
 
-    surroundingAreas = []
+    listTaxons = vmTaxonsRepository.getTaxonsAreas(connection, id_area)
+    area = vmAreasRepository.getAreaFromIdArea(connection, id_area)
 
-    observers = vmObservationsRepository.getObserversArea(connection, id_area)
+    surroundingAreas = []
+    stats_area = vmStatsRepository.getStatsTerritory(connection, id_area)
 
     session.close()
     connection.close()
@@ -326,14 +320,11 @@ def ficheArea(id_area):
         "templates/areaSheet/_main.html",
         surroundingAreas=surroundingAreas,
         listTaxons=listTaxons,
+        stats_area=stats_area,
         areaInfos=area,
         observations=observations,
-        observers=observers,
         DISPLAY_EYE_ON_LIST=True,
         id_area=id_area,
-        taxonProPatri=taxon_pro_patri,
-        nb_organism=nb_organism,
-        infosCommune=infosCommune,
     )
 
 
