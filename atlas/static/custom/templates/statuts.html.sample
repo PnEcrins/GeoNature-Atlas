@@ -1,6 +1,6 @@
 <hr>
 <div id="statut-bdc">
-    <div class="main-display">
+    <div>
         <h5>
             Statuts de conservation
             <a data-toggle="modal" href="#" data-target="#modalInfoStatuts">
