@@ -79,7 +79,7 @@
                 <div class="modal-body">
                     <div class="modale-statuts-container">
                     {% for groupe in groupesStatuts %}
-                        <div class="statut-origine">{{ groupe.label }}</div>
+                        <div class="groupe-label">{{ groupe.label }}</div>
                         <ul>
                         {% for statut in groupe.statuts %}
                             {% if statut.cd_type_statut == 'ZDET' and statut.code_statut == 'true' %}

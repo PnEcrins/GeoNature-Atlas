@@ -384,9 +384,10 @@ div#statut-bdc .modale-statuts-container {
     gap: 0.8rem 1rem;
 }
 
-div#statut-bdc .modale-statuts-container .statut-origine {
+div#statut-bdc .modale-statuts-container .groupe-label {
     margin-top: 0.3rem;
     grid-column: span 2;
+    text-align: start;
 }
 
 div#statut-bdc .modale-statuts-container ul {
@@ -411,8 +412,7 @@ div#statut-bdc .modale-statuts-container p {
         grid-template-columns: minmax(30%, max-content) 1fr;
     }
 
-    div#statut-bdc .modale-statuts-container .statut-origine {
-        text-align: right;
+    div#statut-bdc .modale-statuts-container .groupe-label {
         margin-top: 0;
         grid-column: span 1;
     }
