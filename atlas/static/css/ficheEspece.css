@@ -279,21 +279,6 @@ text {
   bottom: 0px;
 }
 
-div#statut-bdc {
-  margin-top: 15px;
-  padding-top : 10px;
-  padding-bottom : 10px;
-}
-
-div#statut-bdc h5 a {
-    text-decoration: none;
-    color: black;
-}
-
-div#statut-bdc h5 a:hover {
-    color: var(--second-color);
-}
-
 div#statut-bdc span.NT {
 	background-color: #fbf2ca ;
 } 
@@ -359,67 +344,19 @@ div#statut-bdc span.bloc-statut-bdc {
   border-radius: 5px;
 }
 
-div#statut-bdc .groupes-statuts-container {
-    display: grid;
-    grid-template-columns: minmax(min-content, 40%) 1fr;
-    gap: 0.5em 1em;
-}
-
-div#statut-bdc .groupe-label {
-    text-align: end;
-}
-
 div#statut-bdc ul {
-    display: inline-block;
+    display: flex;
+    flex-wrap: wrap;
     padding: 0;
     margin: 0;
+    gap: 0.1rem 1rem;
 }
 
 div#statut-bdc li {
-    display: inline-block;
+    display: inline;
+    white-space: nowrap;
 }
 
 div#statut-bdc .img-statut-bdc {
-    max-width: 5rem;
-}
-
-div#statut-bdc .modale-statuts-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    align-items: center;
-    gap: 0.8rem 1rem;
-}
-
-div#statut-bdc .modale-statuts-container .groupe-label {
-    margin-top: 0.3rem;
-    grid-column: span 2;
-    text-align: start;
-}
-
-div#statut-bdc .modale-statuts-container ul {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem 0.5rem;
-}
-
-div#statut-bdc .modale-statuts-container li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    margin: 0.2rem 0;
-}
-
-div#statut-bdc .modale-statuts-container p {
-    margin: 0;
-}
-
-@media (min-width: 600px) {
-    div#statut-bdc .modale-statuts-container {
-        grid-template-columns: minmax(30%, max-content) 1fr;
-    }
-
-    div#statut-bdc .modale-statuts-container .groupe-label {
-        margin-top: 0;
-        grid-column: span 1;
-    }
+    max-height: 1.3rem;
 }
