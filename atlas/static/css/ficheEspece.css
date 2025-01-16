@@ -295,37 +295,43 @@ div#statut-bdc h5 a:hover {
 }
 
 div#statut-bdc span.NT {
-  color: white;
-	background-color: #cce226 ;
+	background-color: #fbf2ca ;
 } 
 
 div#statut-bdc span.LC {
-  color: white;
-	background-color: #60c659 ;
+	background-color: #78b74a ;
 }
 
 div#statut-bdc span.EN {
-  color: white;
-	background-color: #fc7f3f ;
+	background-color: #fbbf00 ;
 }
 
 div#statut-bdc span.VU {
-	background-color: #f9e814 ;
+	background-color: #ffed00 ;
 }
 
 div#statut-bdc span.CR {
-  color: white;
-	background-color: #d81e05 ;
+	background-color: #d3001b ;
 }
 
 div#statut-bdc span.RE {
 	color: white;
-	background-color: #5b1064 ;
+	background-color: #5a1a63 ;
+}
+
+div#statut-bdc span.EW {
+	color: white;
+	background-color: #3d1951 ;
+}
+
+div#statut-bdc span.EX {
+	color: white;
+	background-color: black ;
 }
 
 div#statut-bdc span.NA {
 	color: white;
-	background-color: #929392 ;
+	background-color: #919291 ;
 }
 
 div#statut-bdc span.NE {
@@ -333,7 +339,7 @@ div#statut-bdc span.NE {
 }
 
 div#statut-bdc span.DD {
-	background-color: #d1d1c6 ;
+	background-color: #d3d4d5 ;
 }
 
 div#statut-bdc span.DHFF {
