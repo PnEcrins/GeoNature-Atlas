@@ -7,7 +7,7 @@
             ARRAY_AGG(o.id_observation) AS id_observations,
 			cor.type_code
         FROM atlas.vm_observations AS o
-			JOIN atlas.vm_cor_area_synthese cor ON cor.id_synthese = o.id_observation AND cor.is_blurred_geom IS TRUE
+			JOIN atlas.vm_cor_area_synthese cor ON cor.id_synthese = o.id_observation
         GROUP BY o.cd_ref, cor.id_area, cor.type_code, annee
         ORDER BY o.cd_ref
     WITH DATA;
