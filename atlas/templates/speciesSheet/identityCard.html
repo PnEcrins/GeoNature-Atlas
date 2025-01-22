@@ -104,7 +104,7 @@
                     </div>
                 </div>
 
-                {% if configuration.AFFICHAGE_STATUTS %}
+                {% if configuration.AFFICHAGE_STATUTS and groupesStatuts|length != 0 %}
                     {% include url_for('static', filename='custom/templates/statuts.html') %}
                 {% endif %}
 

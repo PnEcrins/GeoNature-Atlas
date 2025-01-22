@@ -320,10 +320,11 @@ def _make_groupes_statuts(statuts):
     groupes_statuts = []
     for config_groupe in current_app.config["GROUPES_STATUTS"]:
         groupe = {"label": config_groupe.get("label", ""), "statuts": []}
-        groupes_statuts.append(groupe)
         for statut in statuts:
             if is_statut_in_groupe(statut, config_groupe):
                 groupe["statuts"].append(statut)
+        if groupe["statuts"]:
+            groupes_statuts.append(groupe)
     return groupes_statuts
 
 
