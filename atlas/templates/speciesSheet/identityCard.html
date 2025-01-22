@@ -38,41 +38,24 @@
                 <!-- Si pas de photo, alors le premier bloc occupe toute la largeur -->
                 <div class="col-sm-12" id="taxonIdentity">
             {% endif %}
-            <div id="groupLogoCol">
-                <a href="{{ url_for('main.ficheGroupe', groupe=taxon.taxonSearch.groupAccent ) }}">
-                    <img
-                        class="INPNgroup"
-                        src="{{ url_for('static', filename='images/picto_'+ taxon.taxonSearch.group2_inpn| replace(" ", "_")|urlencode+'.png') }}"
-                        alt="{{ taxon.taxonSearch.group2_inpn }}" data-toggle="tooltip"
-                        data-original-title="{{ taxon.taxonSearch.group2_inpn }}" data-placement="right">
-                </a>
-            </div>
-            <div id="taxonName">
-                {% if taxon.taxonSearch.nom_vern != None %}
-                    <h4 class="strong"> {{ taxon.taxonSearch.nom_vern }} </h4>
-                    <h4><i>{{ taxon.taxonSearch.nom_complet_html|safe }} </i></h4>
-                {% else %}
-                    <h4 class="strong"><i>{{ taxon.taxonSearch.nom_complet_html|safe }} </i></h4>
-                {% endif %}
-                {% if taxon.taxonSearch.protection == 'oui' %}
-                    <br/>
-                    <a href="https://inpn.mnhn.fr/espece/cd_nom/{{ taxon.taxonSearch.cd_ref }}/tab/statut"
-                       target="_blank">
-                        <img class="caractEspece" width="100px"
-                             src="{{ url_for('static', filename='images/logo_protection.png') }}"
-                             data-toggle="tooltip"
-                             data-original-title="{{ _('this.taxon.has.a.protected.status') }}"
-                             data-placement="right"></a>
-                {% endif %}
-                {% if configuration.DISPLAY_PATRIMONIALITE and taxon.taxonSearch.patrimonial in configuration.PATRIMONIALITE.config %}
-                    <img
-                            class="caractEspece"
-                            width="130px"
-                            src="{{ url_for('static', filename=configuration.PATRIMONIALITE.config[taxon.taxonSearch.patrimonial].icon) }}"
-                            data-toggle="tooltip"
-                            data-original-title="{{ configuration.PATRIMONIALITE.config[taxon.taxonSearch.patrimonial].text }}"
-                            data-placement="right">
-                {% endif %}
+            <div>
+                <div id="taxonName">
+                    <div>
+                    {% if taxon.taxonSearch.nom_vern != None %}
+                        <h4 class="strong"> {{ taxon.taxonSearch.nom_vern }} </h4>
+                        <h4><i>{{ taxon.taxonSearch.nom_complet_html|safe }} </i></h4>
+                    {% else %}
+                        <h4 class="strong"><i>{{ taxon.taxonSearch.nom_complet_html|safe }} </i></h4>
+                    {% endif %}
+                    </div>
+                    <a href="{{ url_for('main.ficheGroupe', groupe=taxon.taxonSearch.groupAccent ) }}">
+                        <img
+                            class="INPNgroup"
+                            src="{{ url_for('static', filename='images/picto_'+ taxon.taxonSearch.group2_inpn| replace(" ", "_")|urlencode+'.png') }}"
+                            alt="{{ taxon.taxonSearch.group2_inpn }}" data-toggle="tooltip"
+                            data-original-title="{{ taxon.taxonSearch.group2_inpn }}" data-placement="right">
+                    </a>
+                </div>
 
                 <div id="taxonomy">
                     {% for taxon in taxonomyHierarchy %}
@@ -91,13 +74,39 @@
                     {% endfor %}
                 </div>
 
-                <div id="inpnLink">
-                    <a href='https://inpn.mnhn.fr/espece/cd_nom/{{ taxon.taxonSearch.cd_ref }}' target="_blank">
-                        <img width="90px" src="{{ url_for('static', filename='images/logo_inpn.png') }}"
-                             data-toggle="tooltip" data-original-title="{{ _('check.species.sheet.inpn') }}"
-                             data-placement="right">
-                    </a>
+                <div id="statuts-and-links-container">
+                    {% if taxon.taxonSearch.protection == 'oui' %}
+                    <a href="https://inpn.mnhn.fr/espece/cd_nom/{{ taxon.taxonSearch.cd_ref }}/tab/statut"
+                       target="_blank">
+                        <img class="caractEspece" width="100px"
+                             src="{{ url_for('static', filename='images/logo_protection.png') }}"
+                             data-toggle="tooltip"
+                             data-original-title="{{ _('this.taxon.has.a.protected.status') }}"
+                             data-placement="right"></a>
+                    {% endif %}
+
+                    {% if configuration.DISPLAY_PATRIMONIALITE and taxon.taxonSearch.patrimonial in configuration.PATRIMONIALITE.config %}
+                    <img
+                            class="caractEspece"
+                            width="130px"
+                            src="{{ url_for('static', filename=configuration.PATRIMONIALITE.config[taxon.taxonSearch.patrimonial].icon) }}"
+                            data-toggle="tooltip"
+                            data-original-title="{{ configuration.PATRIMONIALITE.config[taxon.taxonSearch.patrimonial].text }}"
+                            data-placement="right">
+                    {% endif %}
+
+                    <div id="inpnLink">
+                        <a href='https://inpn.mnhn.fr/espece/cd_nom/{{ taxon.taxonSearch.cd_ref }}' target="_blank">
+                            <img width="90px" src="{{ url_for('static', filename='images/logo_inpn.png') }}"
+                                 data-toggle="tooltip" data-original-title="{{ _('check.species.sheet.inpn') }}"
+                                 data-placement="right">
+                        </a>
+                    </div>
                 </div>
+
+                {% if configuration.AFFICHAGE_STATUTS and groupesStatuts|length != 0 %}
+                    {% include url_for('static', filename='custom/templates/statuts.html') %}
+                {% endif %}
 
                 {% if taxon.listTaxonsChild|length > 0 %}
                     <!-- Button trigger modal -->

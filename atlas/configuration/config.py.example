@@ -193,6 +193,45 @@ AFFICHAGE_GRAPH_ALTITUDES = True
 # Afficher le graphique de la phénologie. Affichage True/False
 AFFICHAGE_GRAPH_PHENOLOGIE = True
 
+# Afficher les statuts de protection. Affichage True/False
+AFFICHAGE_STATUTS = True
+
+# Configure quels statuts de protection sont affichés et dans quel ordre.
+# - il est possible de définir plusieurs origines pour un groupe (pour grouper les listes rouges et les marqueurs znieff d'une même zone par exemple).
+# - 'label' du groupe sera affiché devant l'ensemble des statuts provenant des origines spécifiées. 'label' est optionnel.
+# - les valeurs des propriétés `cd_type_statut` et `cd_sig` correspondent aux valeurs présentes dans la BDD `atlas.vm_bdc_statut`.
+GROUPES_STATUTS = [
+    {
+        "label": "Monde",
+        "origins": [
+            {"cd_type_statut": "LRM", "cd_sig": "WORLD"}
+        ]
+    },
+    {
+        "label": "Europe",
+        "origins": [
+            {"cd_type_statut": "LRE", "cd_sig": "EUROPE"}
+        ]
+    },
+    {
+        "label": "France métropolitaine",
+        "origins": [
+            {"cd_type_statut": "LRN", "cd_sig": "TERFXFR"}
+        ]
+    },
+    {
+        "label": "Région",
+        "origins": [
+            {"cd_type_statut": "LRR", "cd_sig": <votre code région>}  # par exemple "INSEER52"
+        ]
+    },
+    {
+        "origins": [
+            {"cd_type_statut": "ZDET", "cd_sig": <votre code département>}  # par exemple "INSEED44"
+        ]
+    }
+]
+
 # Rang taxonomique qui fixe jusqu'à quel taxon remonte la filiation taxonomique (hierarchie dans la fiche d'identite : Famille, Ordre etc... )
 LIMIT_RANG_TAXONOMIQUE_HIERARCHIE = 13
 
