@@ -36,25 +36,9 @@ class VmAreas(Base):
         Column("id_type", Integer(), ForeignKey("atlas.vm_bib_areas_types.id_type")),
         Column("the_geom", Geometry("MULTIPOLYGON", 4326), index=True),
         Column("area_geojson", Text()),
+        Column("description", Text()),
         schema="atlas",
         autoload=True,
         autoload_with=db.engine,
         extend_existing=True,
     )
-
-
-class VmCorAreaObservation(Base):
-    __table__ = Table(
-        "vm_cor_area_observation",
-        metadata,
-        Column("id_observation", Integer()),
-        Column("id_area", Integer()),
-        schema="atlas",
-        autoload=True,
-        autoload_with=db.engine,
-        extend_existing=True,
-        primary_key=False,
-    )
-    __mapper_args__ = {"primary_key": [__table__.c.id_observation, __table__.c.id_area]}
-    observation = relationship("VmObservations", foreign_keys=[__table__.c.id_observation])
-    area = relationship("VmAreas", foreign_keys=[__table__.c.id_area])

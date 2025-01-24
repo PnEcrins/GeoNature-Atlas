@@ -1,5 +1,6 @@
 {% block statsInfos %}
-    <div class="container">
+    <div class="card container stat_card">
+        <h4><b>{{ areaInfos.typeName }} - {{ areaInfos.areaName }}</b></h4>
         <div class="row mt-3">
             <div class="col-sm center border-right">
                 <i class="fas fa-search"></i>
@@ -11,11 +12,47 @@
                 <br><strong>{{ listTaxons.taxons|length | pretty }}</strong>
                 <br>{{ _('species')|lower if listTaxons.taxons|length > 1 else _('species')|lower }}
             </div>
-            <div class="col-sm center">
+            <div class="col-sm center border-right">
                 <i class="fa fa-users"></i>
                 <br><strong>{{ observers | length | pretty }}</strong>
                 <br>{{ _('observers')|lower if observers|length > 1 else _('observer')|lower }}
             </div>
+
+            <div class="col-sm center border-right">
+                <i class="fa fa-project-diagram"></i>
+                <br><strong>{{ nb_organism }}</strong>
+                <br>{{ _('sources')|lower if nb_organism > 1 else _('source')|lower }}
+            </div>
+            <div class="col-sm center border-right">
+                <i class="fa fa-search"></i>
+                <br><strong>{{ infos_area.yearmin }}</strong>
+                <br>{{ _('first_observation')|lower }}
+            </div>
+            <div class="col-sm center border-right">
+                <i class="fa fa-search"></i>
+                <br><strong>{{ infos_area.yearmax}}</strong>
+                <br>{{ _('last_observation')|lower }}
+            </div>
+            <div class="col-sm center">
+                <img class="patrimonial_img" src="{{ url_for('static', filename=configuration.PATRIMONIALITE.config.taxon.patrimonial.icon) }}"/>
+                <br><strong>{{ taxonProPatri.nbTaxonPatri }}</strong>
+                <br>{{ _('protected_species')|lower }}
+            </div>
+            {% if configuration.DISPLAY_PATRIMONIALITE %}
+            <div class="col-sm center border-left">
+                <i class="fa fa-paw"></i>
+                <br><strong>{{ taxonProPatri.nbTaxonPro }}</strong>
+                <br>{{ _('patrimonial_species')|lower }}
+            </div>
+            {% endif %}
+
+            {% if infos_area.id_parent %}
+                <div class="col-sm center border-left">
+                    <i class="fa fa-city"></i>
+                    <br>{{ infos_area.parent_type_name }}
+                    <br><strong><a href="/area/{{ infos_area.id_parent }}">{{ infos_area.parent_name }}</a></strong>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

@@ -131,14 +131,23 @@ class AtlasConfig(Schema):
     AFFICHAGE_LOGOS_HOME = fields.Boolean(load_default=True)
     AFFICHAGE_FOOTER = fields.Boolean(load_default=True)
     AFFICHAGE_RGPD = fields.Boolean(load_default=True)
+    OREJIME_APPS = fields.List(fields.Dict(), load_default=[])
     AFFICHAGE_STAT_GLOBALES = fields.Boolean(load_default=True)
     AFFICHAGE_DERNIERES_OBS = fields.Boolean(load_default=True)
+    AFFICHAGE_TERRITOIRE_OBS = fields.Boolean(load_default=False)
     AFFICHAGE_EN_CE_MOMENT = fields.Boolean(load_default=True)
     AFFICHAGE_RANG_STAT = fields.Boolean(load_default=True)
     AFFICHAGE_NOUVELLES_ESPECES = fields.Boolean(load_default=True)
     AFFICHAGE_RECHERCHE_AVANCEE = fields.Boolean(load_default=False)
     AFFICHAGE_GRAPH_ALTITUDES = fields.Boolean(load_default=True)
-    AFFICHAGE_GRAPH_PHENOLOGIE = fields.Boolean(load_default=True)
+    AFFICHAGE_GRAPH_PHENOLOGIE = fields.Boolean(load_default=False)
+    AFFICHAGE_GRAPH_PROVENANCE_DONNEE = fields.Boolean(load_default=False)
+    AFFICHAGE_GRAPH_AREA_GENERAL_PRESENTATION = fields.Boolean(load_default=False)
+    AFFICHAGE_GRAPH_AREA_OBS_ESPECES = fields.Boolean(load_default=False)
+    AFFICHAGE_GRAPH_AREA_PROVENANCE_DONNEE = fields.Boolean(load_default=False)
+    COLOR_STACKED_BAR_CHARTS = fields.List(
+        fields.String(), load_default=["#E1CE7A", "#FBFFB9", "#FDD692"]
+    )
 
     RANG_STAT = fields.List(
         fields.Dict,
@@ -195,6 +204,7 @@ class AtlasConfig(Schema):
     )
 
     AFFICHAGE_MAILLE = fields.Boolean(load_default=False)
+    TYPES_TERRITOIRE = fields.List(fields.String(), load_default=["COM"])
     ZOOM_LEVEL_POINT = fields.Integer(load_default=11)
     LIMIT_CLUSTER_POINT = fields.Integer(load_default=1000)
     NB_DAY_LAST_OBS = fields.String(load_default="7")
