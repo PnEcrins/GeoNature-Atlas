@@ -204,6 +204,11 @@ def index():
     else:
         lastDiscoveries = []
 
+    if current_app.config["MATOMO_URL"] != "":
+        matomo_script = current_app.config["MATOMO_SCRIPT"]
+    else:
+        matomo_script = ""
+
     connection.close()
     session.close()
 
@@ -213,6 +218,7 @@ def index():
         mostViewTaxon=mostViewTaxon,
         customStatMedias=customStatMedias,
         lastDiscoveries=lastDiscoveries,
+        matomo_script=matomo_script,
     )
 
 

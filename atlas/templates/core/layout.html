@@ -15,6 +15,19 @@
     {% endblock %}
     <link rel="stylesheet" href="{{ url_for('static', filename='custom/custom.css') }}"/>
     {% block metaTags %}{% endblock %}
+
+    {% if configuration.MATOMO_URL and configuration.MATOMO_SITE_ID is defined %}
+    {% set site_id = configuration.MATOMO_SITE_ID | int(default=-1) %}
+    {% set url_matomo = configuration.MATOMO_URL %}
+        <!-- Matomo -->
+        <script type="text/javascript">
+            var url_matomo = "{{ url_matomo }}";
+            var site_id = {{ site_id | int }};
+            {{ matomo_script | safe }}
+        </script>
+        <!-- End Matomo Code -->
+    {% endif %}
+
 </head>
 
 <body>

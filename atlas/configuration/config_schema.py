@@ -77,6 +77,21 @@ LANGUAGES = {
     },
 }
 
+# LATEST VERSION OF MATOMO
+MATOMO_SCRIPT_TO_INCLUDE = """
+  var _paq = _paq || [];
+  var _paq = window._paq = window._paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//url_matomo/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', site_id]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+"""
+
 
 class SecretSchemaConf(Schema):
     class Meta:
@@ -211,6 +226,9 @@ class AtlasConfig(Schema):
     # (no need to restart the atlas service when updating templates)
     # Defaults to False to have the best performance in production
     TEMPLATES_AUTO_RELOAD = fields.Boolean(load_default=False)
+    MATOMO_SCRIPT = fields.String(load_default=MATOMO_SCRIPT_TO_INCLUDE)
+    MATOMO_URL = fields.String(load_default="")
+    MATOMO_SITE_ID = fields.Integer(load_default=0)
 
     @validates_schema
     def validate_url_taxhub(self, data, **kwargs):

@@ -87,6 +87,11 @@ LANGUAGES = {
 # Code de suivi des statistiques Google Analytics (si AFFICHAGE_FOOTER = True)
 ID_GOOGLE_ANALYTICS = "UA-xxxxxxx-xx"
 
+# Suivi de statistiques avec MATOMO si MATOMO_URL != ""
+MATOMO_URL = "" # URL lié à votre MATOMO
+MATOMO_SITE_ID = 1 # id du site suivi qui correspond ici à celui du GeoNature Atlas (votre site doit être renseigné dans MATOMO)
+#### LIEN AIDE MATOMO : https://developer.matomo.org/guides/tracking-javascript-guide
+
 # Utiliser et afficher le glossaire (static/custom/glossaire.json.sample)
 GLOSSAIRE = False
 
