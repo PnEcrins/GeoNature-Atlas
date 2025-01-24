@@ -12,6 +12,6 @@ class LCommune(Base):
     __table_args__ = {"schema": "layers"}
 
     insee = Column(String(5), primary_key=True)
-    commune_maj = Column(String(50))
+    area_name = Column(String(50))
     commune_min = Column(String(50))
     the_geom = Column(Geometry)

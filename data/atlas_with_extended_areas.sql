@@ -9,13 +9,13 @@ CREATE MATERIALIZED VIEW atlas.vm_bib_areas_types AS
 SELECT t.id_type, t.type_code, t.type_name, t.type_desc
 FROM ref_geo.bib_areas_types t
 WHERE
-    type_code IN ('M10', 'COM', 'ZNIEFF1', 'ZNIEFF2');
+    type_code IN (SELECT * from string_to_table(:type_code, ','));
 
 CREATE INDEX ON atlas.vm_bib_areas_types(id_type);
 CREATE INDEX ON atlas.vm_bib_areas_types(type_code);
 CREATE INDEX ON atlas.vm_bib_areas_types(type_name);
 
--- Suppression si temporaire des communes la table existe
+-- Suppression si temporaire des areas la table existe
 DROP MATERIALIZED VIEW IF EXISTS atlas.vm_l_areas;
 
 
@@ -23,18 +23,20 @@ DROP MATERIALIZED VIEW IF EXISTS atlas.vm_l_areas;
 CREATE MATERIALIZED VIEW atlas.vm_l_areas AS
 SELECT
     a.id_area                                AS id_area
-  , a.area_code                              AS area_code
-  , a.area_name                              AS area_name
-  , a.id_type                                AS id_type
-  , st_transform(a.geom, 4326)               AS the_geom
-  , st_asgeojson(st_transform(a.geom, 4326)) AS area_geojson
+     , a.area_code                              AS area_code
+     , a.area_name                              AS area_name
+     , a.id_type                                AS id_type
+     , st_transform(a.geom, 4326)               AS the_geom
+     , st_asgeojson(st_transform(a.geom, 4326)) AS area_geojson
+     , a.description                            AS description
 FROM
     ref_geo.l_areas a
+        JOIN atlas.t_layer_territoire layer ON ST_INTERSECTS(layer.geom, a.geom_4326)
         JOIN atlas.vm_bib_areas_types t
              ON t.id_type = a.id_type
 WHERE
     enable = TRUE AND
-    type_code IN ('M10', 'COM', 'ZNIEFF1', 'ZNIEFF2')
+    type_code IN (SELECT * from string_to_table(:type_code, ','))
 WITH DATA;
 
 CREATE UNIQUE INDEX vm_l_areas_id_area_idx
