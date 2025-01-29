@@ -149,7 +149,7 @@ if ! database_exists $db_name
             ogr2ogr -f "PostgreSQL" \
             -t_srs EPSG:4326 \
             -lco GEOMETRY_NAME=the_geom \
-            -sql "SELECT $colonne_nom_commune AS commune_maj, $colonne_insee AS insee FROM $file_name" \
+            -sql "SELECT $colonne_nom_commune AS area_name, $colonne_insee AS insee FROM $file_name" \
             PG:"host=$db_host port=$db_port dbname=$db_name user=$owner_atlas password=$owner_atlas_pass schemas=atlas" \
             -nln l_communes $communes_shp 
 
@@ -256,7 +256,7 @@ if ! database_exists $db_name
             "4.atlas.vm_altitudes.sql"
             "5.atlas.vm_search_taxon.sql"
             "6.atlas.vm_mois.sql"
-            "7.atlas.vm_communes.sql"
+            "7.atlas.zoning.sql"
             "8.atlas.vm_medias.sql"
             "9.atlas.vm_cor_taxon_attribut.sql"
             "10.atlas.vm_taxons_plus_observes.sql"

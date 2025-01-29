@@ -16,6 +16,42 @@
                 <br><strong>{{ observers | length | pretty }}</strong>
                 <br>{{ _('observers')|lower if observers|length > 1 else _('observer')|lower }}
             </div>
+
+            <div class="col-sm center">
+                <i class="fa fa-project-diagram"></i>
+                <br><strong>{{ nb_organism }}</strong>
+                <br>{{ _('sources')|lower if nb_organism > 1 else _('source')|lower }}
+            </div>
+            <div class="col-sm center">
+                <i class="fa fa-search"></i>
+                <br><strong>{{ infosCommune.yearmin }}</strong>
+                <br>{{ _('first_observation')|lower }}
+            </div>
+            <div class="col-sm center">
+                <i class="fa fa-search"></i>
+                <br><strong>{{ infosCommune.yearmax}}</strong>
+                <br>{{ _('last_observation')|lower }}
+            </div>
+            <div class="col-sm center">
+                <img class="patrimonial_img" src="{{ url_for('static', filename=configuration.PATRIMONIALITE.config.taxon.patrimonial.icon) }}"/>
+                <br><strong>{{ taxonProPatri.nbTaxonPatri }}</strong>
+                <br>{{ _('protected_species')|lower }}
+            </div>
+            {% if configuration.DISPLAY_PATRIMONIALITE %}
+            <div class="col-sm center">
+                <i class="fa fa-paw"></i>
+                <br><strong>{{ taxonProPatri.nbTaxonPro }}</strong>
+                <br>{{ _('patrimonial_species')|lower }}
+            </div>
+            {% endif %}
+
+            {% if infosCommune.id_parent %}
+                <div class="col-sm center">
+                    <i class="fa fa-city"></i>
+                    <br>{{ infosCommune.parent_type_name }}
+                    <br><strong><a href="/zone/{{ infosCommune.id_parent }}">{{ infosCommune.parent_name }}</a></strong>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

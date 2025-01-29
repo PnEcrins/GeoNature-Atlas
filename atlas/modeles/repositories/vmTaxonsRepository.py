@@ -7,7 +7,7 @@ from atlas.modeles import utils
 
 
 # With distinct the result in a array not an object, 0: lb_nom, 1: nom_vern
-def getTaxonsCommunes(connection, insee):
+def getTaxonsZones(connection, id_zone):
     sql = """
         SELECT DISTINCT
             o.cd_ref, max(date_part('year'::text, o.dateobs)) as last_obs,
@@ -16,16 +16,17 @@ def getTaxonsCommunes(connection, insee):
             m.url, m.chemin, m.id_media
         FROM atlas.vm_observations o
         JOIN atlas.vm_taxons t ON t.cd_ref=o.cd_ref
+        JOIN atlas.zoning zone ON st_intersects(o.the_geom_point, zone.the_geom_4326)
         LEFT JOIN atlas.vm_medias m ON m.cd_ref=o.cd_ref AND m.id_type={}
-        WHERE o.insee = :thisInsee
+        WHERE zone.id_zone = :thisIdZone
         GROUP BY o.cd_ref, t.nom_vern, t.nom_complet_html, t.group2_inpn,
             t.patrimonial, t.protection_stricte, m.url, m.chemin, m.id_media
         ORDER BY nb_obs DESC
     """.format(
         current_app.config["ATTR_MAIN_PHOTO"]
     )
-    req = connection.execute(text(sql), thisInsee=insee)
-    taxonCommunesList = list()
+    req = connection.execute(text(sql), thisIdZone=id_zone)
+    taxonZonesList = list()
     nbObsTotal = 0
     for r in req:
         temp = {
@@ -40,9 +41,9 @@ def getTaxonsCommunes(connection, insee):
             "path": utils.findPath(r),
             "id_media": r.id_media,
         }
-        taxonCommunesList.append(temp)
+        taxonZonesList.append(temp)
         nbObsTotal = nbObsTotal + r.nb_obs
-    return {"taxons": taxonCommunesList, "nbObsTotal": nbObsTotal}
+    return {"taxons": taxonZonesList, "nbObsTotal": nbObsTotal}
 
 
 def getTaxonsChildsList(connection, cd_ref):

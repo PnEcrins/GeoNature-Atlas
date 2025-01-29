@@ -88,3 +88,16 @@ def getTaxonRepartitionOrganism(connection, id_organism):
         temp = {"group2_inpn": r.group2_inpn, "nb_obs_group": int(r.nb_obs_group)}
         ListGroup.append(temp)
     return ListGroup
+
+
+def get_nb_organism_on_zone(connection, id_zone):
+    sql = """SELECT DISTINCT COUNT(cto.nom_organism) AS nb_organism
+FROM atlas.vm_observations o
+JOIN atlas.vm_cor_taxon_organism cto ON cto.cd_ref = o.cd_ref
+WHERE o.id_zone = :id_zone
+    """
+    res = connection.execute(text(sql), id_zone=id_zone)
+    result = dict()
+    for r in res:
+        result = r.nb_organism
+    return result

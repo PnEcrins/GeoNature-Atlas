@@ -95,7 +95,7 @@ def lastObservationsMailles(connection, mylimit, idPhoto):
     return obsList
 
 
-def lastObservationsCommuneMaille(connection, obs_limit, insee_code):
+def lastObservationsZoneMaille(connection, obs_limit, id_zone):
     sql = """
     WITH last_obs AS (
         SELECT
@@ -103,11 +103,11 @@ def lastObservationsCommuneMaille(connection, obs_limit, insee_code):
             COALESCE(t.nom_vern || ' | ', '') || t.lb_nom  AS display_name,
             obs.the_geom_point AS l_geom
         FROM atlas.vm_observations AS obs
-            JOIN atlas.vm_communes AS c
-                ON ST_Intersects(obs.the_geom_point, c.the_geom)
+            JOIN atlas.zoning AS zone
+                ON ST_Intersects(obs.the_geom_point, zone.the_geom_4326)
             JOIN atlas.vm_taxons AS t
                 ON obs.cd_ref = t.cd_ref
-        WHERE c.insee = :inseeCode
+        WHERE zone.id_zone = :idZoneCode
         ORDER BY obs.dateobs DESC
         LIMIT :obsLimit
     )
@@ -119,7 +119,7 @@ def lastObservationsCommuneMaille(connection, obs_limit, insee_code):
     GROUP BY l.id_observation, l.cd_ref, l.display_name, m.id_maille, m.geojson_maille
     ORDER BY l.display_name
     """
-    results = connection.execute(text(sql), inseeCode=insee_code, obsLimit=obs_limit)
+    results = connection.execute(text(sql), idZoneCode=id_zone, obsLimit=obs_limit)
     observations = list()
     for r in results:
         # taxon = (r.nom_vern + " | " + r.lb_nom) if r.nom_vern else r.lb_nom
@@ -135,7 +135,7 @@ def lastObservationsCommuneMaille(connection, obs_limit, insee_code):
 
 
 # Use for API
-def getObservationsTaxonCommuneMaille(connection, insee, cd_ref):
+def getObservationsTaxonZoneMaille(connection, id_zone, cd_ref):
     sql = """
         SELECT
             o.cd_ref,
@@ -143,15 +143,15 @@ def getObservationsTaxonCommuneMaille(connection, insee, cd_ref):
             t.geojson_maille,
             extract(YEAR FROM o.dateobs)::INT AS annee
         FROM atlas.vm_observations AS o
-            JOIN atlas.vm_communes AS c
-                ON ST_INTERSECTS(o.the_geom_point, c.the_geom)
+            JOIN atlas.zoning AS c
+                ON ST_INTERSECTS(o.the_geom_point, c.the_geom_4326)
             JOIN atlas.t_mailles_territoire AS t
                 ON ST_INTERSECTS(t.the_geom, o.the_geom_point)
         WHERE o.cd_ref = :thiscdref
-            AND c.insee = :thisInsee
+            AND c.id_zone = :thisIdZone
         ORDER BY id_maille
     """
-    observations = connection.execute(text(sql), thisInsee=insee, thiscdref=cd_ref)
+    observations = connection.execute(text(sql), thisIdZone=id_zone, thiscdref=cd_ref)
     tabObs = list()
     for o in observations:
         temp = {

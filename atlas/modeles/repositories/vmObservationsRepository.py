@@ -102,7 +102,7 @@ def lastObservations(connection, mylimit, idPhoto):
     return obsList
 
 
-def lastObservationsCommune(connection, mylimit, insee):
+def lastObservationsZone(connection, mylimit, id_code):
     sql = """SELECT o.*,
             CONCAT(
                 split_part(tax.nom_vern, ',', 1) || ' | ',
@@ -111,12 +111,12 @@ def lastObservationsCommune(connection, mylimit, insee):
                 '</i>'
             ) AS taxon
     FROM atlas.vm_observations o
-    JOIN atlas.vm_communes c ON ST_Intersects(o.the_geom_point, c.the_geom)
+    JOIN atlas.zoning c ON ST_Intersects(o.the_geom_point, c.the_geom_4326)
     JOIN atlas.vm_taxons tax ON  o.cd_ref = tax.cd_ref
-    WHERE c.insee = :thisInsee
+    WHERE c.id_code = :thisIdZone
     ORDER BY o.dateobs DESC
     LIMIT 100"""
-    observations = connection.execute(text(sql), thisInsee=insee)
+    observations = connection.execute(text(sql), thisIdZone=id_code)
     obsList = list()
     for o in observations:
         temp = dict(o)
@@ -127,7 +127,7 @@ def lastObservationsCommune(connection, mylimit, insee):
     return obsList
 
 
-def getObservationTaxonCommune(connection, insee, cd_ref):
+def getObservationTaxonZone(connection, id_zone, cd_ref):
     sql = """
         SELECT o.*,
             COALESCE(split_part(tax.nom_vern, ',', 1) || ' | ', '')
@@ -135,7 +135,7 @@ def getObservationTaxonCommune(connection, insee, cd_ref):
         o.observateurs
         FROM (
             SELECT * FROM atlas.vm_observations o
-            WHERE o.insee = :thisInsee AND o.cd_ref = :thiscdref
+            WHERE o.id_zone = :thisIdZone AND o.cd_ref = :thiscdref
         )  o
         JOIN (
             SELECT nom_vern, lb_nom, cd_ref
@@ -144,7 +144,7 @@ def getObservationTaxonCommune(connection, insee, cd_ref):
         ) tax ON tax.cd_ref = tax.cd_ref
     """
 
-    observations = connection.execute(text(sql), thiscdref=cd_ref, thisInsee=insee)
+    observations = connection.execute(text(sql), thiscdref=cd_ref, thisIdZone=id_zone)
     obsList = list()
     for o in observations:
         temp = dict(o)
@@ -207,13 +207,15 @@ def getGroupeObservers(connection, groupe):
     return observersParser(req)
 
 
-def getObserversCommunes(connection, insee):
+def getObserversZone(connection, id_zone):
     sql = """
         SELECT DISTINCT observateurs
-        FROM atlas.vm_observations
-        WHERE insee = :thisInsee
+        FROM atlas.vm_observations AS obs
+        JOIN atlas.zoning AS zone
+                ON ST_Intersects(obs.the_geom_point, zone.the_geom_4326)
+        WHERE zone.id_zone = :thisIdZone
     """
-    req = connection.execute(text(sql), thisInsee=insee)
+    req = connection.execute(text(sql), thisIdZone=id_zone)
     return observersParser(req)
 
 
@@ -229,7 +231,7 @@ def statIndex(connection):
 
     sql = """
         SELECT COUNT(*) AS count
-        FROM atlas.vm_communes
+        FROM atlas.zoning
     """
     req = connection.execute(text(sql))
     for r in req:

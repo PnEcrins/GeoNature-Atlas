@@ -142,7 +142,7 @@ NB_DAY_LAST_OBS = '7'
 # Texte à afficher pour décrire la cartographie des 'dernières observations'
 TEXT_LAST_OBS = 'Les observations des agents ces 7 derniers jours |'
 
-# Carte de la fiche commune : nombre des 'x' dernières observations affichées
+# Carte de la fiche "zone" : nombre des 'x' dernières observations affichées
 NB_LAST_OBS=100
 
 ###########################
@@ -237,7 +237,7 @@ ATTR_VIMEO = 9
 SPLIT_NOM_VERN = True
 
 ############################################
-#### FICHE COMMUNE ET RANG TAXONOMIQUE #####
+#### FICHE "ZONE" ET RANG TAXONOMIQUE  #####
 ############################################
 
 # Permet d'afficher ou non les colonnes Protection et/ou Patrimonialité/Enjeux dans les listes de taxons

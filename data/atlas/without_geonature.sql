@@ -3,7 +3,7 @@ CREATE TABLE synthese.syntheseff(
     id_organism integer DEFAULT 2, 
     id_dataset integer,
     cd_nom integer,
-    insee character(5),
+    id_zone integer,
     dateobs date NOT NULL DEFAULT now(),
     observateurs character varying(255),
     altitude_retenue integer,
@@ -14,11 +14,11 @@ CREATE TABLE synthese.syntheseff(
 );
 
 INSERT INTO synthese.syntheseff
-(cd_nom, insee, observateurs, altitude_retenue, the_geom_point, effectif_total, diffusion_level)
-VALUES (67111, 05122, 'Mon observateur', 1254, ST_SetSRID( ST_Point( 6, 42.315), 4326), 3, 5);
+(cd_nom, id_zone, observateurs, altitude_retenue, the_geom_point, effectif_total, diffusion_level)
+VALUES (67111, 1, 'Mon observateur', 1254, ST_SetSRID( ST_Point( 6, 42.315), 4326), 3, 5);
 INSERT INTO synthese.syntheseff
-(cd_nom, insee, observateurs, altitude_retenue, the_geom_point, effectif_total, diffusion_level)
-VALUES (67111, 05122, 'Mon observateur 3', 940, ST_SetSRID( ST_Point( 6.1, 42.315), 4326), 2, 5);
+(cd_nom, id_zone, observateurs, altitude_retenue, the_geom_point, effectif_total, diffusion_level)
+VALUES (67111, 2, 'Mon observateur 3', 940, ST_SetSRID( ST_Point( 6.1, 42.315), 4326), 2, 5);
 
 
 CREATE TABLE gn_meta.cor_dataset_actor (

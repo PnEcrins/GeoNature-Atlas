@@ -12,12 +12,12 @@ END$$;
 
 -- création de la vm l_communes à partir des communes du ref_geo
 CREATE MATERIALIZED VIEW atlas.l_communes AS
- SELECT c.area_code as insee,
-    c.area_name as commune_maj,
-    st_transform(c.geom, 4326) as the_geom,
-    st_asgeojson(st_transform(c.geom, 4326)) AS commune_geojson
+ SELECT c.id_area as id_zone,
+    c.area_name,
+    st_transform(c.geom, 4326) as the_geom
    FROM ref_geo.l_areas c
    JOIN ref_geo.li_municipalities m ON c.id_area = m.id_area
+   JOIN atlas.t_layer_territoire t ON ST_INTERSECTS(t.geom, c.geom_4326)
    WHERE enable=true
 WITH DATA;
 
@@ -27,10 +27,10 @@ CREATE INDEX index_gist_l_communes_the_geom
   (the_geom);
 
 
-CREATE UNIQUE INDEX l_communes_insee_idx
+CREATE UNIQUE INDEX l_communes_id_zone_idx
   ON atlas.l_communes
   USING btree
-  (insee COLLATE pg_catalog."default");
+  (id_zone COLLATE pg_catalog."default");
 
 
 --################################

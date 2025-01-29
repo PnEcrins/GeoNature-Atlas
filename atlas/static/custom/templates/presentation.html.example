@@ -146,9 +146,9 @@
                 </div><!-- /.col-lg-4 -->
                 <div class="col-lg-4">
                   <img class="img-circle" src="{{url_for('static', filename='custom/images/04-loupe.jpg') }}" alt="Generic placeholder image" width="140" height="140">
-                  <h2>Fiches communes</h2>
-                  <p>Découvrez les espèces observées sur chaque commune du parc national et affichez leurs observations sur la carte de la commune.</p>
-                  <p><a class="btn btn-default" href="url_for('main.ficheCommune', insee=05090)" role="button">Exemple &raquo;</a></p>
+                  <h2>Fiches zones</h2>
+                  <p>Découvrez les espèces observées sur chaque zone du parc national et affichez leurs observations sur la carte de la zone.</p>
+                  <p><a class="btn btn-default" href="url_for('main.ficheZone', insee=05090)" role="button">Exemple &raquo;</a></p>
                 </div><!-- /.col-lg-4 -->
                 <div class="col-lg-4">
                   <img class="img-circle" src="{{url_for('static', filename='custom/images/06-photographe.jpg') }}" alt="Generic placeholder image" width="140" height="140">
@@ -241,8 +241,8 @@
                     Bref, un savoir dynamique à consulter sans modération !
                   </p>
                   <p class="lead">
-                    <b>Fiches par commune</b><br/>
-                    Pour chacune des 53 communes de l'aire d'adhésion du Parc national, découvrez les espèces observées et affichez leurs localisations, leurs statuts et toutes les informations contenues dans les fiches espèces.
+                    <b>Fiches par zone</b><br/>
+                    Pour chacune des 53 zones de l'aire d'adhésion du Parc national, découvrez les espèces observées et affichez leurs localisations, leurs statuts et toutes les informations contenues dans les fiches espèces.
                   </p>
                   <p class="lead">
                     <b>Et aussi</b><br/>
@@ -381,7 +381,7 @@
                   </p>
                   <p class="lead">
                     Silene, plate-forme SINP (Système d'information sur la nature et les paysages), est le portail de données de la région Provence-Alpes-Côte d'Azur. <br/>
-                    Sur ce site qui permet de saisir et de consulter une masse de données très importante, des synthèses des patrimoines flore et faune de la région par commune et par maille sont disponibles.
+                    Sur ce site qui permet de saisir et de consulter une masse de données très importante, des synthèses des patrimoines flore et faune de la région par zone et par maille sont disponibles.
                   </p>
                   <p class="lead">
                     Voir aussi l'homologue pour la région Rhône-Alpes: <a href="http://www.pifh.fr/" target="_blank">Le pôle d'information flore et habitats (PIFH)</a>.

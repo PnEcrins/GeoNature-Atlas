@@ -32,7 +32,7 @@ function generateObservationPopup(feature, linkSpecies = false) {
   /*
     Génération popup des observations
     linkSpecies :  indique s'il faut ou non rajouter un lien vers la fiche espèce
-      (cas des fiches communes ; home page)
+      (cas des fiches zoning ; home page)
   */
   date = new Date(feature.properties.dateobs);
   popupContent = `
@@ -443,7 +443,7 @@ function displayMarkerLayerFicheEspece(
   }
 }
 
-// ***************Fonction lastObservations: mapHome et mapCommune*****************
+// ***************Fonction lastObservations: mapHome et mapZone*****************
 
 /* *** Point ****/
 
@@ -452,7 +452,7 @@ function onEachFeaturePointLastObs(feature, layer) {
   layer.bindPopup(popupContent);
 }
 
-function onEachFeaturePointCommune(feature, layer) {
+function onEachFeaturePointZone(feature, layer) {
   popupContent = generateObservationPopup(feature, true);
   layer.bindPopup(popupContent);
 }
@@ -476,8 +476,8 @@ function generateGeojsonPointLastObs(observationsPoint) {
 
 function displayMarkerLayerPointLastObs(observationsPoint) {
   myGeoJson = generateGeojsonPointLastObs(observationsPoint);
-  if (typeof pointDisplayOptionsFicheCommuneHome == "undefined") {
-    pointDisplayOptionsFicheCommuneHome = function (feature) {
+  if (typeof pointDisplayOptionsFicheZoneHome == "undefined") {
+    pointDisplayOptionsFicheZoneHome = function (feature) {
       return {};
     };
   }
@@ -487,45 +487,45 @@ function displayMarkerLayerPointLastObs(observationsPoint) {
     pointToLayer: function (feature, latlng) {
       return L.circleMarker(
         latlng,
-        pointDisplayOptionsFicheCommuneHome(feature)
+        pointDisplayOptionsFicheZoneHome(feature)
       );
     },
   });
 
   map.addLayer(currentLayer);
-  if (typeof divLegendeFicheCommuneHome !== "undefined") {
+  if (typeof divLegendeFicheZoneHome !== "undefined") {
     legend.onAdd = function (map) {
       var div = L.DomUtil.create("div", "info legend");
-      div.innerHTML = divLegendeFicheCommuneHome;
+      div.innerHTML = divLegendeFicheZoneHome;
       return div;
     };
     legend.addTo(map);
   }
 }
 
-function displayMarkerLayerPointCommune(observationsPoint) {
+function displayMarkerLayerPointZone(observationsPoint) {
   myGeoJson = generateGeojsonPointLastObs(observationsPoint);
-  if (typeof pointDisplayOptionsFicheCommuneHome == "undefined") {
-    pointDisplayOptionsFicheCommuneHome = function (feature) {
+  if (typeof pointDisplayOptionsFicheZoneHome == "undefined") {
+    pointDisplayOptionsFicheZoneHome = function (feature) {
       return {};
     };
   }
 
   currentLayer = L.geoJson(myGeoJson, {
-    onEachFeature: onEachFeaturePointCommune,
+    onEachFeature: onEachFeaturePointZone,
     pointToLayer: function (feature, latlng) {
       return L.circleMarker(
         latlng,
-        pointDisplayOptionsFicheCommuneHome(feature)
+        pointDisplayOptionsFicheZoneHome(feature)
       );
     },
   });
 
   map.addLayer(currentLayer);
-  if (typeof divLegendeFicheCommuneHome !== "undefined") {
+  if (typeof divLegendeFicheZoneHome !== "undefined") {
     legend.onAdd = function (map) {
       var div = L.DomUtil.create("div", "info legend");
-      div.innerHTML = divLegendeFicheCommuneHome;
+      div.innerHTML = divLegendeFicheZoneHome;
       return div;
     };
     legend.addTo(map);
