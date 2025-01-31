@@ -7,6 +7,11 @@ if (configuration.MAP.ENABLE_SLIDER) {
 }
 var legend = L.control({position: "bottomright"});
 
+// Gestionnaire de couches SIG additionnelles
+if (couchesSigInfo !== undefined) {
+  addLayerControlToMap(map);
+}
+
 // Layer display on window ready
 
 /*GLOBAL VARIABLE*/

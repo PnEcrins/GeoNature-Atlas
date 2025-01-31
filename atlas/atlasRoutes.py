@@ -158,6 +158,15 @@ def indexMedias(image):
     )
 
 
+def _get_couches_sig_info(page_name):
+    """Returns the subset of couches SIG which should be displayed on the given page."""
+    couches_sig_info = []
+    for couche_sig_info in current_app.config["COUCHES_SIG"]:
+        if "pages" not in couche_sig_info or page_name in couche_sig_info.get("pages", []):
+            couches_sig_info.append(couche_sig_info)
+    return couches_sig_info
+
+
 @main.route("/", methods=["GET", "POST"])
 def index():
     session = db.session
@@ -180,8 +189,10 @@ def index():
                 current_app.config["ATTR_MAIN_PHOTO"],
             )
             current_app.logger.debug("end AFFICHAGE_PRECIS")
+        couches_sig_info = _get_couches_sig_info("home")
     else:
         observations = []
+        couches_sig_info = []
 
     if current_app.config["AFFICHAGE_EN_CE_MOMENT"]:
         current_app.logger.debug("start mostViewTaxon")
@@ -213,6 +224,7 @@ def index():
         mostViewTaxon=mostViewTaxon,
         customStatMedias=customStatMedias,
         lastDiscoveries=lastDiscoveries,
+        couchesSigInfo=couches_sig_info,
     )
 
 
@@ -263,6 +275,15 @@ def ficheEspece(cd_nom):
 
     organisms = vmOrganismsRepository.getListOrganism(connection, cd_ref)
 
+    couches_sig_info_for_page = _get_couches_sig_info("species")
+    this_taxon_group2 = taxon["taxonSearch"]["group2_inpn"]
+    couches_sig_info = []
+    for couche_sig_info in couches_sig_info_for_page:
+        all_groups = "groups2_inpn" not in couche_sig_info
+        has_this_taxon_group = this_taxon_group2 in couche_sig_info.get("groups2_inpn", [])
+        if all_groups or has_this_taxon_group:
+            couches_sig_info.append(couche_sig_info)
+
     connection.close()
     db_session.close()
 
@@ -284,6 +305,7 @@ def ficheEspece(cd_nom):
         taxonDescription=taxonDescription,
         observers=observers,
         organisms=organisms,
+        couchesSigInfo=couches_sig_info,
     )
 
 
@@ -307,6 +329,8 @@ def ficheCommune(insee):
 
     observers = vmObservationsRepository.getObserversCommunes(connection, insee)
 
+    couches_sig_info = _get_couches_sig_info("commune")
+
     session.close()
     connection.close()
 
@@ -320,6 +344,7 @@ def ficheCommune(insee):
         observers=observers,
         DISPLAY_EYE_ON_LIST=True,
         insee=insee,
+        couchesSigInfo=couches_sig_info,
     )
 
 

@@ -18,6 +18,11 @@ htmlLegend =
   configuration.STRUCTURE;
 generateLegende(htmlLegend);
 
+// Gestionnaire de couches SIG additionnelles
+if (couchesSigInfo !== undefined) {
+  addLayerControlToMap(map);
+}
+
 // Current observation Layer: leaflet layer type
 var currentLayer;
 

@@ -1,0 +1,54 @@
+/* classes for collapse/expand mechanism */
+/* (adapted from Leaflet's L.control.layers) */
+
+.layer-tree-control {
+  border: unset;
+  min-width: unset;
+  padding: unset;
+}
+
+.layer-tree-control-expanded {
+  min-width: 250px;
+  padding: 8px;
+}
+
+.layer-tree-control {
+  /*box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);*/
+  background: #fff;
+  border-radius: 5px;
+}
+
+.layer-tree-control-toggle {
+  background-image: url(../images/layers.png);
+  width: 36px;
+  height: 36px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  display: block;
+}
+
+.leaflet-retina .layer-tree-control-toggle {
+    background-image: url(../images/layers-2x.png);
+    background-size: 26px 26px;
+}
+
+.leaflet-touch .layer-tree-control-toggle {
+  width: 44px;
+  height: 44px;
+}
+
+.layer-tree-control .layer-tree-control-list,
+.layer-tree-control-expanded .layer-tree-control-toggle {
+  display: none;
+}
+
+.layer-tree-control-expanded .layer-tree-control-list {
+  display: block;
+  position: relative;
+}
+
+.layer-tree-control-list {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}

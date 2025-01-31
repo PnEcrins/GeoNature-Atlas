@@ -96,6 +96,57 @@ MAP = {
     'ENABLE_SLIDER': True
 }
 
+COUCHES_SIG = [
+    {
+        'name': 'Zonage pluvial',
+        'type': 'wms',
+        'url': 'https://cartographie.nantesmetropole.fr/arcgis/services/PLUm/plum_annexes/MapServer/WMSServer?',
+        'options': {
+            'layers': 'Zonage_pluvial_(I19-03)54824',
+            'transparent': True,
+            'format': 'image/png'
+        },
+        'pages': [
+            'home'
+        ]
+    },
+    {
+        'name': 'Zonage eaux usées',
+        'type': 'wms',
+        'url': 'https://cartographie.nantesmetropole.fr/arcgis/services/PLUm/plum_annexes/MapServer/WMSServer?',
+        'options': {
+            'layers': 'Zonage_eaux_usées_(I19-01)7873',
+            'transparent': True,
+            'format': 'image/png'
+        },
+        'pages': [
+            'species'
+        ],
+        'groups2_inpn': [
+            'Amphibiens',
+            'Oiseaux',
+        ]
+    },
+    {
+        'name': 'Réseau de chaleur',
+        'type': 'wms',
+        'url': 'https://cartographie.nantesmetropole.fr/arcgis/services/PLUm/plum_annexes/MapServer/WMSServer?',
+        'options': {
+            'layers': 'Réseau_de_chaleur_(I_07-00)28291',
+            'transparent': True,
+            'format': 'image/png'
+        },
+        'pages': [
+            'species'
+        ]
+    },
+    {
+        'name': 'PLUM annexes',
+        'type': 'arcgisMapService',
+        'url': "https://cartographie.nantesmetropole.fr/arcgis/rest/services/PLUm/plum_annexes/MapServer"
+    }
+]
+
 ###########################
 ###########################
 #### Security  Config #####

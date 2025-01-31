@@ -5,6 +5,12 @@ var map = generateMap(zoomHomeButton);
 var legend = L.control({position: 'bottomright'});
 
 map.scrollWheelZoom.disable();
+
+// Gestionnaire de couches SIG additionnelles
+if (couchesSigInfo !== undefined) {
+  addLayerControlToMap(map);
+}
+
 $('#map').click(function(){
   map.scrollWheelZoom.enable();
 })

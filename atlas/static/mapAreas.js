@@ -64,6 +64,11 @@ htmlLegend = configuration.AFFICHAGE_MAILLE
 
 generateLegende(htmlLegend);
 
+// Gestionnaire de couches SIG additionnelles
+if (couchesSigInfo !== undefined) {
+  addLayerControlToMap(map);
+}
+
 function displayObsPreciseBaseUrl() {
     if (sheetType === 'commune') {
         return configuration.URL_APPLICATION + "/api/observations/" + areaInfos.areaCode

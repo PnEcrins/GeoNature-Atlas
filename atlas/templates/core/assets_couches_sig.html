@@ -1,0 +1,18 @@
+{% if couchesSigInfo %}
+    <script type="text/javascript">
+      var couchesSigInfo = {{ couchesSigInfo|tojson }};
+    </script>
+    {% if 'arcgisMapService' in couchesSigInfo|map(attribute='type') %}
+    <script src="{{ url_for('static', filename='node_modules/esri-leaflet/dist/esri-leaflet.js') }}"></script>
+    {% endif %}
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='node_modules/leaflet-layer-tree/src/L.LayerTreeControl.css') }}"/>
+    <script src="{{ url_for('static', filename='node_modules/leaflet-layer-tree/src/L.LayerTreeControl.js') }}"></script>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/couchesSig.css') }}"/>
+    <script src="{{ url_for('static', filename='couchesSig.js') }}"></script>
+{% else %}
+    <script type="text/javascript">
+      var couchesSigInfo = undefined;
+    </script>
+{% endif %}

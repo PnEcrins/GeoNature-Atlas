@@ -51,7 +51,7 @@
     var cd_ref = {{ taxon.taxonSearch.cd_ref }};
     var nb_obs = {{ taxon.taxonSearch.nb_obs }};
 </script>
-
+{% include 'templates/core/assets_couches_sig.html' %}
 <script src="{{ url_for('static', filename='custom/maps-custom.js') }}"></script>
 <script src="{{ url_for('static', filename='ficheEspece.js') }}"></script>
 <script src="{{ url_for('static', filename='chart.js') }}"></script>
