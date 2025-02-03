@@ -251,6 +251,18 @@ def ficheEspece(cd_nom):
     articles = vmMedias.getLinks_and_articles(
         connection, cd_ref, current_app.config["ATTR_LIEN"], current_app.config["ATTR_PDF"]
     )
+
+    liens_importants = []
+    if current_app.config.get("TYPES_MEDIAS_LIENS_IMPORTANTS"):
+        liens_config = current_app.config["TYPES_MEDIAS_LIENS_IMPORTANTS"]
+        media_type_ids = list({t["type_media_id"] for t in liens_config})
+        liens_importants = vmMedias.get_liens_importants(connection, cd_ref, media_type_ids)
+        icones_by_media_type = {
+            i["type_media_id"]: i["icon"] for i in liens_config if i.get("icon")
+        }
+        for lien in liens_importants:
+            lien["icon"] = icones_by_media_type.get(lien["id_type"], "")
+
     taxonDescription = vmCorTaxonAttribut.getAttributesTaxon(
         connection,
         cd_ref,
@@ -281,6 +293,7 @@ def ficheEspece(cd_nom):
         photoCarousel=photoCarousel,
         videoAudio=videoAudio,
         articles=articles,
+        liensImportants=liens_importants,
         taxonDescription=taxonDescription,
         observers=observers,
         organisms=organisms,

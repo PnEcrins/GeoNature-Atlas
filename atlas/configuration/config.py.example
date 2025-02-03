@@ -236,6 +236,26 @@ ATTR_VIMEO = 9
 # Coupe le nom_vernaculaire à la 1ere virgule sur les fiches espèces
 SPLIT_NOM_VERN = True
 
+# Permet de définir des types de médias TaxHub comme « Liens importants » de la fiche taxon.
+# Les liens importants sont mis en avant dans l'affichage de la fiche.
+# - `type_media_id` : l'ID d'un type de média définit dans l'instance TaxHub.
+# - `icon` (optionnel) : l'URL d'une image à ajouter sur le bouton du lien.
+#
+# Exemple de configuration :
+# (les types médias et les icones sont des exemples et n'existent pas de base
+# sur une instance Atlas/TaxHub)
+TYPES_MEDIAS_LIENS_IMPORTANTS = [
+  {
+    'type_media_id': 10,  # Lien participation campagne d'observation
+    'icon': '/static/custom/images/jumelles.svg'
+  },
+  {
+    'type_media_id': 11,  # Lien vers fiche focus territoire
+    'icon': '/static/custom/images/logo_fiche_focus.png'
+  }
+]
+
+
 ############################################
 #### FICHE COMMUNE ET RANG TAXONOMIQUE #####
 ############################################
