@@ -716,3 +716,10 @@ footer {
 .spinner-border {
   animation-duration: 3s;
 }
+
+/* Position de la bannière de cookies */
+
+#orejime{
+  position: relative; 
+  z-index: 1999;
+}
