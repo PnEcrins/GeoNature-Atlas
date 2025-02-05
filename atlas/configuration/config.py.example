@@ -241,6 +241,9 @@ SPLIT_NOM_VERN = True
 # - `type_media_id` : l'ID d'un type de média définit dans l'instance TaxHub.
 # - `icon` (optionnel) : l'URL d'une image à ajouter sur le bouton du lien.
 #
+# Une classe CSS `lien-important-type-XX` est ajoutée sur l'élément HTML du lien avec XX l'ID du type
+# de média. Cela permet de personnaliser l'apparence des liens, par type, dans `custom.css`.
+#
 # Exemple de configuration :
 # (les types médias et les icones sont des exemples et n'existent pas de base
 # sur une instance Atlas/TaxHub)
