@@ -69,17 +69,17 @@
     <div class="container-fluid">
         <div class="row">
             <!--Left row-->
-            <div class="col-lg-7 col-md-8 col-sm-12 col-xs-12">
-                {% include 'templates/speciesSheet/identityCard.html' %}
-                {% include 'templates/speciesSheet/map.html' %}
-                {% include 'templates/speciesSheet/otherInformations.html' %}
-            </div>
+            <div class="col-md-7 col-xs-12">
+              {% include 'templates/speciesSheet/identityCard.html' %}
+              {% include 'templates/speciesSheet/map.html' %}
+              {% include 'templates/speciesSheet/otherInformations.html' %}
+          </div>
 
-            <!--Right row-->
-            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                {% if photoCarousel | length >= 1 %}
-                    {% include 'templates/speciesSheet/photoCarousel.html' %}
-                {% endif %}
+          <!--Right row-->
+          <div class="col-md-5 col-xs-12">
+              {% if photoCarousel | length >= 1 %}
+                  {% include 'templates/speciesSheet/photoCarousel.html' %}
+              {% endif %}
 
 
                 {% include 'templates/speciesSheet/blocInfos.html' %}
