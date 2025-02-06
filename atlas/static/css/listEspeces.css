@@ -13,8 +13,9 @@ footer {
 }
 
 #taxonList {
-    flex: 1 1 0;
-    overflow-y: auto;
+  flex: 1 1 0;
+  overflow-y: auto;
+  min-height: 10rem;
 }
 
 

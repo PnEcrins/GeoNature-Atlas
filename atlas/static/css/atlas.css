@@ -727,5 +727,5 @@ footer {
 /* Vignettes du bloc "Nouvelles espèces observées" à la même hauteur */
 
 #newSpecies .card { 
-  height: 100% 
+  height: 100%; 
 }
