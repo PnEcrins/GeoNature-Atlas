@@ -52,24 +52,17 @@ main {
 
 /* TITLE WITH border bar */
 
-.title-bar::before {
-  display: inline-block;
-  content: "";
-  border-top: 1px solid rgba(2, 2, 2, 0.158);
-  width: 3rem;
-  margin: 0 1rem;
-  -webkit-transform: translateY(-8px);
-  transform: translateY(-8px);
+.title-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
-
+.title-bar::before,
 .title-bar::after {
-  display: inline-block;
   content: "";
   border-top: 1px solid rgba(2, 2, 2, 0.158);
-  width: 3rem;
-  margin: 0 1rem;
-  -webkit-transform: translateY(-8px);
-  transform: translateY(-8px);
+  transform: translateY(1px);
+  flex-grow: 1;
 }
 
 .border {
@@ -109,6 +102,12 @@ main {
 #searchTaxons .form-control,
 #searchCommunes .form-control {
   width: 100%;
+}
+
+@media(min-width: 768px) {
+  #navbarSupportedContent {
+      position: static;
+  }
 }
 
 /* carto */
