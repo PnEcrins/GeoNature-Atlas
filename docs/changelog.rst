@@ -9,6 +9,7 @@ CHANGELOG
 
 - Ajout du lien "Données personelles" dans le pied de page (#527 @juggler31)
 - Suppression du support des installations sans TaxHub
+- Ajout d'un graphique de provenance des données (#538)
 
 🐛 **Corrections**
 

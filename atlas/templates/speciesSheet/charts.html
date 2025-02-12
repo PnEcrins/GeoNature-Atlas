@@ -1,16 +1,26 @@
 {% block charts %}
-    <div class="card mt-4" id="graphBloc">
-        {% if configuration.AFFICHAGE_GRAPH_ALTITUDES %}
+    {% if configuration.AFFICHAGE_GRAPH_ALTITUDES %}
+        <div class="card mt-4" id="graphBloc">
             <h4 class="title-bar title-spaced center strong">{{ _('alt.classes.obs') }}</h4>
             <div class="chart-container" style="position: relative; height:200px; width:100%">
                 <canvas id="altiChart"></canvas>
-        {% endif %}
+            </div>
         </div>
-        {% if configuration.AFFICHAGE_GRAPH_PHENOLOGIE %}
+    {% endif %}
+    {% if configuration.AFFICHAGE_GRAPH_PHENOLOGIE %}
+        <div class="card mt-4" id="graphBloc">
             <h4 class="title-bar title-spaced center strong">{{ _('monthly.obs') }}</h4>
             <div class="chart-container" style="position: relative; height:200px; width:100%">
                 <canvas id="monthChart"></canvas>
             </div>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
+    {% if configuration.AFFICHAGE_GRAPH_PROVENANCE_DONNEE %}
+        <div class="card mt-4" id="graphBloc">
+            <h4 class="title-bar title-spaced center strong">{{ _('data.source') }}</h4>
+            <div class="chart-container" style="position: relative; height:400px; width:100%">
+                <canvas id="organismChart" style="padding: 0.5rem;"></canvas>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

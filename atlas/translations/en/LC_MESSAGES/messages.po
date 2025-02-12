@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-27 10:32+0200\n"
+"POT-Creation-Date: 2024-12-02 12:01+0100\n"
 "PO-Revision-Date: 2021-07-12 12:12+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -435,6 +435,10 @@ msgstr "Observations by altitude class"
 #: templates/speciesSheet/charts.html:10
 msgid "monthly.obs"
 msgstr "Monthly observations"
+
+#: atlas/templates/speciesSheet/charts.html:16
+msgid "data.source"
+msgstr "Data provenance"
 
 #: templates/speciesSheet/descriptionMedia.html:12
 #: templates/speciesSheet/otherInformations.html:42
