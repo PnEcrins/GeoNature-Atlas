@@ -34,10 +34,9 @@ CREATE UNIQUE INDEX l_communes_insee_idx
 
 
 --################################
---################################
 --###Mailles
 --################################
---################################
+
 
 DO $$
 BEGIN
@@ -47,10 +46,9 @@ EXCEPTION WHEN others THEN
 END$$;
 
 --################################
---################################
 --###Territoires
 --################################
---################################
+
 
 DO $$
 BEGIN
@@ -81,11 +79,40 @@ CREATE INDEX index_gist_t_layer_territoire_the_geom
   ON atlas.t_layer_territoire
   USING gist
   (the_geom);
-  
+
 CREATE UNIQUE INDEX t_layer_territoire_gid_idx
   ON atlas.t_layer_territoire
   USING btree (gid);
 
+--################################
+--### Subdivision de zones
+--################################
+
+DROP MATERIALIZED VIEW IF EXISTS atlas.vm_subdivided_area ;
+
+CREATE MATERIALIZED VIEW atlas.vm_subdivided_area AS
+	SELECT
+		random() AS gid,
+		'territory' AS code,
+		st_subdivide(t.the_geom, 255) AS geom
+	FROM atlas.t_layer_territoire AS t
+
+  UNION
+
+  SELECT
+		random() AS gid,
+		'territory_buffer-200' AS code,
+		st_subdivide(st_buffer(t.the_geom::geography, -200)::geometry, 255) AS geom
+	FROM atlas.t_layer_territoire AS t
+WITH DATA;
+
+CREATE UNIQUE INDEX ON atlas.vm_subdivided_area USING btree (gid);
+CREATE INDEX ON atlas.vm_subdivided_area USING btree (code);
+CREATE INDEX ON atlas.vm_subdivided_area USING gist (geom);
+
+--################################
+--### Fonctions
+--################################
 
 -- Rafraichissement des vues contenant les données de l'atlas
 CREATE OR REPLACE FUNCTION atlas.refresh_materialized_view_ref_geo()
@@ -93,7 +120,7 @@ RETURNS VOID AS $$
 BEGIN
 
   REFRESH MATERIALIZED VIEW atlas.t_layer_territoire;
-  REFRESH MATERIALIZED VIEW atlas.t_mailles_territoire;
+  REFRESH MATERIALIZED VIEW atlas.vm_subdivided_area;
   REFRESH MATERIALIZED VIEW atlas.l_communes;
   REFRESH MATERIALIZED VIEW atlas.vm_communes;
 
