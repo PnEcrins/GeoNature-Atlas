@@ -108,6 +108,16 @@ metropole=true
 # Choisissez alors la taille de vos mailles à utiliser (en km) / Valeurs possibles 1, 5 ou 10
 taillemaille=5
 
+# Choisissez alors la taille de vos mailles à utiliser
+# Valeurs possibles M1, M5, COM, 10, COM, DEP ou REG
+
+sensibility0="M1" # sensibilité de niveau 0
+sensibility1="M1" # sensibilité de niveau 1
+sensibility2="COM" # sensibilité de niveau 2
+sensibility3="M10" # sensibilité de niveau 3
+
+# A noter que la sensibilité de niveau 4 sera ignoré afin de ne pas afficher les observations correspondant a ces espèces.
+
 # Si 'metropole=false', rajoutez dans le dossier /data/ref un SHP des mailles de votre territoire et renseignez son chemin
 chemin_custom_maille=/home/`whoami`/atlas/data/ref/custom_maille.shp
 

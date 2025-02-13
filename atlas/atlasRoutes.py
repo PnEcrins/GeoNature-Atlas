@@ -158,6 +158,13 @@ def indexMedias(image):
     )
 
 
+def get_territory_mailles_obs(connection):
+    current_app.logger.debug("start AFFICHAGE_TERRITORY")
+    observations = vmObservationsMaillesRepository.territoryObservationsMailles(connection)
+    current_app.logger.debug("end AFFICHAGE_TERRITORY")
+    return observations
+
+
 @main.route("/", methods=["GET", "POST"])
 def index():
     session = db.session
@@ -180,6 +187,8 @@ def index():
                 current_app.config["ATTR_MAIN_PHOTO"],
             )
             current_app.logger.debug("end AFFICHAGE_PRECIS")
+    elif current_app.config["AFFICHAGE_TERRITOIRE_OBS"]:
+        observations = get_territory_mailles_obs(connection)
     else:
         observations = []
 
@@ -204,6 +213,7 @@ def index():
     else:
         lastDiscoveries = []
 
+    listTaxons = vmTaxonsRepository.getTaxonsTerritory(connection)
     connection.close()
     session.close()
 
@@ -214,6 +224,7 @@ def index():
 
     return render_template(
         "templates/home/_main.html",
+        listTaxons=listTaxons,
         observations=observations,
         mostViewTaxon=mostViewTaxon,
         customStatMedias=customStatMedias,
@@ -239,7 +250,10 @@ def ficheEspece(cd_nom):
     altitudes = vmAltitudesRepository.getAltitudesChilds(connection, cd_ref)
     months = vmMoisRepository.getMonthlyObservationsChilds(connection, cd_ref)
     synonyme = vmTaxrefRepository.getSynonymy(connection, cd_ref)
-    communes = vmCommunesRepository.getCommunesObservationsChilds(connection, cd_ref)
+    if current_app.config["AFFICHAGE_MAILLE"]:
+        communes = vmCommunesRepository.getCommunesObservationsChildsMailles(connection, cd_ref)
+    else:
+        communes = vmCommunesRepository.getCommunesObservationsChilds(connection, cd_ref)
     taxonomyHierarchy = vmTaxrefRepository.getAllTaxonomy(db_session, cd_ref)
     firstPhoto = vmMedias.getFirstPhoto(connection, cd_ref, current_app.config["ATTR_MAIN_PHOTO"])
     photoCarousel = vmMedias.getPhotoCarousel(
@@ -298,7 +312,6 @@ def ficheCommune(insee):
     session = db.session
     connection = db.engine.connect()
 
-    listTaxons = vmTaxonsRepository.getTaxonsCommunes(connection, insee)
     commune = vmCommunesRepository.getCommuneFromInsee(connection, insee)
     if current_app.config["AFFICHAGE_MAILLE"]:
         observations = vmObservationsMaillesRepository.lastObservationsCommuneMaille(
@@ -310,7 +323,7 @@ def ficheCommune(insee):
         )
 
     surroundingAreas = []
-
+    listTaxons = vmTaxonsRepository.getTaxonsCommunes(connection, insee)
     observers = vmObservationsRepository.getObserversCommunes(connection, insee)
 
     session.close()

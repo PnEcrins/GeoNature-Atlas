@@ -251,6 +251,7 @@ if ! database_exists $db_name
         # EN: Run sql scripts : build atlas vm
         scripts_sql=( 
             "1.atlas.vm_taxref.sql"
+            "11.vm_cor_area_synthese.sql"
             "2.atlas.vm_observations.sql"
             "3.atlas.vm_taxons.sql"
             "4.atlas.vm_altitudes.sql"
@@ -267,7 +268,12 @@ if ! database_exists $db_name
         do 
             echo "[$(date +'%H:%M:%S')] Creating ${script}..."
             time_temp=$SECONDS
-            export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port -f /tmp/atlas/${script}  &>> log/install_db.log
+            export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port \
+             -v sensibility0=$sensibility0 \
+             -v sensibility1=$sensibility1 \
+             -v sensibility2=$sensibility2 \
+             -v sensibility3=$sensibility3  \
+             -f /tmp/atlas/${script}  &>> log/install_db.log
             echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
         done
   

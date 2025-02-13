@@ -17,7 +17,8 @@ var areaLayer = L.geoJson(areaInfos.areaGeoJson, {
             weight: 2,
             color: areaBorderColor,
             // dashArray: "3",
-            fillOpacity: 0.3
+            fillOpacity: 0.3,
+            invert: true
         };
     }
 }).addTo(map);
@@ -93,6 +94,7 @@ function displayObsPreciseBaseUrl(areaCode, cd_ref) {
         $("#loaderSpinner").hide();
         // $("#loadingGif").hide();
         map.removeLayer(currentLayer);
+        clearOverlays()
         if (configuration.AFFICHAGE_MAILLE) {
             displayMailleLayerLastObs(observations);
         } else {
@@ -111,30 +113,31 @@ function displayObsGridBaseUrl() {
 
 // display observation on click
 function displayObsTaxon(insee, cd_ref) {
-  $.ajax({
-    url:
-      configuration.URL_APPLICATION +
-      "/api/observations/" +
-      insee +
-      "/" +
-      cd_ref,
-    dataType: "json",
-    beforeSend: function() {
-      $("#loadingGif").show();
-      $("#loadingGif").attr(
-        "src",
-        configuration.URL_APPLICATION + "/static/images/loading.svg"
-      );
-    }
-  }).done(function(observations) {
-    $("#loadingGif").hide();
-    map.removeLayer(currentLayer);
-    if (configuration.AFFICHAGE_MAILLE) {
-      displayMailleLayerLastObs(observations);
-    } else {
-      displayMarkerLayerPointCommune(observations);
-    }
-  });
+    $.ajax({
+        url:
+            configuration.URL_APPLICATION +
+            "/api/observations/" +
+            insee +
+            "/" +
+            cd_ref,
+        dataType: "json",
+        beforeSend: function() {
+            $("#loadingGif").show();
+            $("#loadingGif").attr(
+                "src",
+                configuration.URL_APPLICATION + "/static/images/loading.svg"
+            );
+        }
+    }).done(function(observations) {
+        $("#loadingGif").hide();
+        map.removeLayer(currentLayer);
+        clearOverlays()
+        if (configuration.AFFICHAGE_MAILLE) {
+            displayMailleLayerLastObs(observations);
+        } else {
+            displayMarkerLayerPointCommune(observations);
+        }
+    });
 }
 
 
@@ -153,35 +156,35 @@ function displayObsTaxonMaille(areaCode, cd_ref) {
         $("#loaderSpinner").hide();
         // $("#loadingGif").hide();
         map.removeLayer(currentLayer);
-        displayGridLayerArea(observations);
+        clearOverlays()
+        const geojsonMaille = generateGeoJsonMailleLastObs(observations);
+        displayMailleLayerFicheEspece(geojsonMaille);
     });
 }
 
-function refreshObsArea() {
-    $("#taxonList ul").on("click", "#taxonListItem", function () {
+function refreshObsArea(elem) {
+    $(this)
+        .siblings()
+        .removeClass("current");
+    $(this).addClass("current");
+    if (configuration.AFFICHAGE_MAILLE) {
+        displayObsTaxonMaille(elem.currentTarget.getAttribute("area-code"), elem.currentTarget.getAttribute("cdref"));
+    } else {
+        displayObsTaxon(elem.currentTarget.getAttribute("area-code"), elem.currentTarget.getAttribute("cdref"));
+    }
+    const name = elem.currentTarget.querySelector("#name").innerHTML;
+    $("#titleMap").fadeOut(500, function () {
         $(this)
-            .siblings()
-            .removeClass("current");
-        $(this).addClass("current");
-        if (configuration.AFFICHAGE_MAILLE) {
-            displayObsTaxonMaille($(this).attr("area-code"), $(this).attr("cdRef"));
-        } else {
-            displayObsTaxon($(this).attr("area-code"), $(this).attr("cdRef"));
-        }
-        var name = $(this)
-            .find("#name")
-            .html();
-        $("#titleMap").fadeOut(500, function () {
-            $(this)
-                .html("Observations du taxon&nbsp;:&nbsp;" + name)
-                .fadeIn(500);
-        });
+            .html("Observations du taxon&nbsp;:&nbsp;" + name)
+            .fadeIn(500);
     });
 }
 
 $(document).ready(function () {
     $("#loaderSpinner").hide();
     if (configuration.INTERACTIVE_MAP_LIST) {
-        refreshObsArea();
+        $("#taxonList ul").on("click", "#taxonListItem", elem => {
+            refreshObsArea(elem);
+        });
     }
 });

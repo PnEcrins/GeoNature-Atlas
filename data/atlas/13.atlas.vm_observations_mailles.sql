@@ -2,14 +2,14 @@
         SELECT
             o.cd_ref,
             date_part('year', o.dateobs) AS annee,
-            m.id_maille,
+            cor.id_area as id_maille,
             COUNT(o.id_observation) AS nbr,
-            ARRAY_AGG(o.id_observation) AS id_observations
+            ARRAY_AGG(o.id_observation) AS id_observations,
+			cor.type_code
         FROM atlas.vm_observations AS o
-            JOIN atlas.t_mailles_territoire AS m
-                ON (o.the_geom_point && m.the_geom)
-        GROUP BY o.cd_ref, date_part('year', o.dateobs), m.id_maille
-        ORDER BY o.cd_ref, annee
+			JOIN atlas.vm_cor_area_synthese cor ON cor.id_synthese = o.id_observation AND cor.is_blurred_geom IS TRUE
+        GROUP BY o.cd_ref, cor.id_area, cor.type_code, annee
+        ORDER BY o.cd_ref
     WITH DATA;
 
     CREATE UNIQUE INDEX ON atlas.vm_observations_mailles

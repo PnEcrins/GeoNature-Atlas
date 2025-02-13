@@ -94,7 +94,12 @@ def getObservationsGenericApi(cd_ref: int):
         [type]: [description]
     """
     session = db.session
-    if current_app.config["AFFICHAGE_MAILLE"]:
+    if current_app.config["AFFICHAGE_TERRITOIRE_OBS"]:
+        observations = vmObservationsMaillesRepository.getObservationsMaillesTerritorySpecies(
+            session,
+            cd_ref,
+        )
+    elif current_app.config["AFFICHAGE_MAILLE"]:
         observations = vmObservationsMaillesRepository.getObservationsMaillesChilds(
             session,
             cd_ref,
