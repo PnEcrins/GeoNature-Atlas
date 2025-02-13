@@ -1,6 +1,6 @@
 CREATE TABLE synthese.syntheseff(
     id_synthese serial PRIMARY KEY,
-    id_organism integer DEFAULT 2, 
+    id_organism integer DEFAULT 2,
     id_dataset integer,
     cd_nom integer,
     insee character(5),
@@ -10,15 +10,16 @@ CREATE TABLE synthese.syntheseff(
     supprime boolean DEFAULT false,
     the_geom_point geometry('POINT',4326),
     effectif_total integer,
-    diffusion_level integer
+    diffusion_level integer,
+    sensitivity integer
 );
 
 INSERT INTO synthese.syntheseff
-(cd_nom, insee, observateurs, altitude_retenue, the_geom_point, effectif_total, diffusion_level)
-VALUES (67111, 05122, 'Mon observateur', 1254, ST_SetSRID( ST_Point( 6, 42.315), 4326), 3, 5);
+(cd_nom, insee, observateurs, altitude_retenue, the_geom_point, effectif_total, diffusion_level, sensitivity)
+VALUES (67111, 05122, 'Mon observateur', 1254, ST_SetSRID( ST_Point( 6, 42.315), 4326), 3, 5, 0);
 INSERT INTO synthese.syntheseff
-(cd_nom, insee, observateurs, altitude_retenue, the_geom_point, effectif_total, diffusion_level)
-VALUES (67111, 05122, 'Mon observateur 3', 940, ST_SetSRID( ST_Point( 6.1, 42.315), 4326), 2, 5);
+(cd_nom, insee, observateurs, altitude_retenue, the_geom_point, effectif_total, diffusion_level, sensitivity)
+VALUES (67111, 05122, 'Mon observateur 3', 940, ST_SetSRID( ST_Point( 6.1, 42.315), 4326), 2, 5, 0);
 
 
 CREATE TABLE gn_meta.cor_dataset_actor (

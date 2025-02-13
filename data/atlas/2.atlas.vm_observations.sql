@@ -10,7 +10,8 @@ CREATE MATERIALIZED VIEW atlas.vm_observations AS
         s.the_geom_point,
         s.effectif_total,
         tx.cd_ref,
-        st_asgeojson(st_transform(s.the_geom_point, 4326)) as geojson_point,
+        st_asgeojson(s.the_geom_point) as geojson_point,
+        s.sensitivity,
         s.diffusion_level,
         s.id_dataset
     FROM synthese.syntheseff s

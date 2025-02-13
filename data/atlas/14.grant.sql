@@ -20,6 +20,7 @@ GRANT ALL ON TABLE spatial_ref_sys TO my_reader_user;*/
 
 GRANT USAGE ON SCHEMA atlas TO my_reader_user;
 
+GRANT SELECT ON TABLE synthese.vm_cor_synthese_area TO my_reader_user
 GRANT SELECT ON TABLE atlas.vm_altitudes TO my_reader_user;
 GRANT SELECT ON TABLE atlas.vm_communes TO my_reader_user;
 GRANT SELECT ON TABLE atlas.vm_observations TO my_reader_user;

@@ -23,6 +23,8 @@ CREATE OR REPLACE FUNCTION atlas.refresh_materialized_view_data()
 RETURNS VOID AS $$
 BEGIN
 
+  REFRESH MATERIALIZED VIEW CONCURRENTLY synthese.vm_cor_synthese_area;
+
   REFRESH MATERIALIZED VIEW CONCURRENTLY atlas.vm_observations;
   REFRESH MATERIALIZED VIEW CONCURRENTLY atlas.vm_observations_mailles;
   REFRESH MATERIALIZED VIEW CONCURRENTLY atlas.vm_cor_taxon_organism;
