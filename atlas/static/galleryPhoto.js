@@ -67,8 +67,7 @@ function generateHtmlPhoto(photos, redimentionnement, taxhub_url) {
               </div>
             </a>
           </div>
-				</div>
-			</div>`;
+				</div>`;
 
       htmlPhoto += onePhoto;
     });

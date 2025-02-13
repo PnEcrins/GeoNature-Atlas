@@ -573,6 +573,8 @@ footer {
 #insertPhotos {
   /*margin-bottom: 20px;*/
   padding: 0px;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 #filtresPhotos {
