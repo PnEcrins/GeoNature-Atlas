@@ -170,6 +170,13 @@ a {
   padding-right: 20px;
 }
 
+#searchTaxons,
+#searchCommunes {
+  min-width: 175px;
+  width: 20vw;
+  max-width: 400px;
+}
+
 @media (max-width: 760px) {
   .navbar-collapse {
     background-color: #333;

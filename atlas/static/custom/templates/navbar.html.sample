@@ -1,10 +1,10 @@
 {% block navbar %}
 {% if configuration.MULTILINGUAL %}
-<script type="text/javascript"> 
-    var language = '{{ '/' + g.lang_code }}'; 
+<script type="text/javascript">
+    var language = '{{ '/' + g.lang_code }}';
 </script>
 {% else %}
-<script type="text/javascript"> 
+<script type="text/javascript">
     var language = '' ;
 </script>
 {% endif %}
@@ -31,7 +31,7 @@
                 <form method="POST" action="" id='searchFormTaxons' role="search">
                     <div class="form-group has-feedback">
                         <input id="searchTaxons" type="text" class="form-control mr-sm-2 ajax-search small-placeholder"
-                               placeholder="{{ _('search.species') }}&nbsp;&nbsp;&nbsp;" loading="false" style="width: 175px;"  />
+                               placeholder="{{ _('search.species') }}&nbsp;&nbsp;&nbsp;" loading="false"  />
 
                     </div>
                     <input id="hiddenInputTaxons" type="hidden"name="cd_ref"/>
@@ -42,7 +42,7 @@
                       action=""
                       role="search">
                     <div class="form-group has-feedback">
-                        <input id="searchCommunes" type="text" style="width: 175px;"
+                        <input id="searchCommunes" type="text"
                                class="form-control mr-sm-2 ajax-search small-placeholder"
                                placeholder="{{ _('search.city') }}&nbsp;&nbsp;&nbsp;">
                     </div>
@@ -54,7 +54,7 @@
                     <a class="nav-link dropdown-toggle" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <!-- Display languages flags and name, en flag is flag-icon flag-icon-gb-->
                         <container style="display: inline-flex;">
-                            <span class="{{ 'flag-icon ' + configuration.AVAILABLE_LANGUAGES[g.lang_code]['flag_icon']}}" class="align-middle"></span> 
+                            <span class="{{ 'flag-icon ' + configuration.AVAILABLE_LANGUAGES[g.lang_code]['flag_icon']}}" class="align-middle"></span>
                             <div class="d-lg-block d-sm-none">&nbsp;&nbsp;{{ configuration.AVAILABLE_LANGUAGES[g.lang_code]['name'] }}</div>
                         </container>
                     </a>
@@ -62,7 +62,7 @@
                     {% for language in configuration.AVAILABLE_LANGUAGES %}
                         <a  class="dropdown-item" href="{{url_for(request.endpoint, lang_code=language, **request.view_args)}}">
                             <container style="display: inline-flex;">
-                                <span class="{{ 'flag-icon ' + configuration.AVAILABLE_LANGUAGES[language]['flag_icon']}}"> </span> 
+                                <span class="{{ 'flag-icon ' + configuration.AVAILABLE_LANGUAGES[language]['flag_icon']}}"> </span>
                                 <div class="d-lg-block d-sm-none">&nbsp;&nbsp;{{ configuration.AVAILABLE_LANGUAGES[language]['name'] }}</div>
                             </container>
                         </a>
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 {% endif %}
-                
+
                 {% if configuration.EXTENDED_AREAS %}
                     {% include 'templates/core/extended_areas_search.html' %}
                 {% endif %}

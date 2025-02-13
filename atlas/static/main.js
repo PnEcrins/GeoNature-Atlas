@@ -57,8 +57,11 @@ autocompleteSearch = function(inputID, urlDestination, nbProposal) {
     focus: function(event, ui) {
       return false;
     },
-    select: function(event, ui) {
-      $(inputID).val(ui.item.label);
+    select: function (event, ui) {
+      let splited_label = ui.item.label.split(' = ');
+      let label_for_input = splited_label[0] != '' ? splited_label[0] : splited_label[1];
+      $(inputID).val(label_for_input.replace(/<[^>]*>?/gm, ''));
+
       var url = ui.item.value;
       if (urlDestination == "espece") {
         location.href = configuration.URL_APPLICATION + language  + "/espece/" + url;
