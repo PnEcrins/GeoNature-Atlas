@@ -138,6 +138,32 @@ p.imgDescription.main {
   padding: 0px;
 }
 
+/* Liens importants */
+
+.liens-importants-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem 0;
+}
+
+.lien-important {
+  display: flex;
+  background-color: var(--main-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.lien-important:hover {
+  background-color: var(--second-color);
+  color: white;
+  text-decoration: none;
+}
+
 /*Medias*/
 
 i.btn-more {
