@@ -1,3 +1,12 @@
+{% block additionalHeaderAssets %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+
+{% endblock %}
+
 {% block otherInformations %}
     <div class="card mt-4" id="otherInformationsPanel">
         <div class="row" id="otherInformations">
@@ -9,6 +18,68 @@
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#communes">
                         <b>{{ communes|length }}</b> {{ _('municipalities')|lower if communes|length > 1 else _('municipality')|lower }}</a>
                     </li>
+                {% else %}
+                    <li class="nav-item"><a data-toggle="tab" class="nav-link active" href="#communes">
+                        <b>{{ communes|length }}</b> {{ _('municipalities')|lower if communes|length > 1 else _('municipality')|lower }}</a>
+                    </li>
+                {% endif %}
+
+                {% if configuration.ORGANISM_MODULE %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#organisms">
+                            <b>{{ organisms|length }} </b> {{ _('organisms')|lower if organisms|length > 1 else _('organism')|lower }}
+                        </a>
+                </li>
+                {% endif %}
+
+                {% if configuration.DISPLAY_OBSERVERS %}
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#observateurs">
+                        <b>{{ observers|length }} </b> {{ _('observers')|lower if observers|length > 1 else _('observer')|lower }}
+                    </a></li>
+                {% endif %}
+            </ul>
+
+
+            <div class="tab-content" style="width:100%;">
+                 <!-- municipality tab-->
+                {% if articles | length != 0 %}
+                    <div id="articles" class="tab-pane fade show active">    
+                        <table id="table_articles" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>{{ _('title') }}</th>
+                                    <th>{{ _('author') }}</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for article in articles %}
+                                {% set data = article %}
+                                <tr class="main-row accordion-toggle">
+                                    <td>
+                                        {% if article.id_type == 3 %}
+                                        <span class="fas fa-link"></span>
+                                        {% else %}
+                                        <span class="fas fa-paperclip"></span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ article.path }}" target="_blank">{{ article.title | safe }}</a>
+                                    </td>
+                                    <td>{{ article.author }}</td>
+                                    <td>
+                                        <i class="btn-more fas fa-chevron-right"></i>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                {% endif %}
+                {% if articles | length != 0 %}
+                    <div id="communes" class="tab-pane fade">
                 {% else %}
                     <li class="nav-item"><a data-toggle="tab" class="nav-link active" href="#communes">
                         <b>{{ communes|length }}</b> {{ _('municipalities')|lower if communes|length > 1 else _('municipality')|lower }}</a>
@@ -160,4 +231,11 @@
 
             </div>
         </div>
+    </div>
+{% endblock %}
+{% block additionalFooterAssets %}
+<script>
+    var articles = {{ articles|tojson|safe }};
+</script>
+<script src="{{ url_for('static', filename='otherInformations.js') }}"></script>
 {% endblock %}
