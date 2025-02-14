@@ -4,7 +4,7 @@ from geojson import Feature, FeatureCollection
 from sqlalchemy.sql import text, func, any_
 
 from atlas.modeles.entities.vmObservations import VmObservationsMailles
-from atlas.modeles.entities.tMaillesTerritoire import TMaillesTerritoire
+from atlas.modeles.entities.vmAreas import VmAreas
 from atlas.modeles.utils import deleteAccent, findPath
 
 
@@ -29,19 +29,19 @@ def getObservationsMaillesChilds(session, cd_ref, year_min=None, year_max=None):
     query = (
         session.query(
             VmObservationsMailles.id_maille,
-            TMaillesTerritoire.geojson_maille,
+            VmAreas.area_geojson,
             func.max(VmObservationsMailles.annee).label("last_obs_year"),
             func.sum(VmObservationsMailles.nbr).label("obs_nbr"),
             VmObservationsMailles.type_code,
         )
         .join(
-            TMaillesTerritoire,
-            TMaillesTerritoire.id_maille == VmObservationsMailles.id_maille,
+            VmAreas,
+            VmAreas.id_area == VmObservationsMailles.id_maille,
         )
         .filter(VmObservationsMailles.cd_ref == any_(taxons_ids))
         .group_by(
             VmObservationsMailles.id_maille,
-            TMaillesTerritoire.geojson_maille,
+            VmAreas.area_geojson,
             VmObservationsMailles.type_code,
         )
     )
@@ -52,7 +52,7 @@ def getObservationsMaillesChilds(session, cd_ref, year_min=None, year_max=None):
         [
             Feature(
                 id=o.id_maille,
-                geometry=json.loads(o.geojson_maille),
+                geometry=json.loads(o.area_geojson),
                 properties={
                     "id_maille": o.id_maille,
                     "type_code": o.type_code,
@@ -72,15 +72,17 @@ def lastObservationsMailles(connection, mylimit, idPhoto):
         tax.lb_nom, tax.nom_vern, tax.group2_inpn,
         o.dateobs, o.altitude_retenue, o.id_observation,
         medias.url, medias.chemin, medias.id_media,
-        m.geojson_4326 AS geom
+        vla.area_geojson
         FROM atlas.vm_observations_mailles obs
         JOIN atlas.vm_taxons tax ON tax.cd_ref = obs.cd_ref
         JOIN atlas.vm_observations o ON o.id_observation=ANY(obs.id_observations)
-        JOIN atlas.vm_cor_area_synthese m ON m.id_synthese=o.id_observation AND m.is_blurred_geom IS TRUE
+        JOIN atlas.vm_cor_area_synthese m ON m.id_synthese=o.id_observation
+        JOIN atlas.vm_l_areas vla ON vla.id_area=m.id_area
         LEFT JOIN atlas.vm_medias medias
             ON medias.cd_ref = obs.cd_ref AND medias.id_type = 1
-        WHERE  o.dateobs >= (CURRENT_TIMESTAMP - INTERVAL :thislimit)
+        WHERE  o.dateobs >= (CURRENT_TIMESTAMP - INTERVAL :thislimit) AND vla.id_type = 34
         ORDER BY o.dateobs DESC
+        LIMIT 1000
     """
 
     observations = connection.execute(text(sql), thislimit=mylimit, thisID=idPhoto)
@@ -99,12 +101,13 @@ def lastObservationsMailles(connection, mylimit, idPhoto):
             "dateobs": o.dateobs,
             "altitude_retenue": o.altitude_retenue,
             "taxon": taxon,
-            "geojson_maille": json.loads(o.geom),
+            "geojson_maille": json.loads(o.area_geojson),
             "group2_inpn": deleteAccent(o.group2_inpn),
             "pathImg": findPath(o),
             "id_media": o.id_media,
         }
         obsList.append(temp)
+
     return obsList
 
 
@@ -113,13 +116,13 @@ def lastObservationsCommuneMaille(connection, obs_limit, insee_code):
         SELECT
             obs.id_observations, obs.cd_ref, obs.type_code, obs.nbr, c.insee,
             COALESCE(t.nom_vern || ' | ', '') || t.lb_nom  AS display_name,
-            m.the_geom AS l_geom,
-            t.nom_vern, m.the_geom as l_geom,
-            m.geojson_maille, obs.id_maille
+            vla.the_geom AS l_geom,
+            t.nom_vern,
+            vla.area_geojson, obs.id_maille
         FROM atlas.vm_observations_mailles obs
-            JOIN atlas.t_mailles_territoire m ON m.id_maille = obs.id_maille
+            JOIN atlas.vm_l_areas AS vla ON vla.id_area = obs.id_maille
             JOIN atlas.vm_communes AS c
-                  ON ST_Intersects(m.the_geom, c.the_geom) AND NOT ST_Touches(m.the_geom, c.the_geom)
+                  ON ST_Intersects(vla.the_geom, c.the_geom) AND NOT ST_Touches(vla.the_geom, c.the_geom)
             JOIN atlas.vm_taxons AS t
                 ON obs.cd_ref = t.cd_ref
         WHERE c.insee = :inseeCode
@@ -132,7 +135,7 @@ def lastObservationsCommuneMaille(connection, obs_limit, insee_code):
             "cd_ref": r.cd_ref,
             "insee": r.insee,
             "taxon": r.display_name,
-            "geojson_maille": json.loads(r.geojson_maille),
+            "geojson_maille": json.loads(r.area_geojson),
             "id_maille": r.id_maille,
             "id_observation": r.id_observations,
             "nb_observations": r.nbr,
@@ -150,15 +153,15 @@ def getObservationsTaxonCommuneMaille(connection, insee, cd_ref):
             o.id_maille,
             o.type_code,
             o.annee,
-            m.geojson_maille,
-            m.the_geom,
+            vla.area_geojson,
+            vla.the_geom,
             t.cd_ref,
             t.nom_vern,
             t.lb_nom
         FROM atlas.vm_observations_mailles AS o
             JOIN atlas.vm_taxons AS t ON t.cd_ref = o.cd_ref
-		        JOIN atlas.t_mailles_territoire m ON m.id_maille = o.id_maille
-            JOIN atlas.vm_communes AS c ON c.insee = :thisInsee AND st_intersects(c.the_geom, m.the_geom) AND NOT st_touches(c.the_geom, m.the_geom)
+            JOIN atlas.vm_l_areas AS vla ON vla.id_area = o.id_maille
+            JOIN atlas.vm_communes AS c ON c.insee = :thisInsee AND st_intersects(c.the_geom, vla.the_geom) AND NOT st_touches(c.the_geom, vla.the_geom)
         WHERE o.cd_ref = :thiscdref
         ORDER BY id_maille
     """
@@ -172,7 +175,7 @@ def getObservationsTaxonCommuneMaille(connection, insee, cd_ref):
             "type_code": o.type_code,
             "nb_observations": 1,
             "annee": o.annee,
-            "geojson_maille": json.loads(o.geojson_maille),
+            "geojson_maille": json.loads(o.area_geojson),
         }
         tabObs.append(temp)
 

@@ -19,64 +19,85 @@ const areaBorderColor = String(
     )
 );
 
+let overlays = {}
+const current_type_code = []
+
 function clearOverlays(){
     // remove all Layer from leaflet overlays (featureGroup)
-    // TODO: Rendre les overlays dynamiques.
-    m1FeatureGroup.eachLayer(
-        function(l){
-            m1FeatureGroup.removeLayer(l);
-        });
-    m5FeatureGroup.eachLayer(
-        function(l){
-            m5FeatureGroup.removeLayer(l);
-        });
-    COMFeatureGroup.eachLayer(
-        function(l){
-            COMFeatureGroup.removeLayer(l);
-        });
-    m10FeatureGroup.eachLayer(
-        function(l){
-            m10FeatureGroup.removeLayer(l);
-        });
+
+    Object.values(overlays).forEach(elem => {
+        elem.eachLayer(
+            function(l){
+                elem.removeLayer(l);
+            });
+    });
+    Object.entries(overlays).forEach((e, key) => {
+        map.addLayer(e[1])
+    });
 }
 
 function formatDate(date) {
-  const date_options = {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-  };
-  return date.toLocaleDateString(undefined, date_options);
+    const date_options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+    };
+    return date.toLocaleDateString(undefined, date_options);
 }
 
 function generateObservationPopup(feature, linkSpecies = false) {
-  /*
-    Génération popup des observations
-    linkSpecies :  indique s'il faut ou non rajouter un lien vers la fiche espèce
-      (cas des fiches communes ; home page)
-  */
-  date = new Date(feature.properties.dateobs);
-  popupContent = `
+    /*
+      Génération popup des observations
+      linkSpecies :  indique s'il faut ou non rajouter un lien vers la fiche espèce
+        (cas des fiches communes ; home page)
+    */
+    date = new Date(feature.properties.dateobs);
+    popupContent = `
     <b>Date: </b> ${formatDate(date)}
     </br><b>Altitude: </b> ${feature.properties.altitude_retenue}
     ${observersTxt(feature)}`
 
-  // verifie si le champs effectif est rempli
-  if (feature.properties.effectif_total != undefined) {
-    popupContent = `${popupContent} </br><b>Effectif: </b>${feature.properties.effectif_total}`
-  }
+    // verifie si le champs effectif est rempli
+    if (feature.properties.effectif_total != undefined) {
+        popupContent = `${popupContent} </br><b>Effectif: </b>${feature.properties.effectif_total}`
+    }
 
-  // S'il faut lier à une fiche espèce
-  if (linkSpecies == true) {
-    popupContent = `<b>Espèce: </b> ${feature.properties.taxon} </br>
+    // S'il faut lier à une fiche espèce
+    if (linkSpecies == true) {
+        popupContent = `<b>Espèce: </b> ${feature.properties.taxon} </br>
       ${popupContent}
       </br>
       <a href='${configuration.URL_APPLICATION}${language}/espece/${feature.properties.cd_ref}'> Fiche espèce </a>
       `
-  }
-  return popupContent
+    }
+    return popupContent
 }
 
+function createMailleSelector(selectedAllLayer = false) {
+    const defaultActiveLayer = []
+
+    current_type_code.forEach(elem => {
+        if (configuration.AFFICHAGE_COUCHES_MAP[elem]) {
+            if (configuration.AFFICHAGE_COUCHES_MAP[elem].selected || selectedAllLayer) {
+                defaultActiveLayer.push(configuration.AFFICHAGE_COUCHES_MAP[elem].label)
+            }
+            overlays[configuration.AFFICHAGE_COUCHES_MAP[elem].label] = L.featureGroup()
+        } else {
+            defaultActiveLayer.push(elem)
+            overlays[elem] = L.featureGroup()
+        }
+    });
+
+    // Add layers
+    control = L.control.layers(null, overlays).addTo(map);
+
+    // Activate layers
+    Object.entries(overlays).forEach((e, key) => {
+        if (defaultActiveLayer.includes(e[0])) {
+            map.addLayer(e[1])
+        }
+    });
+}
 
 function generateMap(zoomHomeButton) {
     // Map initialization
@@ -100,29 +121,6 @@ function generateMap(zoomHomeButton) {
         layers: [firstMapTile],
         fullscreenControl: true,
         zoomControl: !(zoomHomeButton),
-    });
-
-    // TODO: Rendre les overlays dynamiques.
-    m10FeatureGroup = L.featureGroup();
-    m5FeatureGroup = L.featureGroup();
-    COMFeatureGroup = L.featureGroup();
-    m1FeatureGroup = L.featureGroup();
-
-        // "Maille 5": m5FeatureGroup,
-    var overlays = {
-        "Maille 10": m10FeatureGroup,
-        "Maille COM": COMFeatureGroup,
-        "Maille 5": m5FeatureGroup,
-        "Maille 1": m1FeatureGroup,
-    };
-    // Add layers
-    control = L.control.layers(null, overlays);
-
-    control.addTo(map);
-    // Activate layers
-
-    Object.values(overlays).forEach((e) => {
-        map.addLayer(e)
     });
 
     // Keep Layers in the same order as specified by the
@@ -242,9 +240,9 @@ function observersTxt(feature) {
 
 // Popup Point
 function onEachFeaturePointSpecies(feature, layer) {
-  popupContent = generateObservationPopup(feature, false);
-  layer.bindPopup(popupContent);
-  filterObservations(feature, layer);
+    popupContent = generateObservationPopup(feature, false);
+    layer.bindPopup(popupContent);
+    filterObservations(feature, layer);
 }
 
 // popup Maille
@@ -292,21 +290,21 @@ function zoomMaille(layer) {
 
 // Style maille
 function getColor(d) {
-  return d > 100
-    ? "#800026"
-    : d > 50
-    ? "#BD0026"
-    : d > 20
-    ? "#E31A1C"
-    : d > 10
-    ? "#FC4E2A"
-    : d > 5
-    ? "#FD8D3C"
-    : d > 2
-    ? "#FEB24C"
-    : d > 1
-    ? "#FED976"
-    : "#FFEDA0";
+    return d > 100
+        ? "#800026"
+        : d > 50
+            ? "#BD0026"
+            : d > 20
+                ? "#E31A1C"
+                : d > 10
+                    ? "#FC4E2A"
+                    : d > 5
+                        ? "#FD8D3C"
+                        : d > 2
+                            ? "#FEB24C"
+                            : d > 1
+                                ? "#FED976"
+                                : "#FFEDA0";
 }
 
 function styleMaille(feature) {
@@ -397,6 +395,13 @@ function generateGeojsonMaille(observations, yearMin, yearMax) {
 
 function displayMailleLayerFicheEspece(observationsMaille) {
     myGeoJson = observationsMaille;
+    // Get all different type code
+    Object.values(myGeoJson.features).forEach(elem => {
+        if (!current_type_code.includes(elem.properties.type_code)) {
+            current_type_code.push(elem.properties.type_code)
+        }
+    })
+    createMailleSelector(true)
     currentLayer = L.geoJson(myGeoJson, {
         onEachFeature: onEachFeatureMaille,
     });
@@ -532,15 +537,15 @@ function displayMarkerLayerFicheEspece(
 /* *** Point ****/
 
 function onEachFeaturePointLastObs(feature, layer) {
-  popupContent = generateObservationPopup(feature, true);
-  layer.bindPopup(popupContent);
-  filterObservations(feature, layer);
+    popupContent = generateObservationPopup(feature, true);
+    layer.bindPopup(popupContent);
+    filterObservations(feature, layer);
 }
 
 function onEachFeaturePointCommune(feature, layer) {
-  popupContent = generateObservationPopup(feature, true);
-  layer.bindPopup(popupContent);
-  filterObservations(feature, layer);
+    popupContent = generateObservationPopup(feature, true);
+    layer.bindPopup(popupContent);
+    filterObservations(feature, layer);
 }
 
 function generateGeojsonPointLastObs(observationsPoint) {
@@ -690,14 +695,8 @@ function styleMailleClickedOrHover(layer) {
     );
 
     let fillOpacity = 0.85;
-    if (mailleCode === "M1") {
-        fillOpacity = 0.2;
-    } else if (mailleCode === "COM") {
-        fillOpacity = 0.4;
-    } else if (mailleCode === "M5") {
-        fillOpacity = 0.4;
-    } else if (mailleCode === "M10") {
-        fillOpacity = 0.6;
+    if (configuration.AFFICHAGE_COUCHES_MAP[mailleCode] && configuration.AFFICHAGE_COUCHES_MAP[mailleCode].fillOpacity) {
+        fillOpacity = configuration.AFFICHAGE_COUCHES_MAP[mailleCode].fillOpacity
     }
 
     var options = layer.options;
@@ -721,15 +720,13 @@ function resetStyleMailles() {
 
 function filterObservations(feature, layer) {
     mailleTypeCode = feature.properties.type_code;
-    if (mailleTypeCode === "M10") {
-        m10FeatureGroup.addLayer(layer);
-        m10FeatureGroup.bringToBack();
-    } else if (mailleTypeCode === "M5") {
-        m5FeatureGroup.addLayer(layer);
-    } else if (mailleTypeCode === "COM") {
-        COMFeatureGroup.addLayer(layer);
-    } else if (mailleTypeCode === "M1") {
-        m1FeatureGroup.addLayer(layer);
+
+    if (Object.keys(overlays).length !== 0) {
+        if (configuration.AFFICHAGE_COUCHES_MAP[mailleTypeCode] && configuration.AFFICHAGE_COUCHES_MAP[mailleTypeCode].label) {
+            overlays[configuration.AFFICHAGE_COUCHES_MAP[mailleTypeCode].label].addLayer(layer);
+        } else {
+            overlays[mailleTypeCode].addLayer(layer);
+        }
     }
 }
 
@@ -739,6 +736,9 @@ function generateGeoJsonMailleLastObs(observations, isRefresh=false) {
         observations = observations.features;
     }
     observations.forEach((obs) => {
+        if (!current_type_code.includes(obs.type_code)) {
+            current_type_code.push(obs.type_code)
+        }
         findedFeature = features.find(
             (feat) => feat.properties.meshId === obs.id_maille
         );
@@ -788,10 +788,10 @@ function generateGeoJsonMailleLastObs(observations, isRefresh=false) {
 
 function displayMailleLayerLastObs(observations, isRefresh=false) {
     const geojsonMaille = generateGeoJsonMailleLastObs(observations, isRefresh);
+    createMailleSelector()
     currentLayer = L.geoJson(geojsonMaille, {
         onEachFeature: onEachFeatureMailleLastObs,
     });
-    currentLayer.addTo(map);
     generateLegendMaille()
 }
 
