@@ -96,6 +96,7 @@ def lastObservations(connection, mylimit, idPhoto):
         temp.pop("the_geom_point", None)
         temp["geojson_point"] = json.loads(o.geojson_point or "{}")
         temp["dateobs"] = o.dateobs
+        temp["type_code"] = o.type_code
         temp["group2_inpn"] = utils.deleteAccent(o.group2_inpn)
         temp["pathImg"] = utils.findPath(o)
         obsList.append(temp)
@@ -111,9 +112,8 @@ def lastObservationsCommune(connection, mylimit, insee):
                 '</i>'
             ) AS taxon
     FROM atlas.vm_observations o
-    JOIN atlas.vm_communes c ON ST_Intersects(o.the_geom_point, c.the_geom)
     JOIN atlas.vm_taxons tax ON  o.cd_ref = tax.cd_ref
-    WHERE c.insee = :thisInsee
+    WHERE o.insee = :thisInsee
     ORDER BY o.dateobs DESC
     LIMIT 100"""
     observations = connection.execute(text(sql), thisInsee=insee)

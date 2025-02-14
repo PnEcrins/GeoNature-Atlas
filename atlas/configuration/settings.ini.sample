@@ -39,6 +39,9 @@ geonature_source=true
 # ATTENTION : Doit être égal à false si geonature_source=false
 use_ref_geo_gn2=true
 
+# Type d'aire a utiliser dans l'application (Pour optimiser et ne pas utiliser toutes les géométries présentes dans ref_geo)
+type_code="'M10,M500,COM,EPCI'"
+
 # Souhaitez-vous installer le schéma taxonomie de TaxHub dans la BDD de GeoNature-atlas ? 
 # false si vous souhaitez utiliser celui de GeoNature en FDW
 # ATTENTION : Doit être true si geonature_source=false
@@ -107,6 +110,8 @@ metropole=true
 
 # Choisissez alors la taille de vos mailles à utiliser (en km) / Valeurs possibles 1, 5 ou 10
 taillemaille=5
+
+# A noter que la sensibilité de niveau 4 sera ignoré afin de ne pas afficher les observations correspondant a ces espèces.
 
 # Si 'metropole=false', rajoutez dans le dossier /data/ref un SHP des mailles de votre territoire et renseignez son chemin
 chemin_custom_maille=/home/`whoami`/atlas/data/ref/custom_maille.shp
