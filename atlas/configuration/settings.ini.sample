@@ -39,6 +39,9 @@ geonature_source=true
 # ATTENTION : Doit être égal à false si geonature_source=false
 use_ref_geo_gn2=true
 
+# Type d'aire a utiliser dans l'application (Pour optimiser et ne pas utiliser toutes les géométries présentes dans ref_geo)
+type_code="'M10,M500,COM,EPCI'"
+
 # Souhaitez-vous installer le schéma taxonomie de TaxHub dans la BDD de GeoNature-atlas ? 
 # false si vous souhaitez utiliser celui de GeoNature en FDW
 # ATTENTION : Doit être true si geonature_source=false
@@ -107,14 +110,6 @@ metropole=true
 
 # Choisissez alors la taille de vos mailles à utiliser (en km) / Valeurs possibles 1, 5 ou 10
 taillemaille=5
-
-# Choisissez alors la taille de vos mailles à utiliser
-# Valeurs possibles M1, M5, COM, 10, COM, DEP ou REG
-
-sensibility0="M1" # sensibilité de niveau 0
-sensibility1="M1" # sensibilité de niveau 1
-sensibility2="COM" # sensibilité de niveau 2
-sensibility3="M10" # sensibilité de niveau 3
 
 # A noter que la sensibilité de niveau 4 sera ignoré afin de ne pas afficher les observations correspondant a ces espèces.
 
