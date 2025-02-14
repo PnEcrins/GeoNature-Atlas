@@ -82,19 +82,20 @@ def getCommunesObservationsChilds(connection, cd_ref):
 
 def getCommunesObservationsChildsMailles(connection, cd_ref):
     sql = """
-    SELECT DISTINCT (com.insee) AS insee, com.commune_maj
-        FROM atlas.vm_communes com
-        JOIN atlas.t_mailles_territoire m ON st_intersects(m.the_geom, com.the_geom)
-        JOIN atlas.vm_observations_mailles obs ON m.id_maille=obs.id_maille
-        WHERE obs.cd_ref in (
-                SELECT * from atlas.find_all_taxons_childs(:thiscdref)
-            )
-            OR obs.cd_ref = :thiscdref
-        ORDER BY com.commune_maj ASC
+SELECT
+    DISTINCT vla.area_code AS insee,
+             vla.area_name
+FROM atlas.vm_observations obs
+         JOIN atlas.vm_cor_area_synthese AS cas ON cas.id_synthese = obs.id_observation
+         JOIN atlas.vm_l_areas vla ON cas.id_area = vla.id_area
+WHERE cas.type_code = 'COM'
+  AND (obs.cd_ref = ANY(SELECT * FROM atlas.find_all_taxons_childs(:thiscdref) AS taxon_childs(cd_nom))
+           OR obs.cd_ref = :thiscdref)
+ORDER BY vla.area_name ASC;
     """
     req = connection.execute(text(sql), thiscdref=cd_ref)
     listCommunes = list()
     for r in req:
-        temp = {"insee": r.insee, "commune_maj": r.commune_maj}
+        temp = {"insee": r.insee, "commune_maj": r.area_name}
         listCommunes.append(temp)
     return listCommunes
