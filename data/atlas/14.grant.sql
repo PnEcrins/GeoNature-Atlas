@@ -36,5 +36,6 @@ GRANT SELECT ON TABLE atlas.vm_altitudes TO my_reader_user;
 GRANT SELECT ON TABLE atlas.bib_altitudes TO my_reader_user;
 GRANT EXECUTE ON FUNCTION atlas.find_all_taxons_childs(integer) TO my_reader_user;
 GRANT SELECT ON TABLE atlas.bib_taxref_rangs TO my_reader_user;
-GRANT SELECT ON TABLE atlas.t_mailles_territoire TO my_reader_user;
 GRANT SELECT ON TABLE atlas.vm_cor_taxon_organism TO my_reader_user;
+GRANT SELECT ON TABLE atlas.t_mailles_territoire TO my_reader_user;
+GRANT SELECT ON TABLE atlas.vm_cor_area_synthese TO my_reader_user;

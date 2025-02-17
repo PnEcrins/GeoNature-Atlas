@@ -17,7 +17,8 @@ var areaLayer = L.geoJson(areaInfos.areaGeoJson, {
             weight: 2,
             color: areaBorderColor,
             // dashArray: "3",
-            fillOpacity: 0.3
+            fillOpacity: 0.3,
+            invert: true
         };
     }
 }).addTo(map);
@@ -93,6 +94,7 @@ function displayObsPreciseBaseUrl(areaCode, cd_ref) {
         $("#loaderSpinner").hide();
         // $("#loadingGif").hide();
         map.removeLayer(currentLayer);
+        clearOverlays()
         if (configuration.AFFICHAGE_MAILLE) {
             displayMailleLayerLastObs(observations);
         } else {
@@ -129,6 +131,7 @@ function displayObsTaxon(insee, cd_ref) {
   }).done(function(observations) {
     $("#loadingGif").hide();
     map.removeLayer(currentLayer);
+        clearOverlays()
     if (configuration.AFFICHAGE_MAILLE) {
       displayMailleLayerLastObs(observations);
     } else {
@@ -153,7 +156,9 @@ function displayObsTaxonMaille(areaCode, cd_ref) {
         $("#loaderSpinner").hide();
         // $("#loadingGif").hide();
         map.removeLayer(currentLayer);
-        displayGridLayerArea(observations);
+        clearOverlays()
+        const geojsonMaille = generateGeoJsonMailleLastObs(observations);
+        displayMailleLayerFicheEspece(geojsonMaille);
     });
 }
 

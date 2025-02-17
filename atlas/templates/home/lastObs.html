@@ -17,7 +17,7 @@
                 <ul id='lastObsList' class="list-unstyled w-100 border-top">
 
                     {% for obs in observations %}
-                    <li class="lastObslistItem media border-bottom p-0" idsynthese="{{ obs.id_observation }}">
+                    <li class="lastObslistItem media border-bottom p-0" idsynthese="{{ obs.id_observation }}" area-code="{{ obs.id_maille }}">
 
                         {% if obs.pathImg == None %}
                         <img class="align-self-center lastObslistItemIcon" data-toggle="tooltip"

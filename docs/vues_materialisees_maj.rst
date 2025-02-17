@@ -58,7 +58,8 @@ Les champs de cette table sont ``cd_nom``, ``id_statut``, ``id_habitat``, ``id_r
 
 - ``atlas.vm_observations_mailles`` qui renvoie la liste de toute les observations agrégées par maille.
 
-Pour créer la vue ``atlas.vm_observations_mailles``, remplacer le fichier ``data/ref/emprise_territoire.sample.shp`` par le fichier SHP de l'emprise de votre territore. Il est possible de choisir la table des mailles (1, 5 ou 10 km) en modifiant la variable ``taillemaille`` du fichier ``config/settings.ini``
+Pour créer la vue ``atlas.vm_observations_mailles``, remplacer le fichier ``data/ref/emprise_territoire.sample.shp`` par le fichier SHP de l'emprise de votre territore.
+Il est necessaire de choisir la taille des mailles en fonction du niveeau de sensibilité (M1, M5, COM, 10, COM, DEP ou REG) en modifiant les variables ``sensibility0, sensibility1, sensibility2, sensibility3`` du fichier ``config/settings.ini``
 
 **Modèle conceptuel du schéma `atlas`**
 
