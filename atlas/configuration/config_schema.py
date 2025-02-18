@@ -5,6 +5,7 @@ from marshmallow import (
     ValidationError,
     validates_schema,
     EXCLUDE,
+    post_load,
 )
 from marshmallow.validate import Regexp
 
@@ -237,3 +238,11 @@ class AtlasConfig(Schema):
             raise ValidationError(
                 {"Le champ TAXHUB_URL doit être rempli si REDIMENSIONNEMENT_IMAGE = True"}
             )
+
+    @post_load
+    def post_load(self, data, **kwargs):
+        # Set APPLICATION_ROOT Flask parameter (use for url_for etc...) https://flask.palletsprojects.com/en/stable/config/#APPLICATION_ROOT
+        # the parameter is infered from URL_APPLICATION which is widely use in all the application
+        url_application = data["URL_APPLICATION"]
+        data["APPLICATION_ROOT"] = url_application if url_application != "/" else "/"
+        return data
