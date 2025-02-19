@@ -78,3 +78,24 @@ def getCommunesObservationsChilds(connection, cd_ref):
         municipality = {"insee": r.insee, "commune_maj": r.commune_maj}
         municipalities.append(municipality)
     return municipalities
+
+
+def getCommunesObservationsChildsMailles(connection, cd_ref):
+    sql = """
+SELECT
+    DISTINCT vla.area_code AS insee,
+             vla.area_name
+FROM atlas.vm_observations obs
+         JOIN atlas.vm_cor_area_synthese AS cas ON cas.id_synthese = obs.id_observation
+         JOIN atlas.vm_l_areas vla ON cas.id_area = vla.id_area
+WHERE cas.type_code = 'COM'
+  AND (obs.cd_ref = ANY(SELECT * FROM atlas.find_all_taxons_childs(:thiscdref) AS taxon_childs(cd_nom))
+           OR obs.cd_ref = :thiscdref)
+ORDER BY vla.area_name ASC;
+    """
+    req = connection.execute(text(sql), thiscdref=cd_ref)
+    listCommunes = list()
+    for r in req:
+        temp = {"insee": r.insee, "commune_maj": r.area_name}
+        listCommunes.append(temp)
+    return listCommunes

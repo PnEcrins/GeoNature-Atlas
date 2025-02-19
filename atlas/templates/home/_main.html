@@ -66,6 +66,11 @@
             {% include 'templates/home/lastObs.html' %}
         {% endif %}
 
+        {% if configuration.AFFICHAGE_TERRITOIRE_OBS %}
+            <!-- Toutes les espèces observées sur le territoire (Carte et liste) -->
+            {% include 'templates/home/territory.html' %}
+        {% endif %}
+
         {% if configuration.AFFICHAGE_NOUVELLES_ESPECES %}
             <!--Nouvelles espèces observées-->
             {% include 'templates/home/newSpecies.html' %}

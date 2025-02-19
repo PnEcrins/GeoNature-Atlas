@@ -10,8 +10,7 @@ CREATE TABLE atlas.t_mailles_territoire AS
             ON t.id_type = a.id_type
         JOIN atlas.t_layer_territoire AS l
             ON ST_intersects(a.geom, st_transform(l.the_geom, find_srid('ref_geo', 'l_areas', 'geom')))
-    WHERE a.enable = true
-        AND t.type_code = :type_maille ;
+    WHERE a.enable = true;
 
 CREATE UNIQUE INDEX ON atlas.t_mailles_territoire
     USING btree (id_maille);

@@ -366,11 +366,11 @@ h3.title-spaced {
 }*/
 
 .tabEspece:hover {
-  background-color: #cccccc;
+  background-color: rgba(var(--main-color-rgb), 0.2);
 }
 
 .tabEspece.current {
-  background-color: #e6e6e6;
+  background-color: rgba(var(--main-color-rgb), 0.4);
   font-weight: bold;
 }
 

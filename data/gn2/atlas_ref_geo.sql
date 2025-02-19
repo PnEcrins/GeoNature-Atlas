@@ -81,7 +81,7 @@ CREATE INDEX index_gist_t_layer_territoire_the_geom
   ON atlas.t_layer_territoire
   USING gist
   (the_geom);
-  
+
 CREATE UNIQUE INDEX t_layer_territoire_gid_idx
   ON atlas.t_layer_territoire
   USING btree (gid);

@@ -127,6 +127,25 @@ MAP = {
 # True = maille / False = point
 AFFICHAGE_MAILLE = False
 
+# Si affichage en mailles, il est possible de surcharger certains elements dans le selecteur de couche.
+AFFICHAGE_COUCHES_MAP = {
+    "M1": {
+        "label": "Mailles 1 km",
+        "selected": True,
+        "fillOpacity": 0.4
+    },
+    "COM": {
+        "label": "Mailles communes",
+        "selected": False,
+        "fillOpacity": 0.2
+    },
+    "M10": {
+        "label": "Mailles 10 km",
+        "selected": False,
+        "fillOpacity": 0.6
+    }
+}
+
 # Niveau de zoom à partir duquel on passe à l'affichage en point (si AFFICHAGE_MAILLE = False)
 ZOOM_LEVEL_POINT = 11
 

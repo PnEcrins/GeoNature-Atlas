@@ -10,6 +10,8 @@ CHANGELOG
 - Ajout du lien "Données personelles" dans le pied de page (#527 @juggler31)
 - Ajout de la librairie Orijeme pour recueillir le consentement de l'utilisateur sur l'utilisation des cookies
 - Suppression du support des installations sans TaxHub
+- Ajout du floutage dans l'application (#571 @juggler31)
+- Ajout d'une carte territoire dans la page d'acceuil ainsi que la liste de toutes les espèces sur celui-ci.
 
 🐛 **Corrections**
 
