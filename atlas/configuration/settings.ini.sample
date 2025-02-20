@@ -39,6 +39,9 @@ geonature_source=true
 # ATTENTION : Doit être égal à false si geonature_source=false
 use_ref_geo_gn2=true
 
+# Type d'aire a utiliser dans l'application (Pour optimiser et ne pas utiliser toutes les géométries présentes dans ref_geo)
+type_code="'M10,M500,COM,EPCI'"
+
 # Souhaitez-vous installer le schéma taxonomie de TaxHub dans la BDD de GeoNature-atlas ? 
 # false si vous souhaitez utiliser celui de GeoNature en FDW
 # ATTENTION : Doit être true si geonature_source=false
@@ -82,18 +85,13 @@ type_territoire="'PEC'"
 
 ########### Si ref_geo = False #############
 
-#### COMMUNES ####
+#### AREA ####
 
-# Creer la table des communes à partir d'un shapefile ?
-# Si false, modifiez la creation de 'atlas.vm_communes' dans data/atlas/atlas.vm_communes.sql
-# PARAMETRE OBSOLETE OBLIGATOIRE SI PAS DE REF_GEO
-# import_commune_shp=true
-
-# Chemin et nom des colonnes du SHP des communes du territoire. Laisser tel quel (en modifiant uniquement MYUSERLINUX)
-# pour utiliser les communes du PnEcrins par défaut
-communes_shp=/home/`whoami`/atlas/data/ref/communes.shp
+# Chemin et nom des colonnes du SHP des zones du territoire. Laisser tel quel (en modifiant uniquement MYUSERLINUX)
+# pour utiliser les zones du PnEcrins par défaut
+zones_shp=/home/`whoami`/atlas/data/ref/zones.shp
 colonne_insee=insee
-colonne_nom_commune=nom_com
+colonne_nom_zone=nom_com
 
 #### TERRITOIRE ####
 
