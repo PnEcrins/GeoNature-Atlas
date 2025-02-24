@@ -56,9 +56,6 @@ def create_app():
         from atlas.atlasAPI import api
 
         app.register_blueprint(api, url_prefix="/api")
-
-        if "SCRIPT_NAME" not in os.environ and "APPLICATION_ROOT" in app.config:
-            os.environ["SCRIPT_NAME"] = app.config["APPLICATION_ROOT"].rstrip("/")
         app.wsgi_app = ProxyFix(app.wsgi_app, x_host=1)
 
         app.wsgi_app = SharedDataMiddleware(
