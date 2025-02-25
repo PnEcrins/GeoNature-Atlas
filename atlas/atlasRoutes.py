@@ -313,9 +313,20 @@ def _make_groupes_statuts(statuts):
     """
 
     def is_statut_in_groupe(statut, groupe):
-        group_types = {origin["cd_type_statut"] for origin in groupe["origins"]}
-        group_sigs = {origin["cd_sig"] for origin in groupe["origins"]}
-        return statut["cd_type_statut"] in group_types and statut["cd_sig"] in group_sigs
+        for origin in groupe["origins"]:
+            if origin.get("cd_type_statut"):
+                has_valid_type = statut["cd_type_statut"] == origin.get("cd_type_statut")
+            else:
+                has_valid_type = True
+
+            if origin.get("cd_sig"):
+                has_valid_sig = statut["cd_sig"] == origin.get("cd_sig")
+            else:
+                has_valid_sig = True
+
+            return has_valid_type and has_valid_sig
+        else:
+            return False
 
     groupes_statuts = []
     for config_groupe in current_app.config["GROUPES_STATUTS"]:
