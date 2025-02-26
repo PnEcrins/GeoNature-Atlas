@@ -1,5 +1,5 @@
 {% block statsInfos %}
-    <div class="container">
+    <div class="card container stat_card">
         <div class="row mt-3">
             <div class="col-sm center border-right">
                 <i class="fas fa-search"></i>
@@ -11,7 +11,7 @@
                 <br><strong>{{ listTaxons.taxons|length | pretty }}</strong>
                 <br>{{ _('species')|lower if listTaxons.taxons|length > 1 else _('species')|lower }}
             </div>
-            <div class="col-sm center">
+            <div class="col-sm center border-right">
                 <i class="fa fa-users"></i>
                 <br><strong>{{ observers | length | pretty }}</strong>
                 <br>{{ _('observers')|lower if observers|length > 1 else _('observer')|lower }}

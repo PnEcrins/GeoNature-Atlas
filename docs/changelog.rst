@@ -10,6 +10,8 @@ CHANGELOG
 - Ajout du lien "Données personelles" dans le pied de page (#527 @juggler31)
 - Ajout de la librairie Orijeme pour recueillir le consentement de l'utilisateur sur l'utilisation des cookies
 - Suppression du support des installations sans TaxHub
+- Ajout du floutage dans l'application (#571 @juggler31)
+- Changement de la notion de "commune" en notion de "area" (#545 @juggler31)
 
 🐛 **Corrections**
 
@@ -28,6 +30,7 @@ CHANGELOG
 ⚠️ **Notes de version**
 
 - Le paramètre `ID_GOOGLE_ANALYTICS` et la façon d'integrer un script google analytic sont dépréciés. Se référer à la documentation sur le RGPD et la collecte de cookies : https://github.com/PnX-SI/GeoNature-atlas/blob/master/docs/cookies_rgpd.rst
+- L'affichage des geométrie de sensibilité est calculé dynamiquement à partir de la table gn_sensitivity.cor_sensitivity_area_type . Pour que l'atlas fonctionne bien, veuillez remplir quel niveau de maille vous souhaitez pour les observations non sensible. Exemple pour l'id_nomenclature_sensitivity correspondant à "non sensible", mettez `id_area_type` (ref_geo.bib_area_type.id_type) des maille 1km.
 
 Si vous mettez à jour GeoNature-atlas :
 

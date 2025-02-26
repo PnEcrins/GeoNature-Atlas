@@ -1,5 +1,5 @@
 """
-Utils pour lire le fichier de conf et le valider selon le schéma Marshmallow 
+Utils pour lire le fichier de conf et le valider selon le schéma Marshmallow
 """
 
 from importlib.machinery import SourceFileLoader
