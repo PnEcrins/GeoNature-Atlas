@@ -1,0 +1,60 @@
+{% block statsInfos %}
+    <div class="card container stat_card">
+        <h4><b>{{ areaInfos.typeName }} - {{ areaInfos.areaName }}</b></h4>
+        <div class="row mt-3">
+            <div class="col-sm center">
+                <i class="fas fa-search"></i>
+                <br><strong>{{ stats_area.nb_obs | pretty }}</strong>
+                <br>{{ _('observations')|lower if stats_area.nb_obs > 1 else _('observation')|lower }}
+            </div>
+            <div class="col-sm center border-left">
+                <i class="fas fa-leaf"></i>
+                <br><strong>{{ stats_area.nb_species | pretty }}</strong>
+                <br>{{ _('species')|lower if stats_area.nb_species > 1 else _('species')|lower }}
+            </div>
+            <div class="col-sm center border-left">
+                <i class="fa fa-users"></i>
+                <br><strong>{{ stats_area.nb_observers | pretty }}</strong>
+                <br>{{ _('observers')|lower if stats_area.nb_observers > 1 else _('observer')|lower }}
+            </div>
+
+            <div class="col-sm center border-left">
+                <i class="fa fa-project-diagram"></i>
+                <br><strong>{{ stats_area.nb_organism }}</strong>
+                <br>{{ _('sources')|lower if stats_area.nb_organism > 1 else _('source')|lower }}
+            </div>
+            <div class="col-sm center border-left">
+                <i class="fa fa-search"></i>
+                <br><strong>{{ stats_area.yearmin }}</strong>
+                <br>{{ _('first_observation')|lower }}
+            </div>
+            <div class="col-sm center border-left">
+                <i class="fa fa-search"></i>
+                <br><strong>{{ stats_area.yearmax}}</strong>
+                <br>{{ _('last_observation')|lower }}
+            </div>
+            {% if configuration.PROTECTION %}
+            <div class="col-sm center border-left">
+                <img class="statut_icon" src="{{ url_for('static', filename='images/logo_protection.png') }}"/>
+                <br><strong>{{ stats_area.nb_taxon_protege }}</strong>
+                <br>{{ _('protected_species')|lower }}
+            </div>
+            {% endif %}
+            {% if configuration.DISPLAY_PATRIMONIALITE %}
+            <div class="col-sm center border-left">
+                <img class="statut_icon" src="{{ url_for('static', filename=configuration.PATRIMONIALITE.config['oui'].icon) }}"/>
+                <br><strong>{{ stats_area.nb_taxon_patrimonial }}</strong>
+                <br>{{ _('patrimonial_species')|lower }}
+            </div>
+            {% endif %}
+
+            {% if stats_area.id_parent %}
+                <div class="col-sm center border-left">
+                    <i class="fa fa-city"></i>
+                    <br><strong><a href="/area/{{ stats_area.id_parent }}">{{ stats_area.area_parent_name }}</a></strong>
+                    <br>{{ stats_area.area_parent_type_name }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

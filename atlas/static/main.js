@@ -29,8 +29,8 @@ autocompleteSearch = function(inputID, urlDestination, nbProposal) {
       var searchUrl;
       if (urlDestination == "espece") {
         searchUrl = "/api/searchTaxon";
-      } else if (urlDestination == "commune") {
-        searchUrl = "/api/searchCommune";
+      } else if (urlDestination == "area") {
+        searchUrl = "/api/searchArea";
       }
       else {
         searchUrl = "/api/searchArea/"+urlDestination;
@@ -62,8 +62,8 @@ autocompleteSearch = function(inputID, urlDestination, nbProposal) {
       var url = ui.item.value;
       if (urlDestination == "espece") {
         location.href = configuration.URL_APPLICATION + language  + "/espece/" + url;
-      } else if (urlDestination == "commune") {
-        location.href = configuration.URL_APPLICATION + language  + "/commune/" + url;
+      } else if (urlDestination == "area") {
+        location.href = configuration.URL_APPLICATION + language  + "/area/" + url;
       } else {
         location.href = configuration.URL_APPLICATION + language  + "/area/" + urlDestination +"/"+ url;
       }
@@ -88,11 +88,11 @@ $("#searchTaxonsStat").focus(function() {
   autocompleteSearch("#searchTaxonsStat", "espece", 10);
 });
 
-$("#searchCommunes").focus(function() {
-  autocompleteSearch("#searchCommunes", "commune", 20);
+$("#searchAreas").focus(function() {
+  autocompleteSearch("#searchAreas", "area", 20);
 });
-$("#searchCommunesStat").focus(function() {
-  autocompleteSearch("#searchCommunesStat", "commune", 10);
+$("#searchAreasStat").focus(function() {
+  autocompleteSearch("#searchAreasStat", "area", 10);
 });
 
 

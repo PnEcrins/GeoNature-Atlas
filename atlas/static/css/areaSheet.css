@@ -1,0 +1,69 @@
+.card.container {
+    align-items: center;
+    padding: 1rem;
+    max-width: 100%;
+    &.stat_card {
+        align-items: center;
+    }
+    &.info_card {
+        align-items: self-start;
+    }
+    .tab-content {
+        padding: 1rem;
+        width: 100%;
+
+        .infos_biodiversity, .infos_observations {
+            text-align: center;
+            padding: 2rem;
+
+            .chart-container {
+                height: 500px;
+                width: 100%;
+            }
+        }
+
+        #data_sources.active {
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+    }
+}
+@media (min-width: 900px) {
+    #observations_and_species.active {
+        display: flex;
+    }
+
+    .infos_biodiversity, .infos_observations {
+        flex-grow: 1;
+        flex-shrink: 1;
+        max-width: 50%;
+    }
+}
+
+
+img.statut_icon {
+    width: 1rem;
+}
+
+.info_zone_card {
+    width: 100%;
+    justify-items: center;
+    padding: 1rem;
+
+}
+.specie_list_map_block {
+    min-height: 50vh;
+}
+
+.specie_list_map_block {
+    display: flex;
+    height: 100%;
+}
+
+.stats_block {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}

@@ -39,11 +39,10 @@ geonature_source=true
 # ATTENTION : Doit être égal à false si geonature_source=false
 use_ref_geo_gn2=true
 
-# Souhaitez-vous installer le schéma taxonomie de TaxHub dans la BDD de GeoNature-atlas ? 
-# false si vous souhaitez utiliser celui de GeoNature en FDW
-# ATTENTION : Doit être true si geonature_source=false
-# OBSOLETE
-# install_taxonomie=false
+# Type de zonage a utiliser dans l'application pour générer les fiches territoires (Pour optimiser et ne pas utiliser toutes les géométries présentes dans ref_geo)
+# voir ref_geo.bib_areas_types
+type_code="'COM,EPCI'"
+
 
 ################################################
 ##### CONNEXION A LA BDD GEONATURE SOURCE ######
@@ -75,25 +74,19 @@ atlas_source_pass=monpassachanger
 ########### Si ref_geo = true ############
 
 # Voir la colonne type_code de la table ref_geo.bib_areas_type
-# Indiquer le code des entités géographiques du ref_geo qui correspondent respectivement aux mailles et aux limites de votre territoire
+# Indiquer le code des entités géographiques du ref_geo qui correspond aux limites de votre territoire
 # Les données doivent préalablement être présentes dans le ref_geo
-type_maille="'M1'"
 type_territoire="'PEC'"
 
 ########### Si ref_geo = False #############
 
-#### COMMUNES ####
+#### AREA ####
 
-# Creer la table des communes à partir d'un shapefile ?
-# Si false, modifiez la creation de 'atlas.vm_communes' dans data/atlas/atlas.vm_communes.sql
-# PARAMETRE OBSOLETE OBLIGATOIRE SI PAS DE REF_GEO
-# import_commune_shp=true
-
-# Chemin et nom des colonnes du SHP des communes du territoire. Laisser tel quel (en modifiant uniquement MYUSERLINUX)
-# pour utiliser les communes du PnEcrins par défaut
-communes_shp=/home/`whoami`/atlas/data/ref/communes.shp
+# Chemin et nom des colonnes du SHP des zones du territoire. Laisser tel quel (en modifiant uniquement MYUSERLINUX)
+# pour utiliser les zones du PnEcrins par défaut
+zones_shp=/home/`whoami`/atlas/data/ref/zones.shp
 colonne_insee=insee
-colonne_nom_commune=nom_com
+colonne_nom_zone=nom_com
 
 #### TERRITOIRE ####
 
