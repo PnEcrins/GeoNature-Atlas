@@ -103,31 +103,34 @@ def lastObservations(connection, mylimit, idPhoto):
     return obsList
 
 
-def lastObservationsCommune(connection, mylimit, insee):
+def lastObservationsArea(connection, obs_limit, id_area):
     sql = """SELECT o.*,
             CONCAT(
                 split_part(tax.nom_vern, ',', 1) || ' | ',
                 '<i>',
                 tax.lb_nom,
                 '</i>'
-            ) AS taxon
+            ) AS taxon,
+            o.id_observation
     FROM atlas.vm_observations o
+    JOIN atlas.vm_l_areas area ON ST_Intersects(o.geom_point, area.the_geom)
     JOIN atlas.vm_taxons tax ON  o.cd_ref = tax.cd_ref
-    WHERE o.insee = :thisInsee
+    WHERE area.id_area = :thisIdArea
     ORDER BY o.dateobs DESC
-    LIMIT 100"""
-    observations = connection.execute(text(sql), thisInsee=insee)
+    LIMIT :obsLimit"""
+    observations = connection.execute(text(sql), obsLimit=obs_limit, thisIdArea=id_area)
     obsList = list()
     for o in observations:
         temp = dict(o)
         temp.pop("the_geom_point", None)
         temp["geojson_point"] = json.loads(o.geojson_point or "{}")
         temp["dateobs"] = o.dateobs
+        temp["id_observation"] = o.id_observation
         obsList.append(temp)
     return obsList
 
 
-def getObservationTaxonCommune(connection, insee, cd_ref):
+def getObservationTaxonArea(connection, insee, cd_ref):
     sql = """
         SELECT o.*,
             COALESCE(split_part(tax.nom_vern, ',', 1) || ' | ', '')
@@ -207,13 +210,15 @@ def getGroupeObservers(connection, groupe):
     return observersParser(req)
 
 
-def getObserversCommunes(connection, insee):
+def getObserversArea(connection, id_area):
     sql = """
         SELECT DISTINCT observateurs
-        FROM atlas.vm_observations
-        WHERE insee = :thisInsee
+        FROM atlas.vm_observations AS obs
+        JOIN atlas.vm_l_areas AS area
+                ON ST_Intersects(obs.the_geom_point, area.the_geom)
+        WHERE area.id_area = :thisIdArea
     """
-    req = connection.execute(text(sql), thisInsee=insee)
+    req = connection.execute(text(sql), thisIdArea=id_area)
     return observersParser(req)
 
 
@@ -229,9 +234,11 @@ def statIndex(connection):
 
     sql = """
         SELECT COUNT(*) AS count
-        FROM atlas.vm_communes
+        FROM atlas.vm_l_areas AS vla
+        JOIN atlas.vm_bib_areas_types bat ON bat.id_type = vla.id_type
+        WHERE bat.type_code = any(:type_code)
     """
-    req = connection.execute(text(sql))
+    req = connection.execute(text(sql), type_code=current_app.config["TYPE_TERRITOIRE_SHEET"])
     for r in req:
         result["town"] = r.count
 

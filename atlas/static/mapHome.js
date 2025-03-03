@@ -15,9 +15,19 @@ $('#map').click(function(){
 
 $(function(){
 
-    if (configuration.AFFICHAGE_MAILLE){
+    if (configuration.AFFICHAGE_MAILLE || configuration.AFFICHAGE_TERRITOIRE_OBS){
         // display maille layer
-        displayMailleLayerLastObs(observations);
+        fetch(`/api/observationsMailleTerritory`)
+            .then(response => response.json())
+            .then(data => {
+                observations = data
+                displayMailleLayer(observations);
+            })
+            .catch(error => {
+                console.log('Error fetching data: ', error);
+            });
+
+
 
         // interaction list - map
         $('.lastObslistItem').click(function(elem){
@@ -70,6 +80,48 @@ $(function(){
 
 
 });
+
+function displayObsTaxonMaille(cd_ref) {
+    $.ajax({
+        url: `${configuration.URL_APPLICATION}/api/observations/${cd_ref}`,
+        dataType: "json",
+        beforeSend: function () {
+            $("#loaderSpinner").show();
+        }
+    }).done(function (observations) {
+        $("#loaderSpinner").hide();
+        map.removeLayer(currentLayer);
+        clearOverlays()
+
+        displayMailleLayerFicheEspece(observations);
+    });
+}
+
+function refreshTerritoryArea(elem) {
+    document.querySelector("#taxonList .current")?.classList.remove("current")
+    elem.currentTarget.classList.add('current');
+    if (configuration.AFFICHAGE_TERRITOIRE_OBS) {
+        displayObsTaxonMaille(elem.currentTarget.getAttribute("cdref"));
+    }
+    const name = $(this)
+        .find("#name")
+        .html();
+    $("#titleMap").fadeOut(500, function () {
+        $(this)
+            .html("Observations du taxon&nbsp;:&nbsp;" + name)
+            .fadeIn(500);
+    });
+}
+
+$(document).ready(function () {
+    $("#loaderSpinner").hide();
+    if (configuration.INTERACTIVE_MAP_LIST) {
+        $("#taxonList").on("click", "#taxonListItem", function (elem) {
+            refreshTerritoryArea(elem);
+        });
+    }
+});
+
 
 // Generate legends and check configuration to choose which to display (Maille ou Point)
 

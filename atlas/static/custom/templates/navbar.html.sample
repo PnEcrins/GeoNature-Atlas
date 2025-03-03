@@ -38,15 +38,15 @@
                 </form>
 
                 <form class="form-inline my-2 my-lg-0" method="POST"
-                      onsubmit="completeAction('#searchFormCommunes', hiddenInputCommunes)" id='searchFormCommunes'
+                      onsubmit="completeAction('#searchFormZones', hiddenInputZones)" id='searchFormZones'
                       action=""
                       role="search">
                     <div class="form-group has-feedback">
-                        <input id="searchCommunes" type="text" style="width: 175px;"
+                        <input id="searchZones" type="text" style="width: 175px;"
                                class="form-control mr-sm-2 ajax-search small-placeholder"
-                               placeholder="{{ _('search.city') }}&nbsp;&nbsp;&nbsp;">
+                               placeholder="{{ _('search.area') }}&nbsp;&nbsp;&nbsp;">
                     </div>
-                    <input id="hiddenInputCommunes" type="hidden" name="insee">
+                    <input id="hiddenInputZones" type="hidden" name="insee">
                 </form>
                 <!--- Languages button and dropdown displaid if MULTILINGUAL is True-->
                 {% if configuration.MULTILINGUAL %}

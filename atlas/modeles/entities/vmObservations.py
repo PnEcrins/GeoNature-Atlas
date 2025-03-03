@@ -14,7 +14,7 @@ class VmObservations(Base):
         "vm_observations",
         metadata,
         Column("id_observation", Integer, primary_key=True, unique=True),
-        Column("insee", String(5), index=True),
+        Column("id_area", String(5), index=True),
         Column("dateobs", Date, index=True),
         Column("type_code", Integer),
         Column("observateurs", String(255)),

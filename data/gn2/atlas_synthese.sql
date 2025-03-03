@@ -44,7 +44,5 @@ WITH areas AS (
     d.altitude_retenue,
     d.the_geom_point,
     d.effectif_total,
-    c.insee,
     diffusion_level
 FROM obs_data d
-JOIN atlas.l_communes c ON st_intersects(d.the_geom_point, c.the_geom);

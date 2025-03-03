@@ -13,28 +13,20 @@ CREATE MATERIALIZED VIEW atlas.vm_observations_mailles AS
      JOIN synthese.t_nomenclatures tn ON tn.cd_nomenclature = cor.cd_nomenclature
      JOIN synthese.cor_sensitivity_area_type AS csat
           ON csat.id_nomenclature_sensitivity = tn.id_nomenclature
-              AND csat.id_area_type = bat.id_type     
-  
+              AND csat.id_area_type = bat.id_type
+
   )
-  select 
-    o.cd_ref,
-    o.annee,
+  select
     o.id_maille,
     COUNT(o.id_observation) AS nbr,
     ARRAY_AGG(o.id_observation) AS id_observations,
     o.type_code
 FROM distinct_obs AS o
-GROUP BY o.cd_ref, o.id_maille, o.type_code, o.annee
+GROUP BY o.id_maille, o.type_code
     WITH DATA;
 
 CREATE UNIQUE INDEX ON atlas.vm_observations_mailles
-    USING btree (cd_ref, annee, id_maille);
-
-CREATE INDEX ON atlas.vm_observations_mailles
-    USING btree (annee);
+    USING btree (id_maille);
 
 CREATE INDEX ON atlas.vm_observations_mailles
     USING gin (id_observations);
-
-CREATE INDEX ON atlas.vm_observations_mailles
-    USING btree (id_maille, cd_ref);

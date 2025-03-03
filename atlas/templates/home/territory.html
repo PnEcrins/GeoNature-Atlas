@@ -1,0 +1,27 @@
+{% block territory_obs %}
+    {% block additionalHeaderAssets %}
+        <script src="{{ url_for('static', filename='listeEspeces.js') }}"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/listEspeces.css') }}"/>
+    {% endblock %}
+
+<div id="species_obs_territory">
+    <div class="card mt-4">
+        <div class="card-body pb-0">
+            <h3 class="card-title"><i class="fas fa-binoculars icon-color-title"></i>
+                {{ configuration.TEXT_SPECIES_OBS }} {{ listTaxons['taxons'] | length }}
+                {{ 'espèces' if listTaxons | length > 1 else 'espèce' }}
+            </h3>
+        </div>
+        <div class="row" id="mapRow">
+            <!-- CARTE des observations des espèces sur le territoire -->
+            <div id="blocMap" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div id="map"></div>
+            </div>
+            <div class="col-12 col-xl-4 col-lg-5 col-md-6 d-flex flex-column m-0 p-0">
+                {% include 'templates/core/listTaxons.html' %}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

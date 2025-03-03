@@ -8,7 +8,7 @@ from atlas.modeles.repositories import (
     vmObservationsRepository,
     vmObservationsMaillesRepository,
     vmMedias,
-    vmCommunesRepository,
+    vmAreasRepository,
 )
 from atlas.env import cache, db
 
@@ -25,14 +25,30 @@ def searchTaxonAPI():
     return jsonify(results)
 
 
-@api.route("/searchCommune", methods=["GET"])
-def searchCommuneAPI():
+@api.route("/searchArea", methods=["GET"])
+def searchAreaAPI():
     session = db.session
     search = request.args.get("search", "")
     limit = request.args.get("limit", 50)
-    results = vmCommunesRepository.searchMunicipalities(session, search, limit)
+    results = vmAreasRepository.searchMunicipalities(session, search, limit)
     session.close()
     return jsonify(results)
+
+
+@api.route("/observationsMailleTerritory", methods=["GET"])
+def getMailleHomeTerritory():
+    """
+    Retourne les mailles de tout le territoire
+    """
+    session = db.session
+    connection = db.engine.connect()
+
+    current_app.logger.debug("start AFFICHAGE_TERRITORY")
+    observations = vmObservationsMaillesRepository.territoryObservationsMailles(connection)
+    current_app.logger.debug("end AFFICHAGE_TERRITORY")
+
+    session.close()
+    return observations
 
 
 if not current_app.config["AFFICHAGE_MAILLE"]:
@@ -94,7 +110,12 @@ def getObservationsGenericApi(cd_ref: int):
         [type]: [description]
     """
     session = db.session
-    if current_app.config["AFFICHAGE_MAILLE"]:
+    if current_app.config["AFFICHAGE_TERRITOIRE_OBS"]:
+        observations = vmObservationsMaillesRepository.getObservationsMaillesTerritorySpecies(
+            session,
+            cd_ref,
+        )
+    elif current_app.config["AFFICHAGE_MAILLE"]:
         observations = vmObservationsMaillesRepository.getObservationsMaillesChilds(
             session,
             cd_ref,
@@ -110,21 +131,21 @@ def getObservationsGenericApi(cd_ref: int):
 
 if not current_app.config["AFFICHAGE_MAILLE"]:
 
-    @api.route("/observations/<insee>/<int(signed=True):cd_ref>", methods=["GET"])
-    def getObservationsCommuneTaxonAPI(insee, cd_ref):
+    @api.route("/observations/<id_area>/<int(signed=True):cd_ref>", methods=["GET"])
+    def getObservationsAreaTaxonAPI(id_area, cd_ref):
         connection = db.engine.connect()
-        observations = vmObservationsRepository.getObservationTaxonCommune(
-            connection, insee, cd_ref
+        observations = vmObservationsRepository.getObservationTaxonArea(
+            connection, id_area, cd_ref
         )
         connection.close()
         return jsonify(observations)
 
 
-@api.route("/observationsMaille/<insee>/<int(signed=True):cd_ref>", methods=["GET"])
-def getObservationsCommuneTaxonMailleAPI(insee, cd_ref):
+@api.route("/observationsMaille/<id_area>/<int(signed=True):cd_ref>", methods=["GET"])
+def getObservationsAreaTaxonMailleAPI(id_area, cd_ref):
     connection = db.engine.connect()
-    observations = vmObservationsMaillesRepository.getObservationsTaxonCommuneMaille(
-        connection, insee, cd_ref
+    observations = vmObservationsMaillesRepository.getObservationsTaxonAreaMaille(
+        connection, id_area, cd_ref
     )
     connection.close()
     return jsonify(observations)

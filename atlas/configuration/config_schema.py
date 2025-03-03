@@ -149,6 +149,7 @@ class AtlasConfig(Schema):
     OREJIME_TRANSLATIONS = fields.Dict(load_default=orijime_default_translations)
     AFFICHAGE_STAT_GLOBALES = fields.Boolean(load_default=True)
     AFFICHAGE_DERNIERES_OBS = fields.Boolean(load_default=True)
+    AFFICHAGE_TERRITOIRE_OBS = fields.Boolean(load_default=False)
     AFFICHAGE_EN_CE_MOMENT = fields.Boolean(load_default=True)
     AFFICHAGE_RANG_STAT = fields.Boolean(load_default=True)
     AFFICHAGE_NOUVELLES_ESPECES = fields.Boolean(load_default=True)

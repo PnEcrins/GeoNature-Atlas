@@ -4,6 +4,16 @@
 IMPORT FOREIGN SCHEMA gn_sensitivity
 LIMIT TO (cor_sensitivity_area_type)  FROM SERVER geonaturedbserver INTO synthese;
 
+CREATE MATERIALIZED VIEW atlas.vm_bib_areas_types AS
+SELECT t.id_type, t.type_code, t.type_name, t.type_desc
+FROM ref_geo.bib_areas_types t
+WHERE
+    type_code IN (SELECT * from string_to_table(:type_code, ','));
+
+CREATE INDEX ON atlas.vm_bib_areas_types(id_type);
+CREATE INDEX ON atlas.vm_bib_areas_types(type_code);
+CREATE INDEX ON atlas.vm_bib_areas_types(type_name);
+
 -- Suppression de la VM atlas.vm_cor_areas si existe
 DROP MATERIALIZED VIEW IF EXISTS atlas.vm_cor_areas CASCADE;
 
