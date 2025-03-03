@@ -137,19 +137,6 @@ attr_chorologie=103
 # 15 jours par défaut
 time=15
 
-# Les paramètres `bdc_statuts_types` et `bdc_statuts_sigs` permettent de réduire les données de la BDC Statuts aux statuts qui
-# seront effectivement utilisés. Permet un gain d'espace non négligeable et un léger gain de performance.
-
-# La liste des types de statuts à importer pour l'affichage des statuts de protection des espèces. Les valeurs attendues
-# permettent de filtrer la colonne `cd_type_statut` de la VM générée à partir de `taxonomie.bdc_statut`.
-bdc_statuts_types = ['LRM', 'LRE', 'LRN', 'LRR', 'ZDET']
-
-# La liste des zones géographiques à importer pour l'affichage des statuts de protection des espèces. Les valeurs attendues
-# permettent de filtrer la colonne `cd_sig` de la VM générée à partir de `taxonomie.bdc_statut`.
-# Ajustez la valeur donnée en exemple avec vos codes régions et départements, par exemple :
-# bdc_statuts_sigs = ['WORLD', 'EUROPE', 'TERFXFR', 'INSEER52', 'INSEED44']
-bdc_statuts_sigs = ['WORLD', 'EUROPE', 'TERFXFR']
-
 ##################################################
 ########## Paramatre administrateur avancé #######
 ##################################################

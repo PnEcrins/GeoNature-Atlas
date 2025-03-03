@@ -276,8 +276,6 @@ if ! database_exists $db_name
             echo "[$(date +'%H:%M:%S')] Creating atlas.vm_bdc_statut..."
             time_temp=$SECONDS
             export PGPASSWORD=$owner_atlas_pass;psql -d $db_name -U $owner_atlas -h $db_host -p $db_port  \
-              --variable list_status=$bdc_statuts_types \
-              --variable geo_status=$bdc_statuts_sigs \
               -f data/atlas/15.atlas.vm_bdc_statut.sql &>> log/install_db.log
             echo "[$(date +'%H:%M:%S')] Passed - Duration : $((($SECONDS-$time_temp)/60))m$((($SECONDS-$time_temp)%60))s"
 
