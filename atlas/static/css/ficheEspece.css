@@ -344,17 +344,24 @@ div#statut-bdc span.bloc-statut-bdc {
   border-radius: 5px;
 }
 
+div#statut-bdc span.groupe-label {
+  margin-right: 0.4rem;
+}
+
 div#statut-bdc ul {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0;
-    margin: 1.5rem 0;
-    gap: 0.1rem 1rem;
+  display: inline;
 }
 
 div#statut-bdc li {
-    display: inline;
-    white-space: nowrap;
+  display: inline;
+}
+
+div#statut-bdc ul.groupes-list > li {
+  margin: 0 0.6rem;
+}
+
+div#statut-bdc ul.statuts-list li {
+  white-space: nowrap;
 }
 
 div#statut-bdc .img-statut-bdc {

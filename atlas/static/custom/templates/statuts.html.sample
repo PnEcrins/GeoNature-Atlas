@@ -1,55 +1,62 @@
 <div id="statut-bdc">
-    <ul>
+    <ul class="groupes-list">
     {% for groupe in groupesStatuts %}
-        {% for statut in groupe.statuts %}
-            {% if statut.cd_type_statut == 'ZDET' %}
-                <li>
-                    <span
-                            data-toggle='tooltip'
-                            data-placement='right'
-                            data-original-title="{{ statut.lb_type_statut }} ({{ statut.lb_adm_tr }}) : {{ statut.label_statut }}"
-                    >
-                        <img
-                                class="img-statut-bdc"
-                                alt="{{ statut.label_statut }}"
-                                src="{{ url_for('static', filename='images/znieff_logo_small.png') }}">
-                    </span>
-                </li>
-            {% elif statut.cd_type_statut[:2] == 'LR' %}
-                {% if statut.cd_type_statut == 'LRN' and 'Nicheur' in statut.rq_statut %}
-                    {% set population = 'Nicheur' %}
-                {% elif statut.cd_type_statut == 'LRN' and 'Visiteur' in statut.rq_statut %}
-                    {% set population = 'Visiteur' %}
-                {% elif statut.cd_type_statut == 'LRN' and 'Hivernant' in statut.rq_statut %}
-                    {% set population = 'Hivernant' %}
-                {% endif %}
-                {% if population %}
-                    {% set cd_type_statut = statut.cd_type_statut + population|first|lower %}
-                {% else %}
-                    {% set cd_type_statut = statut.cd_type_statut %}
-                {% endif %}
-                <li>
-                    <span
-                            data-toggle='tooltip'
-                            data-placement='right'
-                            data-original-title="{{ statut.lb_type_statut }} ({{ statut.lb_adm_tr }}{% if population %}{{ ' - ' + population }}{% endif %}) : {{ statut.label_statut }}"
-                    >
-                        {{ cd_type_statut }} :
-                        <span class="{{ statut.code_statut }} bloc-statut-bdc">{{ statut.code_statut }}</span>
-                    </span>
-                </li>
-            {% else %}
-                <li>
-                    <span
+        <li>
+            {% if groupe.label %}
+            <span class="groupe-label"><strong>{{ groupe.label }}</strong></span>
+            {% endif %}
+            <ul class="statuts-list">
+            {% for statut in groupe.statuts %}
+                {% if statut.cd_type_statut == 'ZDET' %}
+                    <li>
+                        <span
                                 data-toggle='tooltip'
                                 data-placement='right'
                                 data-original-title="{{ statut.lb_type_statut }} ({{ statut.lb_adm_tr }}) : {{ statut.label_statut }}"
                         >
-                        <span class="bloc-statut-bdc">{{ statut.cd_type_statut }} ({{ statut.cd_sig }}) : {{ statut.code_statut }}</span>
-                    </span>
-                </li>
-            {% endif %}
-        {% endfor %}
+                            <img
+                                    class="img-statut-bdc"
+                                    alt="{{ statut.label_statut }}"
+                                    src="{{ url_for('static', filename='images/znieff_logo_small.png') }}">
+                        </span>
+                    </li>
+                {% elif statut.cd_type_statut[:2] == 'LR' %}
+                    {% if statut.cd_type_statut == 'LRN' and 'Nicheur' in statut.rq_statut %}
+                        {% set population = 'Nicheur' %}
+                    {% elif statut.cd_type_statut == 'LRN' and 'Visiteur' in statut.rq_statut %}
+                        {% set population = 'Visiteur' %}
+                    {% elif statut.cd_type_statut == 'LRN' and 'Hivernant' in statut.rq_statut %}
+                        {% set population = 'Hivernant' %}
+                    {% endif %}
+                    {% if population %}
+                        {% set cd_type_statut = statut.cd_type_statut + population|first|lower %}
+                    {% else %}
+                        {% set cd_type_statut = statut.cd_type_statut %}
+                    {% endif %}
+                    <li>
+                        <span
+                                data-toggle='tooltip'
+                                data-placement='right'
+                                data-original-title="{{ statut.lb_type_statut }} ({{ statut.lb_adm_tr }}{% if population %}{{ ' - ' + population }}{% endif %}) : {{ statut.label_statut }}"
+                        >
+                            {{ cd_type_statut }} :
+                            <span class="{{ statut.code_statut }} bloc-statut-bdc">{{ statut.code_statut }}</span>
+                        </span>
+                    </li>
+                {% else %}
+                    <li>
+                        <span
+                                    data-toggle='tooltip'
+                                    data-placement='right'
+                                    data-original-title="{{ statut.lb_type_statut }} ({{ statut.lb_adm_tr }}) : {{ statut.label_statut }}"
+                            >
+                            <span class="bloc-statut-bdc">{{ statut.cd_type_statut }} ({{ statut.cd_sig }}) : {{ statut.code_statut }}</span>
+                        </span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            </ul> <!-- end of statuts list -->
+        </li>
     {% endfor %}
-    </ul>
+    </ul> <!-- end of groupes list -->
 </div>
