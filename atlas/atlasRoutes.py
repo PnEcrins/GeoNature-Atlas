@@ -313,14 +313,14 @@ def _make_groupes_statuts(statuts):
     """
 
     def is_statut_in_groupe(statut, groupe):
-        for origin in groupe["origins"]:
-            if origin.get("cd_type_statut"):
-                has_valid_type = statut["cd_type_statut"] == origin.get("cd_type_statut")
+        for filter_item in groupe["filters"]:
+            if filter_item.get("cd_type_statut"):
+                has_valid_type = statut["cd_type_statut"] == filter_item.get("cd_type_statut")
             else:
                 has_valid_type = True
 
-            if origin.get("cd_sig"):
-                has_valid_sig = statut["cd_sig"] == origin.get("cd_sig")
+            if filter_item.get("cd_sig"):
+                has_valid_sig = statut["cd_sig"] == filter_item.get("cd_sig")
             else:
                 has_valid_sig = True
 

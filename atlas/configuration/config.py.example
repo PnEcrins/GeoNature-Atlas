@@ -203,30 +203,30 @@ AFFICHAGE_STATUTS = True
 GROUPES_STATUTS = [
     {
         "label": "Monde",
-        "origins": [
+        "filters": [
             {"cd_type_statut": "LRM", "cd_sig": "WORLD"}
         ]
     },
     {
         "label": "Europe",
-        "origins": [
+        "filters": [
             {"cd_type_statut": "LRE", "cd_sig": "EUROPE"}
         ]
     },
     {
         "label": "France métropolitaine",
-        "origins": [
+        "filters": [
             {"cd_type_statut": "LRN", "cd_sig": "TERFXFR"}
         ]
     },
     {
         "label": "Région",
-        "origins": [
+        "filters": [
             {"cd_type_statut": "LRR", "cd_sig": <votre code région>}  # par exemple "INSEER52"
         ]
     },
     {
-        "origins": [
+        "filters": [
             {"cd_type_statut": "ZDET", "cd_sig": <votre code département>}  # par exemple "INSEED44"
         ]
     }
