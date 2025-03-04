@@ -197,8 +197,8 @@ AFFICHAGE_GRAPH_PHENOLOGIE = True
 AFFICHAGE_STATUTS = True
 
 # Configure quels statuts de protection sont affichés et dans quel ordre.
-# - il est possible de définir plusieurs origines pour un groupe (pour grouper les listes rouges et les marqueurs znieff d'une même zone par exemple).
-# - 'label' du groupe sera affiché devant l'ensemble des statuts provenant des origines spécifiées. 'label' est optionnel.
+# - il est possible de définir plusieurs filters pour un groupe (pour grouper les listes rouges et les marqueurs znieff d'une même zone par exemple).
+# - 'label' du groupe sera affiché devant l'ensemble des statuts de ce groupe. 'label' est optionnel.
 # - les valeurs des propriétés `cd_type_statut` et `cd_sig` correspondent aux valeurs présentes dans la BDD `atlas.vm_bdc_statut`.
 GROUPES_STATUTS = [
     {
