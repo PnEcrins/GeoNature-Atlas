@@ -266,6 +266,7 @@ def ficheEspece(cd_nom):
 
     statuts = vmStatutBdcRepository.get_taxons_statut_bdc(connection, cd_ref)
     groupes_statuts = _make_groupes_statuts(statuts)
+    groupes_statuts_have_labels = any([groupe.get("label") for groupe in groupes_statuts])
 
     connection.close()
     db_session.close()
@@ -289,6 +290,7 @@ def ficheEspece(cd_nom):
         observers=observers,
         organisms=organisms,
         groupesStatuts=groupes_statuts,
+        groupesStatutsHaveLabels=groupes_statuts_have_labels,
     )
 
 

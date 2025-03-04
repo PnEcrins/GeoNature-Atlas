@@ -1,5 +1,5 @@
 <div id="statut-bdc">
-    <ul class="groupes-list">
+    <ul class="groupes-list {% if groupesStatutsHaveLabels %}with-labels{% else %}without-labels{% endif %}">
     {% for groupe in groupesStatuts %}
         <li>
             {% if groupe.label %}

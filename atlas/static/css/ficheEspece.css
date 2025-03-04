@@ -337,6 +337,10 @@ div#statut-bdc span.PN {
 	background-color: #ffccaa ;
 }
 
+div#statut-bdc {
+  margin: 1.5rem 0;
+}
+
 div#statut-bdc span.bloc-statut-bdc {
   border: solid 2px grey;
   padding-left: 5px;
@@ -344,24 +348,60 @@ div#statut-bdc span.bloc-statut-bdc {
   border-radius: 5px;
 }
 
-div#statut-bdc span.groupe-label {
-  margin-right: 0.4rem;
+/* statuts groupes sans labels : tout inline avec espacement margin */
+
+div#statut-bdc ul.groupes-list.without-labels,
+div#statut-bdc ul.groupes-list.without-labels ul.statuts-list {
+  display: inline;
+  margin: 0;
+  padding: 0;
 }
 
-div#statut-bdc ul {
+div#statut-bdc ul.groupes-list.without-labels > li {
   display: inline;
 }
 
-div#statut-bdc li {
-  display: inline;
+div#statut-bdc ul.groupes-list.without-labels span.groupe-label {
+  white-space: nowrap;
 }
 
-div#statut-bdc ul.groupes-list > li {
-  margin: 0 0.6rem;
+div#statut-bdc ul.groupes-list.without-labels {
+  margin-right: 1rem;
 }
+
+div#statut-bdc ul.groupes-list.without-labels ul.statuts-list > li {
+  margin-right: 1rem;
+  white-space: nowrap;
+}
+
+/* statuts groupes avec labels : display flex avec espacement gap*/
+
+div#statut-bdc ul.groupes-list.with-labels,
+div#statut-bdc ul.groupes-list.with-labels ul.statuts-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  gap: 0.5rem 1.3rem;
+}
+
+div#statut-bdc ul.groupes-list.with-labels > li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.4rem;
+}
+
+div#statut-bdc ul.groupes-list.with-labels {
+  gap: 0.5rem 1.3rem;
+}
+
+div#statut-bdc ul.groupes-list.with-labels ul.statuts-list {
+  gap: 0.2rem 1.3rem;
+}
+
 
 div#statut-bdc ul.statuts-list li {
-  white-space: nowrap;
+  display: inline;
 }
 
 div#statut-bdc .img-statut-bdc {
