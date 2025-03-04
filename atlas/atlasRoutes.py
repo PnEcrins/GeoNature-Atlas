@@ -326,7 +326,8 @@ def _make_groupes_statuts(statuts):
             else:
                 has_valid_sig = True
 
-            return has_valid_type and has_valid_sig
+            if has_valid_type and has_valid_sig:
+                return True
         else:
             return False
 
