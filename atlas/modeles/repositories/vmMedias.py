@@ -160,6 +160,17 @@ def getLinks_and_articles(connection, cd_ref, id3, id4):
     return [_format_media(r) for r in req]
 
 
+def get_liens_importants(connection, cd_ref, media_ids):
+    sql = """
+        SELECT *
+        FROM atlas.vm_medias
+        WHERE id_type = ANY(:media_ids) AND cd_ref = :thiscdref
+        ORDER BY date_media DESC
+    """
+    req = connection.execute(text(sql), thiscdref=cd_ref, media_ids=media_ids)
+    return [_format_media(r) for r in req]
+
+
 def getPhotosGallery(connection, id1, id2):
     sql = """
         SELECT m.*, t.nom_vern, t.lb_nom, t.nb_obs

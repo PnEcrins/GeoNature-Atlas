@@ -71,6 +71,21 @@
             <!--Left row-->
             <div class="col-lg-7 col-md-8 col-sm-12 col-xs-12">
                 {% include 'templates/speciesSheet/identityCard.html' %}
+                {% if liensImportants %}
+                <div class="liens-importants-container mt-4">
+                    {% for lien in liensImportants %}
+                    <a
+                            class="lien-important lien-important-type-{{ lien.id_type }}"
+                            href="{{ lien.path }}"
+                            target="_blank">
+                        {% if lien.icon %}
+                        <img src="{{ lien.icon }}" alt="" />
+                        {% endif %}
+                        <span>{{ lien.title }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
                 {% include 'templates/speciesSheet/map.html' %}
                 {% include 'templates/speciesSheet/otherInformations.html' %}
             </div>
