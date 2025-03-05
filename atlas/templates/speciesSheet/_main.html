@@ -76,7 +76,8 @@
                     {% for lien in liensImportants %}
                     <a
                             class="lien-important lien-important-type-{{ lien.id_type }}"
-                            href="{{ lien.path }}">
+                            href="{{ lien.path }}"
+                            target="_blank">
                         {% if lien.icon %}
                         <img src="{{ lien.icon }}" alt="" />
                         {% endif %}
