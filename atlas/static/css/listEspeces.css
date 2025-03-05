@@ -146,12 +146,13 @@ ul#statHierarchy {
 }
 
 tbody tr:hover {
+    background-color: rgba(var(--main-color-rgb), 0.2) !important;
     /*background-color: #cccccc !important;*/
     cursor: pointer;
 }
 
 tbody tr.current {
-    background-color: #e6e6e6 !important;
+    background-color: rgba(var(--main-color-rgb), 0.4) !important;
     font-weight: bold;
 }
 
