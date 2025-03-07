@@ -8,7 +8,7 @@ from atlas.modeles.repositories import (
     vmObservationsRepository,
     vmObservationsMaillesRepository,
     vmMedias,
-    vmCommunesRepository,
+    vmAreasRepository,
 )
 from atlas.env import cache, db
 
@@ -25,12 +25,12 @@ def searchTaxonAPI():
     return jsonify(results)
 
 
-@api.route("/searchCommune", methods=["GET"])
-def searchCommuneAPI():
+@api.route("/searchArea", methods=["GET"])
+def searchAreaAPI():
     session = db.session
     search = request.args.get("search", "")
     limit = request.args.get("limit", 50)
-    results = vmCommunesRepository.searchMunicipalities(session, search, limit)
+    results = vmAreasRepository.searchMunicipalities(session, search, limit)
     session.close()
     return jsonify(results)
 
@@ -110,21 +110,21 @@ def getObservationsGenericApi(cd_ref: int):
 
 if not current_app.config["AFFICHAGE_MAILLE"]:
 
-    @api.route("/observations/<insee>/<int(signed=True):cd_ref>", methods=["GET"])
-    def getObservationsCommuneTaxonAPI(insee, cd_ref):
+    @api.route("/observations/<id_area>/<int(signed=True):cd_ref>", methods=["GET"])
+    def getObservationsAreaTaxonAPI(id_area, cd_ref):
         connection = db.engine.connect()
-        observations = vmObservationsRepository.getObservationTaxonCommune(
-            connection, insee, cd_ref
+        observations = vmObservationsRepository.getObservationTaxonArea(
+            connection, id_area, cd_ref
         )
         connection.close()
         return jsonify(observations)
 
 
-@api.route("/observationsMaille/<insee>/<int(signed=True):cd_ref>", methods=["GET"])
-def getObservationsCommuneTaxonMailleAPI(insee, cd_ref):
+@api.route("/observationsMaille/<id_area>/<int(signed=True):cd_ref>", methods=["GET"])
+def getObservationsAreaTaxonMailleAPI(id_area, cd_ref):
     connection = db.engine.connect()
-    observations = vmObservationsMaillesRepository.getObservationsTaxonCommuneMaille(
-        connection, insee, cd_ref
+    observations = vmObservationsMaillesRepository.getObservationsTaxonAreaMaille(
+        connection, id_area, cd_ref
     )
     connection.close()
     return jsonify(observations)

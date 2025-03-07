@@ -2,11 +2,7 @@
 
 {% block title %}
     {# Personnalisez ici le titre de la page (celui qui est affiché dans l'onglet du navigateur) #}
-    {% if sheetType =='commune' %}
-        {{ _('municipality.of') }} {{ areaInfos.areaName }}
-    {% else %}
-        {{ areaInfos.typeName }} - {{ areaInfos.areaName }}
-    {% endif %}
+    {{ areaInfos.typeName }} - {{ areaInfos.areaName }}
 {% endblock %}
 
 {% block metaTags %}
@@ -32,12 +28,6 @@
         var configuration = {{configuration|tojson}};
         var observations = {{observations|tojson}};
         var areaInfos = {{ areaInfos | tojson }};
-        var sheetType = {{ sheetType|tojson }};
-        var communeArea = false;
-        if (sheetType === 'commune') {
-            var communeArea = true;
-        }
-        ;
         var url_limit_territory = "{{url_for('static', filename='custom/territoire.json') }}";
     </script>
     <script src="{{ url_for('static', filename='custom/maps-custom.js') }}"></script>
@@ -55,24 +45,15 @@
                 {% if configuration.EXTENDED_AREAS %}
                     {% include 'templates/areaSheet/surrounding_areas.html' %}
                 {% endif %}
-                {% if sheetType =='commune' %}
-                    <h4><b> {{ _('municipality.of') }} {{ areaInfos.areaName }}</b></h4>
-                {% else %}
-                    <h4><b>{{ areaInfos.typeName }} - {{ areaInfos.areaName }}</b></h4>
-                {% endif %}
+                <h4><b>{{ areaInfos.typeName }} - {{ areaInfos.areaName }}</b></h4>
                 {% include 'templates/core/statHierarchy.html' %}
             </div>
             {% include 'templates/core/listTaxons.html' %}
         </div>
         <div class="col-12 col-xl-8 col-lg-7 col-md-6 d-flex flex-column m-0 p-0">
             <div class="bg-light p-2">
-                {% if sheetType =='commune' %}
-                    <h5 id="titleMap"><i class="fa fa-map"></i> {{ configuration.NB_LAST_OBS }} {{ _('last.obs.municipality') }}
-                        <i>{{ areaInfos.areaName }}</i></h5>
-                {% else %}
-                    <h5 id="titleMap"><i class="fa fa-map"></i> {{ configuration.NB_LAST_OBS }} {{ _('last.obs.zone') }}
-                        <i>{{ areaInfos.areaName }}</i></h5>
-                {% endif %}
+                <h5 id="titleMap"><i class="fa fa-map"></i> <i>{{ areaInfos.areaName }}</i> : {{ configuration.NB_LAST_OBS }} {{ _('last.obs.area') | lower }}
+                </h5>
             </div>
             <div class="d-flex align-content-stretch bg-warning flex-grow-1">
                 <div class="d-flex flex-grow-1">

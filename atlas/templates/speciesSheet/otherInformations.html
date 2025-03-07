@@ -1,136 +1,146 @@
 {% block otherInformations %}
     <div class="card mt-4" id="otherInformationsPanel">
-        <div class="row" id="otherInformations">
-            <ul class="nav nav-tabs">
-                {% if articles | length != 0 %}
-                    <li class="nav-item"><a data-toggle="tab" class="nav-link active"
-                         href="#articles"><b>{{ articles|length }}</b> {{ 'articles' if articles|length > 1 else 'article' }}
-                    </a></li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#communes">
-                        <b>{{ communes|length }}</b> {{ _('municipalities')|lower if communes|length > 1 else _('municipality')|lower }}</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item"><a data-toggle="tab" class="nav-link active" href="#communes">
-                        <b>{{ communes|length }}</b> {{ _('municipalities')|lower if communes|length > 1 else _('municipality')|lower }}</a>
-                    </li>
-                {% endif %}
-
-                {% if configuration.ORGANISM_MODULE %}
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#organisms">
-                            <b>{{ organisms|length }} </b> {{ _('organisms')|lower if organisms|length > 1 else _('organism')|lower }}
-                        </a>
+    <div class="col" id="otherInformations">
+        <ul class="nav nav-tabs">
+            {% if articles | length != 0 %}
+                <li class="nav-item"><a data-toggle="tab" class="nav-link active"
+                                        href="#articles"><b>{{ articles|length }}</b> {{ 'articles' if articles|length > 1 else 'article' }}
+                </a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#area">
+                    <b>{{ areas['length'] }}</b> {{ translations.territories|lower if areas['length'] > 1 else translations.territory|lower }}</a>
                 </li>
-                {% endif %}
+            {% else %}
+                <li class="nav-item"><a data-toggle="tab" class="nav-link active" href="#area">
+                    <b>{{ areas['length'] }}</b> {{ translations.territories|lower if areas['length'] > 1 else translations.territory|lower }}</a>
+                </li>
+            {% endif %}
 
-                {% if configuration.DISPLAY_OBSERVERS %}
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#observateurs">
-                        <b>{{ observers|length }} </b> {{ _('observers')|lower if observers|length > 1 else _('observer')|lower }}
-                    </a></li>
-                {% endif %}
-            </ul>
+            {% if configuration.ORGANISM_MODULE %}
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#organisms">
+                        <b>{{ organisms|length }} </b> {{ _('organisms')|lower if organisms|length > 1 else _('organism')|lower }}
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if configuration.DISPLAY_OBSERVERS %}
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#observateurs">
+                    <b>{{ observers|length }} </b> {{ _('observers')|lower if observers|length > 1 else _('observer')|lower }}
+                </a></li>
+            {% endif %}
+        </ul>
 
 
-            <div class="tab-content" style="width:100%;">
-                 <!-- municipality tab-->
-                {% if articles | length != 0 %}
-                    <div id="articles" class="tab-pane fade show active">
-                        <table class="table table-striped">
-                            <thead>
-                            <th></th>
-                            <th> {{ _('title') }}</th>
-                            <th> {{ _('author')}}</th>
-                            </thead>
-                            <tbody>
+        <div class="tab-content" style="width:100%;">
+            <!-- municipality tab-->
+            {% if articles | length != 0 %}
+                <div id="articles" class="tab-pane fade show active">
+                    <table class="table table-striped">
+                        <thead>
+                        <th></th>
+                        <th> {{ _('title') }}</th>
+                        <th> {{ _('author')}}</th>
+                        </thead>
+                        <tbody>
 
-                            {% for i in range (articles | length) %}
-                                <tr class="accordion-toggle" data-toggle="collapse" data-target=".moreInfo{{ i }}">
-                                    <td> {% if articles[i].id_type == 3 %}
-                                        <span class="fas fa-link"> </span>
-                                    {% else %} <span class="fas fa-paperclip"> </span>
-                                    {% endif %}
-                                    </td>
+                        {% for i in range (articles | length) %}
+                            <tr class="accordion-toggle" data-toggle="collapse" data-target=".moreInfo{{ i }}">
+                                <td> {% if articles[i].id_type == 3 %}
+                                    <span class="fas fa-link"> </span>
+                                {% else %} <span class="fas fa-paperclip"> </span>
+                                {% endif %}
+                                </td>
 
-                                    <td>
-                                        <a href="{{ articles[i].path }}" target="_blank"> {{ articles[i].title }} </a>
-                                    </td>
+                                <td>
+                                    <a href="{{ articles[i].path }}" target="_blank"> {{ articles[i].title }} </a>
+                                </td>
 
-                                    <td>
-                                        {{ articles[i].author }}
-                                    </td>
-                                    <td>
-                                        <i class="btn-more"> <span class="fas fa-chevron-down "> </span></i>
-                                    </td>
+                                <td>
+                                    {{ articles[i].author }}
+                                </td>
+                                <td>
+                                    <i class="btn-more"> <span class="fas fa-chevron-down "> </span></i>
+                                </td>
 
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="hiddenRow" style="padding:0px;">
-                                        <div class="collapse moreInfo{{ i }}">
-                                            <strong> {{ _('description') }} : </strong>
-                                            <br> {{ articles[i].description | safe }} <br>
-                                            <strong> {{ _('date') }} : </strong> {{ articles[i].date }}
-                                        </div>
-                                    </td>
-                                </tr>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="hiddenRow" style="padding:0px;">
+                                    <div class="collapse moreInfo{{ i }}">
+                                        <strong> {{ _('description') }} : </strong>
+                                        <br> {{ articles[i].description | safe }} <br>
+                                        <strong> {{ _('date') }} : </strong> {{ articles[i].date }}
+                                    </div>
+                                </td>
+                            </tr>
 
-                            {% endfor %}
+                        {% endfor %}
 
-                            </tbody>
-                        </table>
-                    </div>
-                {% endif %}
-                {% if articles | length != 0 %}
-                    <div id="communes" class="tab-pane fade">
-                {% else %}
-                    <div id="communes" class="tab-pane fade show active">
-                {% endif %}
-                <p>
-                    {% for com in communes %}
-                        <a href="{{ url_for('main.ficheCommune', insee = com.insee) }}">{{ com.commune_maj }}</a>
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+            {% if articles | length != 0 %}
+                <div id="area" class="tab-pane fade">
+            {% else %}
+                <div id="area" class="tab-pane  fade show active">
+            {% endif %}
+            <p>
+                {% for type_code in configuration.TYPE_TERRITOIRE_SHEET %}
+                    {% for com in areas[type_code] %}
+                        {% if loop.first %}
+                            {% if areas.nb_territory_type != 1 and com.type_name != "COM" %}
+                                <div class="type_name">{{ com.type_name }} :</div>
+                            {% endif %}
+                            <div class="territories_name">
+                        {% endif %}
+
+                        <a href="{{ url_for('main.ficheArea', id_area = com.id_area) }}">{{ com.area_name }}</a>
                         {% if not loop.last %}
                             -
                         {% endif %}
                     {% endfor %}
-                </p>
                 </div>
+                {% endfor %}
+            </p>
+            </div>
 
-                <!--- oberservers tab-->
-                {% if configuration.DISPLAY_OBSERVERS %}
-                    <div id="observateurs" class="tab-pane fade">
-                        {% for o in observers %}
-                            {{ o }}
-                            {% if  not loop.last %}
-                                -
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
+            <!--- oberservers tab-->
+            {% if configuration.DISPLAY_OBSERVERS %}
+                <div id="observateurs" class="tab-pane fade">
+                    {% for o in observers %}
+                        {{ o }}
+                        {% if  not loop.last %}
+                            -
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
 
-                {% if configuration.ORGANISM_MODULE %}
+            {% if configuration.ORGANISM_MODULE %}
                 <!-- organism tab -->
-                    <div id="organisms" class="tab-pane fade flex-grow-1">
-                        <ul>
-                            {% for o in organisms %}
-                                <li id="organismListItem" class="media border-bottom p-2"
-                                    id_organism="{{ o['nom_organism'] }}">
-                                <div class="pictoImgList mr-2" data-toggle="tooltip" data-original-title="{{ taxon.group2_inpn }}"
+                <div id="organisms" class="tab-pane fade flex-grow-1">
+                    <ul>
+                        {% for o in organisms %}
+                            <li id="organismListItem" class="media border-bottom p-2"
+                                id_organism="{{ o['nom_organism'] }}">
+                            <div class="pictoImgList mr-2" data-toggle="tooltip" data-original-title="{{ taxon.group2_inpn }}"
                                  data-placement="right">
-                                    <div class="pictoImgList mr-2" data-toggle="tooltip" data-original-title="{{ taxon.group2_inpn }}"
-                                    data-placement="right">
-                                        {% if o['url_logo']!= None %}
-                                            {% if not o['url_organism'] in (None, '') %}
+                                <div class="pictoImgList mr-2" data-toggle="tooltip" data-original-title="{{ taxon.group2_inpn }}"
+                                     data-placement="right">
+                                    {% if o['url_logo']!= None %}
+                                        {% if not o['url_organism'] in (None, '') %}
                                             <a href="{{ o['url_organism'] }}" target="_blank">
                                                 <img class="mx-auto d-block" src="{{ o['url_logo'] }}" style='width:100px'>
                                             </a>
-                                            {% else %}
-                                                <img class="mx-auto d-block" src="{{ o['url_logo'] }}" style='width:100px'>
-                                            {% endif %}
+                                        {% else %}
+                                            <img class="mx-auto d-block" src="{{ o['url_logo'] }}" style='width:100px'>
                                         {% endif %}
-                                    </div>
+                                    {% endif %}
                                 </div>
+                            </div>
 
-                                <div class="media-body d-flex align-items-center justify-content-between flex-wrap">
-                                  <div>
+                            <div class="media-body d-flex align-items-center justify-content-between flex-wrap">
+                                <div>
                                     <h5 class="mt-0 mb-1 ">
                                         <span id="name"><b>{{ o['nom_organism'] }}</b></span>
                                     </h5>
@@ -144,20 +154,20 @@
                                         {% endif %}
                                     </strong>
                                     <br>{{ _('organism.prospection') }} : <strong>{{ "%.2f"|format(o['nb_observation']/taxon.taxonSearch.nb_obs*100) }} %</strong>
-                                  </div>
-                                      <h3><a class="badge badge-primary" href="{{ url_for('main.ficheOrganism', id_organism=o['id_organism']) }}"
-                                          data-toggle="tooltip"  style="color: white;"
-                                          title="{{ _('check.organism.sheet') }}" data-placement="left">
-                                        <i class="fas fa-list fa-fw"></i> {{ _('organism.sheet') }}</i>
-                                      </a></h3>
                                 </div>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
+                                <h3><a class="badge badge-primary" href="{{ url_for('main.ficheOrganism', id_organism=o['id_organism']) }}"
+                                       data-toggle="tooltip"  style="color: white;"
+                                       title="{{ _('check.organism.sheet') }}" data-placement="left">
+                                    <i class="fas fa-list fa-fw"></i> {{ _('organism.sheet') }}</i>
+                                </a></h3>
+                            </div>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
 
             </div>
 
-            </div>
         </div>
+    </div>
 {% endblock %}

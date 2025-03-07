@@ -1,18 +1,17 @@
 {% block navbar %}
 {% if configuration.MULTILINGUAL %}
 <script type="text/javascript"> 
-    var language = '{{ '/' + g.lang_code }}'; 
+    var language = '{{ '/' + g.lang_code }}';
 </script>
 {% else %}
-<script type="text/javascript"> 
+<script type="text/javascript">
     var language = '' ;
 </script>
 {% endif %}
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
     <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light" role="navigation">
-        <a class="navbar-brand" {% if configuration.CUSTOM_LOGO_LINK %}href="{{ configuration.CUSTOM_LOGO_LINK }}"
-           target="_blank"{% else %}href="{{ url_for('main.index') }}"{% endif %}>
+        <a class="navbar-brand" {% if configuration.CUSTOM_LOGO_LINK %}href="{{ configuration.CUSTOM_LOGO_LINK }}"{% else %}href="{{ url_for('main.index') }}"{% endif %}>
             <img class="logoStructure" src="{{ url_for('static', filename='custom/images/logo-structure.png') }}"/>
         </a>
         <a class="navbar-brand titreAppli" href="{{ url_for('main.index') }}">{{ configuration.NOM_APPLICATION }}</a>
@@ -38,15 +37,15 @@
                 </form>
 
                 <form class="form-inline my-2 my-lg-0" method="POST"
-                      onsubmit="completeAction('#searchFormCommunes', hiddenInputCommunes)" id='searchFormCommunes'
+                      onsubmit="completeAction('#searchFormAreas', hiddenInputAreas)" id='searchFormAreas'
                       action=""
                       role="search">
                     <div class="form-group has-feedback">
-                        <input id="searchCommunes" type="text" style="width: 175px;"
+                        <input id="searchAreas" type="text" style="width: 175px;"
                                class="form-control mr-sm-2 ajax-search small-placeholder"
-                               placeholder="{{ _('search.city') }}&nbsp;&nbsp;&nbsp;">
+                               placeholder="{{ translations.search_area }}&nbsp;&nbsp;&nbsp;">
                     </div>
-                    <input id="hiddenInputCommunes" type="hidden" name="insee">
+                    <input id="hiddenInputAreas" type="hidden" name="id_area">
                 </form>
                 <!--- Languages button and dropdown displaid if MULTILINGUAL is True-->
                 {% if configuration.MULTILINGUAL %}
@@ -54,7 +53,7 @@
                     <a class="nav-link dropdown-toggle" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <!-- Display languages flags and name, en flag is flag-icon flag-icon-gb-->
                         <container style="display: inline-flex;">
-                            <span class="{{ 'flag-icon ' + configuration.AVAILABLE_LANGUAGES[g.lang_code]['flag_icon']}}" class="align-middle"></span> 
+                            <span class="{{ 'flag-icon ' + configuration.AVAILABLE_LANGUAGES[g.lang_code]['flag_icon']}}" class="align-middle"></span>
                             <div class="d-lg-block d-sm-none">&nbsp;&nbsp;{{ configuration.AVAILABLE_LANGUAGES[g.lang_code]['name'] }}</div>
                         </container>
                     </a>
@@ -62,7 +61,7 @@
                     {% for language in configuration.AVAILABLE_LANGUAGES %}
                         <a  class="dropdown-item" href="{{url_for(request.endpoint, lang_code=language, **request.view_args)}}">
                             <container style="display: inline-flex;">
-                                <span class="{{ 'flag-icon ' + configuration.AVAILABLE_LANGUAGES[language]['flag_icon']}}"> </span> 
+                                <span class="{{ 'flag-icon ' + configuration.AVAILABLE_LANGUAGES[language]['flag_icon']}}"> </span>
                                 <div class="d-lg-block d-sm-none">&nbsp;&nbsp;{{ configuration.AVAILABLE_LANGUAGES[language]['name'] }}</div>
                             </container>
                         </a>
@@ -70,7 +69,7 @@
                     </div>
                 </div>
                 {% endif %}
-                
+
                 {% if configuration.EXTENDED_AREAS %}
                     {% include 'templates/core/extended_areas_search.html' %}
                 {% endif %}
@@ -78,5 +77,4 @@
         </div>
 
     </nav>
-
 {% endblock %}

@@ -44,17 +44,17 @@
                     <h1 class="large text-muted" id="nbTown">
                     </h1>
                     <h4 class="text-muted  text-uppercase font-weight-bold">
-                        {{ _('municipalities') }}</h4>
-                    <form method="POST" onsubmit="completeAction('#searchFormCommunesStat', hiddenInputCommunesStat)"
-                        id='searchFormCommunesStat' action="" class="navbar-form center-input" role="search">
+                        {{ translations.territories }}</h4>
+                    <form method="POST" onsubmit="completeAction('#searchFormAreasStat', hiddenInputAreasStat)"
+                        id='searchFormAreasStat' action="" class="navbar-form center-input" role="search">
                         <div class="form-group has-feedback">
                             <span class="addon">
                                 <i class="fas fa-search" aria-hidden="true"></i>
                             </span>
-                            <input id="searchCommunesStat" type="text" class="form-control"
-                                placeholder="{{ _('search.city') }}&nbsp;&nbsp;&nbsp;">
+                            <input id="searchAreasStat" type="text" class="form-control"
+                                placeholder="{{ translations.search_area }}&nbsp;&nbsp;&nbsp;">
                         </div>
-                        <input id="hiddenInputCommunesStat" type="hidden" name="insee">
+                        <input id="hiddenInputAreasStat" type="hidden" name="id_area">
                     </form>
                 </div>
             </div>

@@ -205,7 +205,30 @@ a {
 }
 
 .ui-autocomplete {
-  z-index: 2000;
+    z-index: 2000;
+
+    div.type_name {
+        background-color: #b6b6b6;
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+
+        .ui-menu-item-wrapper {
+            color: var(--main-color) !important;
+            font-weight: bold;
+            &.ui-state-active:hover {
+                font-weight: bold;
+                color: var(--main-color) !important;
+                background-color: #b6b6b6 !important;
+                border: none !important;
+            }
+            &.ui-state-active {
+                color: var(--main-color) !important;
+                background-color: #b6b6b6 !important;
+                border: none !important;
+            }
+        }
+    }
 }
 
 /* Sidebar */

@@ -155,7 +155,7 @@ class AtlasConfig(Schema):
     AFFICHAGE_RECHERCHE_AVANCEE = fields.Boolean(load_default=False)
     AFFICHAGE_GRAPH_ALTITUDES = fields.Boolean(load_default=True)
     AFFICHAGE_GRAPH_PHENOLOGIE = fields.Boolean(load_default=True)
-
+    TYPE_TERRITOIRE_SHEET = fields.List(fields.String(), load_default=["COM"])
     RANG_STAT = fields.List(
         fields.Dict,
         load_default=[
@@ -211,6 +211,7 @@ class AtlasConfig(Schema):
     )
 
     AFFICHAGE_MAILLE = fields.Boolean(load_default=False)
+    AFFICHAGE_COUCHES_MAP = fields.Dict(load_default={})
     ZOOM_LEVEL_POINT = fields.Integer(load_default=11)
     LIMIT_CLUSTER_POINT = fields.Integer(load_default=1000)
     NB_DAY_LAST_OBS = fields.String(load_default="7")

@@ -16,8 +16,8 @@
                     </li>
                     <li>
                         <i class="fas fa-map-signs fa-2x"></i> <br/>
-                        <b>{{ communes|length|pretty }}</b><br/>
-                        <span style="font-size: 0.90rem">{{ _('municipalities')|lower if communes|length > 1 else _('municipality')|lower }}</span>
+                        <b>{{ areas['length']|pretty }}</b><br/>
+                        <span style="font-size: 0.90rem">{{ translations.territories|lower if areas['length'] > 1 else translations.territory|lower }}</span>
                     </li>
                     <li>
                         <i class="fas fa-users fa-2x"></i> <br/>
